@@ -7,3 +7,13 @@ C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark O
 C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\obj\x86\Debug\Dark Operative.pdb
 C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Fonts\Pericles.xnb
 C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\explosions.xnb
+C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\explosions.xnb
+C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Fonts\Pericles.xnb
+C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Dark Operative.exe
+C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Dark Operative.pdb
+C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\obj\x86\Debug\Dark Operative.csprojResolveAssemblyReference.cache
+C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\obj\x86\Debug\Dark Operative.exe
+C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\obj\x86\Debug\Dark Operative.pdb
+C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\protagFrontStand.xnb
+C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\protagFrontWalk.xnb
