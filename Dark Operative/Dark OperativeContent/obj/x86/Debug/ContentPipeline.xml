@@ -37,6 +37,15 @@
       <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\protagFrontWalk.xnb</Output>
       <Time>2014-01-24T21:54:45.5796062-08:00</Time>
     </Item>
+    <Item>
+      <Source>Textures\protagBackWalk.png</Source>
+      <Name>Textures\protagBackWalk</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\protagBackWalk.xnb</Output>
+      <Time>2014-01-25T14:28:05.8275014-08:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
