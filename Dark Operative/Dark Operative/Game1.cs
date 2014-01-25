@@ -19,6 +19,8 @@ namespace Dark_Operative
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Sprite player;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -48,6 +50,7 @@ namespace Dark_Operative
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            player = new Sprite(Content.Load<Texture2D>(@"Textures\Protagonist"), 0, 0, 21, 51, 3);
         }
 
         /// <summary>
@@ -71,6 +74,7 @@ namespace Dark_Operative
                 this.Exit();
 
             // TODO: Add your update logic here
+            player.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -84,6 +88,9 @@ namespace Dark_Operative
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            //player.Draw(spriteBatch, 0, 0);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

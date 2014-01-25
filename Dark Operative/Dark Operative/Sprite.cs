@@ -5,6 +5,16 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+/**
+ * Sprite.cs
+ * 
+ * This file has been adapted from the AnimatedSprite class of the Star Control tutorial
+ * located at http://www.xnaresources.com
+ * 
+ * @author Lilah Ingvaldsen
+ * 
+ **/
+
 
 namespace Dark_Operative
 {
@@ -15,7 +25,7 @@ namespace Dark_Operative
         Texture2D spriteTexture;
 
         //Controls the framerate for the sprite's animation
-        float frameRate = 0.02f;
+        float frameRate = 0.5f;
         float elapsedTime = 0.0f;
 
         //Information on the spritesheet
@@ -37,6 +47,7 @@ namespace Dark_Operative
         Color tinting = Color.White;
         #endregion
 
+        #region Properties
         public int X
         {
             set { xPosition = value; }
@@ -50,7 +61,7 @@ namespace Dark_Operative
         }
 
         public int CurrFrame {
-            get { return currentFrame }
+            get { return currentFrame; }
             set { currentFrame = (int)MathHelper.Clamp(value, 0, numberOfFrames); }
         }
 
@@ -71,22 +82,50 @@ namespace Dark_Operative
             get { return tinting; }
             set { tinting = value; }
         }
+#endregion
 
-        public Sprite(Texture2D spriteToSet,
-                        int xOffset,
-                        int yOffset,
-                        int width,
-                        int height,
-                        int numFrames)
+        public Sprite(Texture2D spriteToSet, int xOffset, int yOffset, int width, int height, int numFrames)
         {
             spriteTexture = spriteToSet;
             spriteSheetXOffset = xOffset;
             spriteSheetYOffset = yOffset;
             spriteWidth = width;
             spriteHeight = height;
-            int numberOfFrames = numFrames;
+            numberOfFrames = numFrames;
         }
 
+        public Rectangle getFrame()
+        {
+            return new Rectangle(
+                spriteSheetXOffset + (spriteWidth * currentFrame),
+                spriteSheetYOffset,
+                spriteWidth,
+                spriteHeight);
+        }
 
+        public void Update(GameTime gametime)
+        {
+            if (animating)
+            {
+                //Accumulate elapsed time...
+                elapsedTime += (float)gametime.ElapsedGameTime.TotalSeconds;
+
+                //Until it passes our frame length
+                if (elapsedTime > frameRate)
+                {
+                    //Increment the current frame, wrapping back to 0 at iFrameCount
+                    currentFrame = (currentFrame + 1) % numberOfFrames;
+
+                    //Reset the elapsed frame time
+                    elapsedTime = 0.0f;
+                }
+            }
+        }
+
+        public void Draw(SpriteBatch spriteBatch, int XOffset, int YOffset)
+        {
+            spriteBatch.Draw(spriteTexture, new Rectangle(xPosition + XOffset, yPosition + YOffset, spriteWidth, spriteHeight),
+                getFrame(), tinting);
+        }
     }
 }
