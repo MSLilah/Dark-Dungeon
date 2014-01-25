@@ -1,3 +1,4 @@
-Content\Textures\Protagonist.xnb
-Content\Fonts\Pericles.xnb
 Content\Textures\explosions.xnb
+Content\Fonts\Pericles.xnb
+Content\Textures\protagFrontStand.xnb
+Content\Textures\protagFrontWalk.xnb
