@@ -74,6 +74,11 @@ namespace Dark_Operative
         {
             get { return new Rectangle(xPos, yPos, 21, 51); }
         }
+
+        public bool Animating
+        {
+            set { protagSprite.IsAnimating = value; }
+        }
         #endregion
 
         #region Methods
@@ -118,15 +123,8 @@ namespace Dark_Operative
          */
         public void Update(GameTime gametime)
         {
+            protagSprite.Y = 51 * facing;
             protagSprite.Update(gametime);
-            if (facing == 0)
-            {
-
-            }
-            else
-            {
-
-            }
         }
 
         /**
