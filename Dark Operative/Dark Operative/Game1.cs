@@ -16,11 +16,18 @@ namespace Dark_Operative
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        #region Declarations
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         Protagonist protag;
         Sprite player;
+        public int topOfScreen = 0;
+        public int bottomOfScreen = 665;
+        public int leftEdgeOfScreen = 0;
+        public int rightEdgeOfScreen = 1255;
+
+        #endregion
 
         public Game1()
         {
@@ -37,7 +44,9 @@ namespace Dark_Operative
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.ApplyChanges();
             base.Initialize();
         }
 
@@ -71,11 +80,15 @@ namespace Dark_Operative
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            KeyboardState keyboard = Keyboard.GetState();
+            GamePadState gamepad = GamePad.GetState(PlayerIndex.One);
+
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
             // TODO: Add your update logic here
+            CheckPlayerMovement(keyboard, gamepad);
             protag.Update(gameTime);
             //player.Update(gameTime);
 
@@ -98,5 +111,66 @@ namespace Dark_Operative
 
             base.Draw(gameTime);
         }
+
+        #region Helper Methods
+        
+        /**
+         * CheckPlayerMovement
+         * 
+         * Checks keyboard/gamepad and moves the player if the 
+         * movement keys are pressed
+         * 
+         * @param keyboard - The current state of the keyboard
+         * @param gamepad - The current state of hte gamepad
+         * 
+         */
+        protected void CheckPlayerMovement(KeyboardState keyboard, GamePadState gamepad)
+        {
+
+            bool resetTimer = false;
+
+            if ((keyboard.IsKeyDown(Keys.Up)) || (gamepad.ThumbSticks.Left.Y > 0))
+            {
+                if (protag.Y > topOfScreen)
+                {
+                    protag.Y -= protag.MovementRate;
+                    resetTimer = true;
+                }
+            }
+
+            //These elses restrict the player to only moving in four directions, which is what we want
+            else if ((keyboard.IsKeyDown(Keys.Down)) || (gamepad.ThumbSticks.Left.Y < 0))
+            {
+                if (protag.Y < bottomOfScreen)
+                {
+                    protag.Y += protag.MovementRate;
+                    resetTimer = true;
+                }
+            }
+
+            else if ((keyboard.IsKeyDown(Keys.Right)) || (gamepad.ThumbSticks.Left.X > 0)) {
+                if (protag.X < rightEdgeOfScreen) {
+                    protag.X += protag.MovementRate;
+                }
+            }
+
+            else if ((keyboard.IsKeyDown(Keys.Left)) || (gamepad.ThumbSticks.Left.X < 0)) {
+                if (protag.X > leftEdgeOfScreen) {
+                    protag.X -= protag.MovementRate;
+                }
+            }
+
+            if (resetTimer)
+            {
+                protag.Animating = true;
+                protag.MovementCount = 0f;
+            }
+            else
+            {
+                protag.Animating = false;
+            }
+        }
+
+        #endregion
     }
 }
