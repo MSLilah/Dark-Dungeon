@@ -21,6 +21,7 @@ namespace Dark_Operative
         SpriteBatch spriteBatch;
 
         Protagonist protag;
+        Texture2D backgroundImage;
         Sprite player;
         public int topOfScreen = 0;
         public int bottomOfScreen = 665;
@@ -61,7 +62,7 @@ namespace Dark_Operative
 
             // TODO: use this.Content to load your game content here
             protag = new Protagonist(Content.Load<Texture2D>(@"Textures\protagSpriteSheet"));
-            //player = new Sprite(Content.Load<Texture2D>(@"Textures\protagBackWalk"), 0, 0, 21, 51, 2);
+            backgroundImage = Content.Load<Texture2D>(@"Textures\backgroundImage");
         }
 
         /// <summary>
@@ -105,6 +106,8 @@ namespace Dark_Operative
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+            spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, 1280, 720),
+                new Rectangle(0, 0, 1280, 720), Color.White);
             protag.Draw(spriteBatch);
             //player.Draw(spriteBatch, 0, 0);
             spriteBatch.End();
