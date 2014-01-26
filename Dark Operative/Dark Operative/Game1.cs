@@ -61,7 +61,7 @@ namespace Dark_Operative
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            protag = new Protagonist(Content.Load<Texture2D>(@"Textures\protagSpriteSheet"));
+            protag = new Protagonist(Content.Load<Texture2D>(@"Textures\gaurdSpriteSheet"));
             backgroundImage = Content.Load<Texture2D>(@"Textures\backgroundImage");
         }
 
