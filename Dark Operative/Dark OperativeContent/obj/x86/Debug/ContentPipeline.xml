@@ -28,6 +28,24 @@
       <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\backgroundImage.xnb</Output>
       <Time>2014-01-25T22:20:49.8840602-08:00</Time>
     </Item>
+    <Item>
+      <Source>Textures\wall.png</Source>
+      <Name>Textures\wall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\wall.xnb</Output>
+      <Time>2014-01-25T22:35:53.4077388-08:00</Time>
+    </Item>
+    <Item>
+      <Source>Textures\gaurdSpriteSheet.png</Source>
+      <Name>Textures\gaurdSpriteSheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\gaurdSpriteSheet.xnb</Output>
+      <Time>2014-01-26T14:03:02.0071333-08:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

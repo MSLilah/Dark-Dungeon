@@ -15,3 +15,5 @@ C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\obj\
 C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\protagSpriteSheet.xnb
 C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\protagSpriteSheet.xnb
 C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\backgroundImage.xnb
+C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\wall.xnb
+C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\gaurdSpriteSheet.xnb
