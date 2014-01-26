@@ -60,7 +60,7 @@ namespace Dark_Operative
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            protag = new Protagonist(Content.Load<Texture2D>(@"Textures\protagBackWalk"));
+            protag = new Protagonist(Content.Load<Texture2D>(@"Textures\protagSpriteSheet"));
             //player = new Sprite(Content.Load<Texture2D>(@"Textures\protagBackWalk"), 0, 0, 21, 51, 2);
         }
 
