@@ -19,6 +19,7 @@ namespace Dark_Operative
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Protagonist protag;
         Sprite player;
 
         public Game1()
@@ -50,7 +51,8 @@ namespace Dark_Operative
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            player = new Sprite(Content.Load<Texture2D>(@"Textures\protagBackWalk"), 0, 0, 21, 51, 2);
+            protag = new Protagonist(Content.Load<Texture2D>(@"Textures\protagBackWalk"));
+            //player = new Sprite(Content.Load<Texture2D>(@"Textures\protagBackWalk"), 0, 0, 21, 51, 2);
         }
 
         /// <summary>
@@ -74,7 +76,8 @@ namespace Dark_Operative
                 this.Exit();
 
             // TODO: Add your update logic here
-            player.Update(gameTime);
+            protag.Update(gameTime);
+            //player.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -89,7 +92,8 @@ namespace Dark_Operative
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            player.Draw(spriteBatch, 0, 0);
+            protag.Draw(spriteBatch);
+            //player.Draw(spriteBatch, 0, 0);
             spriteBatch.End();
 
             base.Draw(gameTime);
