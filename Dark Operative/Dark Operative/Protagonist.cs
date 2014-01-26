@@ -28,7 +28,7 @@ namespace Dark_Operative
         int facing = 0;
 
         //Used to control the protagonist's movement
-        int moveRate = 3;
+        int moveRate = 1;
         float moveCount = 0.0f;
         float moveDelay = 0.01f;
         #endregion
