@@ -49,7 +49,7 @@ namespace Dark_Operative
         public int Facing
         {
             get { return facing; }
-            set { facing = value; }
+            set { facing = value % 4; }
         }
 
         public int MovementRate
@@ -75,10 +75,6 @@ namespace Dark_Operative
             get { return new Rectangle(xPos, yPos, 21, 51); }
         }
 
-        public bool Animating
-        {
-            set { protagSprite.IsAnimating = value; }
-        }
         #endregion
 
         #region Methods
@@ -95,7 +91,8 @@ namespace Dark_Operative
         public Protagonist(Texture2D texture)
         {
             protagSprite = new Sprite(texture, 0, 0, 21, 51, 2);
-            //protagSprite.IsAnimating = false;
+            protagSprite.IsAnimating = false;
+            Stand();
         }
 
         /**
@@ -123,7 +120,7 @@ namespace Dark_Operative
          */
         public void Update(GameTime gametime)
         {
-            protagSprite.Y = 51 * facing;
+            protagSprite.spriteSheetYOffset = 51 * facing;
             protagSprite.Update(gametime);
         }
 
@@ -136,6 +133,39 @@ namespace Dark_Operative
         public void Reset()
         {
             //TODO: This will probably just reset the player's position in the maze
+        }
+
+        /**
+         * Stand
+         * 
+         * Changes the protagonist's sprite to standing
+         * 
+         */
+        public void Stand()
+        {
+            if (protagSprite.IsAnimating)
+            {
+                protagSprite.numberOfFrames = 3;
+                protagSprite.CurrFrame = 2;
+                protagSprite.IsAnimating = false;
+            }
+        }
+
+        /**
+         * Move
+         * 
+         * Changes the protagonist's sprite to its moving
+         * version, and kicks off the movement animation
+         * 
+         */
+        public void Move()
+        {
+            if (!protagSprite.IsAnimating)
+            {
+                protagSprite.numberOfFrames = 2;
+                protagSprite.CurrFrame = 0;
+                protagSprite.IsAnimating = true;
+            }
         }
 
         #endregion

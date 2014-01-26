@@ -30,12 +30,12 @@ namespace Dark_Operative
 
         //Information on the spritesheet
         int spriteSheetXOffset= 0;
-        int spriteSheetYOffset = 0;
+        public int spriteSheetYOffset = 0;
         int spriteWidth = 32;
         int spriteHeight = 32;
 
         //Animation information
-        int numberOfFrames = 1;
+        public int numberOfFrames = 1;
         int currentFrame = 0;
 
         //Position information
