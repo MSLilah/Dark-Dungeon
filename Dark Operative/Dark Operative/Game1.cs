@@ -135,6 +135,7 @@ namespace Dark_Operative
                 {
                     protag.Y -= protag.MovementRate;
                     resetTimer = true;
+                    protag.Facing = 0;
                 }
             }
 
@@ -145,29 +146,32 @@ namespace Dark_Operative
                 {
                     protag.Y += protag.MovementRate;
                     resetTimer = true;
+                    protag.Facing = 2;
                 }
             }
 
             else if ((keyboard.IsKeyDown(Keys.Right)) || (gamepad.ThumbSticks.Left.X > 0)) {
                 if (protag.X < rightEdgeOfScreen) {
                     protag.X += protag.MovementRate;
+                    protag.Facing = 1;
                 }
             }
 
             else if ((keyboard.IsKeyDown(Keys.Left)) || (gamepad.ThumbSticks.Left.X < 0)) {
                 if (protag.X > leftEdgeOfScreen) {
                     protag.X -= protag.MovementRate;
+                    protag.Facing = 3;
                 }
             }
 
             if (resetTimer)
             {
-                protag.Animating = true;
                 protag.MovementCount = 0f;
+                protag.Move();
             }
             else
             {
-                protag.Animating = false;
+                protag.Stand();
             }
         }
 

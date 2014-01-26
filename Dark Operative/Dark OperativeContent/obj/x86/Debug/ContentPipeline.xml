@@ -7,8 +7,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Fonts\Pericles.xnb</Output>
-      <Time>2014-01-24T20:52:37.2553583-08:00</Time>
+      <Output>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Fonts\Pericles.xnb</Output>
+      <Time>2014-01-24T18:14:40.9734016-08:00</Time>
     </Item>
     <Item>
       <Source>Textures\protagSpriteSheet.png</Source>
@@ -16,8 +16,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\protagSpriteSheet.xnb</Output>
-      <Time>2014-01-25T19:04:34.5655976-08:00</Time>
+      <Output>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\protagSpriteSheet.xnb</Output>
+      <Time>2014-01-25T19:51:40.8643696-08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -25,10 +25,10 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark OperativeContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark OperativeContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark OperativeContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark OperativeContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -57,7 +57,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2014-01-19T20:39:06.4387614-08:00</Value>
+        <Value>2014-01-19T12:15:09.7124785-08:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
