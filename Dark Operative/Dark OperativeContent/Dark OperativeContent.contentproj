@@ -70,8 +70,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\gaurdSpriteSheet.png">
-      <Name>gaurdSpriteSheet</Name>
+    <Compile Include="Textures\guardSpriteSheet.png">
+      <Name>guardSpriteSheet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

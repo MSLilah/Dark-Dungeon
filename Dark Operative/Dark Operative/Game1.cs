@@ -21,8 +21,8 @@ namespace Dark_Operative
         SpriteBatch spriteBatch;
 
         Protagonist protag;
+        Guard[] guards = new Guard[1];
         Texture2D backgroundImage;
-        Sprite player;
         public int topOfScreen = 0;
         public int bottomOfScreen = 665;
         public int leftEdgeOfScreen = 0;
@@ -61,7 +61,11 @@ namespace Dark_Operative
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            protag = new Protagonist(Content.Load<Texture2D>(@"Textures\gaurdSpriteSheet"));
+            protag = new Protagonist(Content.Load<Texture2D>(@"Textures\protagSpriteSheet"), 0, 0);
+            for (int i = 0; i < guards.Length; i++)
+            {
+                guards[i] = new Guard(Content.Load<Texture2D>(@"Textures\guardSpriteSheet"), 1200, 600, 0);
+            }
             backgroundImage = Content.Load<Texture2D>(@"Textures\backgroundImage");
         }
 
@@ -90,7 +94,20 @@ namespace Dark_Operative
 
             // TODO: Add your update logic here
             CheckPlayerMovement(keyboard, gamepad);
+            MoveGuards();
             protag.Update(gameTime);
+            for (int i = 0; i < guards.Length; i++)
+            {
+                guards[i].Update(gameTime);
+            }
+            if (GuardsSeeProtag())
+            {
+                protag.Reset();
+                for (int i = 0; i < guards.Length; i++)
+                {
+                    guards[i].Reset();
+                }
+            }
             //player.Update(gameTime);
 
             base.Update(gameTime);
@@ -109,6 +126,10 @@ namespace Dark_Operative
             spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, 1280, 720),
                 new Rectangle(0, 0, 1280, 720), Color.White);
             protag.Draw(spriteBatch);
+            for (int i = 0; i < guards.Length; i++)
+            {
+                guards[i].Draw(spriteBatch);
+            }
             //player.Draw(spriteBatch, 0, 0);
             spriteBatch.End();
 
@@ -156,6 +177,7 @@ namespace Dark_Operative
             else if ((keyboard.IsKeyDown(Keys.Right)) || (gamepad.ThumbSticks.Left.X > 0)) {
                 if (protag.X < rightEdgeOfScreen) {
                     protag.X += protag.MovementRate;
+                    resetTimer = true;
                     protag.Facing = 1;
                 }
             }
@@ -163,6 +185,7 @@ namespace Dark_Operative
             else if ((keyboard.IsKeyDown(Keys.Left)) || (gamepad.ThumbSticks.Left.X < 0)) {
                 if (protag.X > leftEdgeOfScreen) {
                     protag.X -= protag.MovementRate;
+                    resetTimer = true;
                     protag.Facing = 3;
                 }
             }
@@ -170,7 +193,7 @@ namespace Dark_Operative
             if (resetTimer)
             {
                 protag.MovementCount = 0f;
-                protag.Move();
+                protag.StartMovement();
             }
             else
             {
@@ -178,6 +201,94 @@ namespace Dark_Operative
             }
         }
 
+        /**
+         * MoveGuards
+         * 
+         * Goes through the list of all guards and moves them if necessary based on their facing
+         * 
+         */
+        protected void MoveGuards()
+        {
+            for (int i = 0; i < guards.Length; i++)
+            {
+                if (guards[i].Move)
+                {
+                    if (guards[i].Facing == 0)
+                    {
+                        if (guards[i].Y > topOfScreen)
+                        {
+                            guards[i].Y -= guards[i].MovementRate;
+                            guards[i].Facing = 0;
+                        }
+                    }
+
+                    else if (guards[i].Facing == 1)
+                    {
+                        if (guards[i].X < rightEdgeOfScreen)
+                        {
+                            guards[i].X += guards[i].MovementRate;
+                            guards[i].Facing = 1;
+                        }
+                    }
+
+                    else if (guards[i].Facing == 2)
+                    {
+                        if (guards[i].Y < bottomOfScreen)
+                        {
+                            guards[i].Y += guards[i].MovementRate;
+                            guards[i].Facing = 2;
+                        }
+                    }
+
+                    else if (guards[i].Facing == 3)
+                    {
+                        if (guards[i].X > leftEdgeOfScreen)
+                        {
+                            guards[i].X -= guards[i].MovementRate;
+                            guards[i].Facing = 3;
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * GuardsSeeProtag
+         * 
+         * Goes through the list of all guards and checks if any of them can see the protagonist
+         * 
+         */
+        protected bool GuardsSeeProtag() {
+            //TODO: Modify this method to include walls and account for darkness
+            Rectangle playerHitBox = protag.BoundingBox;
+            for (int i = 0; i < guards.Length; i++)
+            {
+                Rectangle guardHitBox = guards[i].BoundingBox;
+
+                //Check for LOS and return true if the guard can see the protagonist
+                if (guards[i].Facing % 2 == 0)
+                {
+                    if ((playerHitBox.Left <= guardHitBox.Right && playerHitBox.Left >= guardHitBox.Left) ||
+                        (playerHitBox.Right <= guardHitBox.Right && playerHitBox.Right >= guardHitBox.Left))
+                    {
+                        return (guards[i].Facing == 0 && playerHitBox.Bottom < guardHitBox.Top) ||
+                                (guards[i].Facing == 2 && playerHitBox.Top > guardHitBox.Bottom);
+                    }
+                
+                }
+                else
+                {
+                    if ((playerHitBox.Top >= guardHitBox.Top && playerHitBox.Top <= guardHitBox.Bottom) ||
+                        (playerHitBox.Bottom >= guardHitBox.Top && playerHitBox.Bottom <= guardHitBox.Bottom)) 
+                    {
+                        return (guards[i].Facing == 1 && playerHitBox.Left >= guardHitBox.Right) ||
+                                (guards[i].Facing == 3 && playerHitBox.Right <= guardHitBox.Left);
+                    }
+                }
+            }
+            return false;
+        }
+        
         #endregion
     }
 }

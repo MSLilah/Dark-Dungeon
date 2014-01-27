@@ -17,3 +17,6 @@ C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark O
 C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\backgroundImage.xnb
 C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\wall.xnb
 C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\gaurdSpriteSheet.xnb
+C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\backgroundImage.xnb
+C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\wall.xnb
+C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\guardSpriteSheet.xnb

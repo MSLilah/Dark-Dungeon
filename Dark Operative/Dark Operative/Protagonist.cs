@@ -24,8 +24,14 @@ namespace Dark_Operative
         int xPos = 0;
         int yPos = 0;
 
+        //Starting position, used to reset the maze
+        int xStart = 0;
+        int yStart = 0;
+        int startFacing = 2;
+
         //Tells which direction she is facing. 0 is up, 1 is right, 2 is down, 3 is left
-        int facing = 0;
+        int facing = 2;
+        
 
         //Used to control the protagonist's movement
         int moveRate = 1;
@@ -88,10 +94,14 @@ namespace Dark_Operative
          *                  protagonist's sprite
          *  
          */
-        public Protagonist(Texture2D texture)
+        public Protagonist(Texture2D texture, int x, int y)
         {
-            protagSprite = new Sprite(texture, 0, 0, 21, 51, 2);
+            protagSprite = new Sprite(texture, 0, facing * 51, 21, 51, 2);
             protagSprite.IsAnimating = false;
+            xPos = x;
+            xStart = x;
+            yPos = y;
+            yStart = y;
             Stand();
         }
 
@@ -132,7 +142,12 @@ namespace Dark_Operative
          */
         public void Reset()
         {
-            //TODO: This will probably just reset the player's position in the maze
+            //Reset the player's position in the maze
+            xPos = xStart;
+            yPos = yStart;
+            facing = startFacing;
+            moveCount = 0.0f;
+            Stand();
         }
 
         /**
@@ -152,13 +167,13 @@ namespace Dark_Operative
         }
 
         /**
-         * Move
+         * StartMovement
          * 
          * Changes the protagonist's sprite to its moving
          * version, and kicks off the movement animation
          * 
          */
-        public void Move()
+        public void StartMovement()
         {
             if (!protagSprite.IsAnimating)
             {
