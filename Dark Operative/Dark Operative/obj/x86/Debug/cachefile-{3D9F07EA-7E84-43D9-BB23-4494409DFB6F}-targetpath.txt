@@ -2,4 +2,4 @@ Content\Fonts\Pericles.xnb
 Content\Textures\protagSpriteSheet.xnb
 Content\Textures\backgroundImage.xnb
 Content\Textures\wall.xnb
-Content\Textures\gaurdSpriteSheet.xnb
+Content\Textures\guardSpriteSheet.xnb
