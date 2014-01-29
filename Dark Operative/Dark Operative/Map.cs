@@ -20,7 +20,7 @@ namespace Dark_Operative
         // An array which describes the game map
         // 1 = wall, 0 = empty space
         // Dimensions: 40x22 squares
-        int[][] levelLayout;
+        int[,] levelLayout;
 
         // The image that represents a 30x30 section of wall
         Texture2D wallImage;
@@ -34,7 +34,7 @@ namespace Dark_Operative
 
         #region Properties
 
-        public int[][] Layout
+        public int[,] Layout
         {
             get { return levelLayout; }
         }
@@ -47,9 +47,10 @@ namespace Dark_Operative
          * 
          * Constructor for the Map class
          */
-        public Map(int[][] mapLayout, Texture2D wall)
+        public Map(int[,] mapLayout, Texture2D wall)
         {
             levelLayout = mapLayout;
+            wallImage = wall;
         }
 
         /**
@@ -68,16 +69,16 @@ namespace Dark_Operative
          */
         public void Draw(SpriteBatch sb)
         {
-            for (int i = 0; i < levelLayout.Length; i++)
+            for (int i = 0; i < levelLayout.GetLength(0); i++)
             {
-                for (int j = 0; j < levelLayout[i].Length; j++)
-                {
-                    if(levelLayout[i][j] == 1) {
+                for (int j = 0; j < levelLayout.GetLength(1); j++)
+                
+                    if(levelLayout[i,j] == 1) 
+                    {
                         sb.Draw(wallImage, new Rectangle(i * wallXDim, j * wallYDim, wallXDim, wallYDim), Color.White);
                     }
                 }
             }
-        }
 
         #endregion
 
