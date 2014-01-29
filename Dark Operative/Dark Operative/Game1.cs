@@ -28,6 +28,8 @@ namespace Dark_Operative
         public int leftEdgeOfScreen = 0;
         public int rightEdgeOfScreen = 1255;
 
+        int[,] layout = new int[40, 22];
+
         #endregion
 
         public Game1()
