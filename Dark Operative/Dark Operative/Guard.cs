@@ -159,7 +159,7 @@ namespace Dark_Operative
                 }
             }
 
-            else
+            /*else
             {
                 walkCount += (float)gametime.ElapsedGameTime.TotalSeconds;
                 if (walkCount > walkTime)
@@ -168,7 +168,7 @@ namespace Dark_Operative
                     move = false;
                     Stand(false);
                 }
-            }
+            }*/
             guardSprite.Update(gametime);
         }
 
@@ -182,6 +182,7 @@ namespace Dark_Operative
         {
             if (guardSprite.IsAnimating)
             {
+                move = false;
                 guardSprite.numberOfFrames = 3;
                 guardSprite.CurrFrame = 2;
                 guardSprite.IsAnimating = false;

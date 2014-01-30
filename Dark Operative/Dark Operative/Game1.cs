@@ -67,7 +67,7 @@ namespace Dark_Operative
             protag = new Protagonist(Content.Load<Texture2D>(@"Textures\protagSpriteSheet"), 0, 0);
             for (int i = 0; i < guards.Length; i++)
             {
-                guards[i] = new Guard(Content.Load<Texture2D>(@"Textures\guardSpriteSheet"), 1200, 600, 0);
+                guards[i] = new Guard(Content.Load<Texture2D>(@"Textures\guardSpriteSheet"), 660, 300, 3);
             }
             backgroundImage = Content.Load<Texture2D>(@"Textures\backgroundImage");
 
@@ -164,7 +164,10 @@ namespace Dark_Operative
             {
                 if (protag.Y > topOfScreen)
                 {
-                    protag.Y -= protag.MovementRate;
+                    if (!gameMap.CollideWithWall(protag.BoundingBox, 0, protag.MovementRate))
+                    {
+                        protag.Y -= protag.MovementRate;
+                    }
                     resetTimer = true;
                     protag.Facing = 0;
                 }
@@ -175,7 +178,10 @@ namespace Dark_Operative
             {
                 if (protag.Y < bottomOfScreen)
                 {
-                    protag.Y += protag.MovementRate;
+                    if (!gameMap.CollideWithWall(protag.BoundingBox, 2, protag.MovementRate))
+                    {
+                        protag.Y += protag.MovementRate;
+                    }
                     resetTimer = true;
                     protag.Facing = 2;
                 }
@@ -183,7 +189,10 @@ namespace Dark_Operative
 
             else if ((keyboard.IsKeyDown(Keys.Right)) || (gamepad.ThumbSticks.Left.X > 0)) {
                 if (protag.X < rightEdgeOfScreen) {
-                    protag.X += protag.MovementRate;
+                    if (!gameMap.CollideWithWall(protag.BoundingBox, 1, protag.MovementRate))
+                    {
+                        protag.X += protag.MovementRate;
+                    }
                     resetTimer = true;
                     protag.Facing = 1;
                 }
@@ -191,7 +200,10 @@ namespace Dark_Operative
 
             else if ((keyboard.IsKeyDown(Keys.Left)) || (gamepad.ThumbSticks.Left.X < 0)) {
                 if (protag.X > leftEdgeOfScreen) {
-                    protag.X -= protag.MovementRate;
+                    if (!gameMap.CollideWithWall(protag.BoundingBox, 3, protag.MovementRate))
+                    {
+                        protag.X -= protag.MovementRate;
+                    }
                     resetTimer = true;
                     protag.Facing = 3;
                 }
@@ -224,8 +236,15 @@ namespace Dark_Operative
                     {
                         if (guards[i].Y > topOfScreen)
                         {
-                            guards[i].Y -= guards[i].MovementRate;
-                            guards[i].Facing = 0;
+                            if (!gameMap.CollideWithWall(guards[i].BoundingBox, 0, guards[i].MovementRate))
+                            {
+                                guards[i].Y -= guards[i].MovementRate;
+                                guards[i].Facing = 0;
+                            }
+                            else
+                            {
+                                guards[i].Stand(false);
+                            }
                         }
                     }
 
@@ -233,8 +252,15 @@ namespace Dark_Operative
                     {
                         if (guards[i].X < rightEdgeOfScreen)
                         {
-                            guards[i].X += guards[i].MovementRate;
-                            guards[i].Facing = 1;
+                            if (!gameMap.CollideWithWall(guards[i].BoundingBox, 1, guards[i].MovementRate))
+                            {
+                                guards[i].X += guards[i].MovementRate;
+                                guards[i].Facing = 1;
+                            }
+                            else
+                            {
+                                guards[i].Stand(false);
+                            }
                         }
                     }
 
@@ -242,8 +268,15 @@ namespace Dark_Operative
                     {
                         if (guards[i].Y < bottomOfScreen)
                         {
-                            guards[i].Y += guards[i].MovementRate;
-                            guards[i].Facing = 2;
+                            if (!gameMap.CollideWithWall(guards[i].BoundingBox, 2, guards[i].MovementRate))
+                            {
+                                guards[i].Y += guards[i].MovementRate;
+                                guards[i].Facing = 2;
+                            }
+                            else
+                            {
+                                guards[i].Stand(false);
+                            }
                         }
                     }
 
@@ -251,8 +284,15 @@ namespace Dark_Operative
                     {
                         if (guards[i].X > leftEdgeOfScreen)
                         {
-                            guards[i].X -= guards[i].MovementRate;
-                            guards[i].Facing = 3;
+                            if (!gameMap.CollideWithWall(guards[i].BoundingBox, 3, guards[i].MovementRate))
+                            {
+                                guards[i].X -= guards[i].MovementRate;
+                                guards[i].Facing = 3;
+                            }
+                            else
+                            {
+                                guards[i].Stand(false);
+                            }
                         }
                     }
                 }
