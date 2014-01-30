@@ -179,7 +179,97 @@ namespace Dark_Operative
             return false;
         }
 
-        #endregion
+        /**
+         * WallBetween
+         * 
+         * Takes two hitboxes and checks if there are any walls between them
+         * 
+         * @param guard The hitbox of a guard
+         * @param protag The hitbox of the protagonist
+         * @param facing The direction the guard is facing, used to determine the
+         *                 direction to check
+         *                 
+         * @return True if there is a wall between the protagonist and the guard, false otherwise
+         * 
+         */
+        public bool WallBetween(Rectangle guard, Rectangle protag, int facing)
+        {
+            int guardTop = guard.Top / wallYDim;
+            int guardBottom = guard.Bottom / wallYDim;
+            int guardLeft = guard.Left / wallXDim;
+            int guardRight = guard.Right / wallXDim;
 
+            int protagTop = protag.Top / wallYDim;
+            int protagBottom = protag.Bottom / wallYDim;
+            int protagLeft = protag.Left / wallXDim;
+            int protagRight = protag.Right / wallXDim;
+
+            #region Facing Up
+            if (facing == 0)
+            {
+                for (int i = guardLeft; i <= guardRight; i++)
+                {
+                    for (int j = guardTop; j > protagBottom; j--)
+                    {
+                        if (levelLayout[i, j] == WALL)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            #endregion
+
+            #region Facing Right
+            else if (facing == 1)
+            {
+                for (int j = guardTop; j <= guardBottom - 1; j++)
+                {
+                    for (int i = guardRight; i < protagLeft; i++)
+                    {
+                        if (levelLayout[i, j] == WALL)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            #endregion
+
+            #region Facing Down
+            else if (facing == 2)
+            {
+                for (int i = guardLeft; i <= guardRight; i++)
+                {
+                    for (int j = guardBottom; j < protagTop; j++)
+                    {
+                        if (levelLayout[i, j] == WALL)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            #endregion
+
+            #region Facing Left
+            else if (facing == 3)
+            {
+                for (int j = guardTop; j <= guardBottom - 1; j++)
+                {
+                    for (int i = guardLeft; i > protagRight; i--)
+                    {
+                        if (levelLayout[i, j] == WALL)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            #endregion
+
+            return false;
+        }
+        #endregion
     }
 }

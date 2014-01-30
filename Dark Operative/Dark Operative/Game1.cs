@@ -318,8 +318,9 @@ namespace Dark_Operative
                     if ((playerHitBox.Left <= guardHitBox.Right && playerHitBox.Left >= guardHitBox.Left) ||
                         (playerHitBox.Right <= guardHitBox.Right && playerHitBox.Right >= guardHitBox.Left))
                     {
-                        return (guards[i].Facing == 0 && playerHitBox.Bottom < guardHitBox.Top) ||
-                                (guards[i].Facing == 2 && playerHitBox.Top > guardHitBox.Bottom);
+                        return ((guards[i].Facing == 0 && playerHitBox.Bottom < guardHitBox.Top) ||
+                                (guards[i].Facing == 2 && playerHitBox.Top > guardHitBox.Bottom)) && 
+                                !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing);
                     }
                 
                 }
@@ -328,8 +329,9 @@ namespace Dark_Operative
                     if ((playerHitBox.Top >= guardHitBox.Top && playerHitBox.Top <= guardHitBox.Bottom) ||
                         (playerHitBox.Bottom >= guardHitBox.Top && playerHitBox.Bottom <= guardHitBox.Bottom)) 
                     {
-                        return (guards[i].Facing == 1 && playerHitBox.Left >= guardHitBox.Right) ||
-                                (guards[i].Facing == 3 && playerHitBox.Right <= guardHitBox.Left);
+                        return ((guards[i].Facing == 1 && playerHitBox.Left >= guardHitBox.Right) ||
+                                (guards[i].Facing == 3 && playerHitBox.Right <= guardHitBox.Left)) &&
+                                !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing);
                     }
                 }
             }
@@ -344,7 +346,8 @@ namespace Dark_Operative
         private int[,] createSimpleMap()
         {
             #region Define Simple Map
-            int[,] layoutLevel = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            int[,] layoutLevel = {
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0},
