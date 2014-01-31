@@ -22,6 +22,7 @@ namespace Dark_Operative
 
         Protagonist protag;
         Guard[] guards = new Guard[1];
+        Monster[] monsters = new Monster[1];
         Texture2D backgroundImage;
         Map gameMap;
         public int topOfScreen = 0;
@@ -69,6 +70,10 @@ namespace Dark_Operative
             {
                 guards[i] = new Guard(Content.Load<Texture2D>(@"Textures\guardSpriteSheet"), 660, 300, 3);
             }
+            for (int i = 0; i < monsters.Length; i++)
+            {
+                monsters[i] = new Monster(Content.Load<Texture2D>(@"Textures\monsterSpriteSheet"), 500, 300, 3);
+            }
             backgroundImage = Content.Load<Texture2D>(@"Textures\backgroundImage");
 
             layout = createSimpleMap();
@@ -101,6 +106,7 @@ namespace Dark_Operative
             // TODO: Add your update logic here
             CheckPlayerMovement(keyboard, gamepad);
             MoveGuards();
+            MoveMonsters();
             protag.Update(gameTime);
             for (int i = 0; i < guards.Length; i++)
             {
@@ -113,6 +119,10 @@ namespace Dark_Operative
                 {
                     guards[i].Reset();
                 }
+            }
+            for (int i = 0; i < monsters.Length; i++)
+            {
+                monsters[i].Update(gameTime);
             }
             //player.Update(gameTime);
 
@@ -136,6 +146,10 @@ namespace Dark_Operative
             for (int i = 0; i < guards.Length; i++)
             {
                 guards[i].Draw(spriteBatch);
+            }
+            for (int i = 0; i < monsters.Length; i++)
+            {
+                monsters[i].Draw(spriteBatch);
             }
             //player.Draw(spriteBatch, 0, 0);
             spriteBatch.End();
@@ -299,6 +313,128 @@ namespace Dark_Operative
             }
         }
 
+        /**
+         * MoveMonsters
+         * 
+         * Goes through the list of all monsters and moves them if necessary based on their facing
+         * 
+         */
+        protected void MoveMonsters()
+        {
+            for (int i = 0; i < monsters.Length; i++)
+            {
+                if (monsters[i].Move)
+                {
+                    if (monsters[i].Facing == 0)
+                    {
+                        if (monsters[i].Y > topOfScreen)
+                        {
+                            if (!gameMap.CollideWithWall(monsters[i].BoundingBox, 0, monsters[i].MovementRate))
+                            {
+                                monsters[i].Y -= monsters[i].MovementRate;
+                                monsters[i].Facing = 0;
+                            }
+                            else
+                            {
+                                monsters[i].Stand(true);
+                                Random random = new Random();
+                                int rand = random.Next(0, 1);
+                                if (rand == 1)
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing + 1) % 4;
+
+                                }
+                                else
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing - 1) % 4;
+                                }
+                            }
+                        }
+                    }
+
+                    else if (monsters[i].Facing == 1)
+                    {
+                        if (monsters[i].X < rightEdgeOfScreen)
+                        {
+                            if (!gameMap.CollideWithWall(monsters[i].BoundingBox, 1, monsters[i].MovementRate))
+                            {
+                                monsters[i].X += monsters[i].MovementRate;
+                                monsters[i].Facing = 1;
+                            }
+                            else
+                            {
+                                monsters[i].Stand(true);
+                                Random random = new Random();
+                                int rand = random.Next(0, 1);
+                                if (rand == 1)
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing + 1) % 4;
+
+                                }
+                                else
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing - 1) % 4;
+                                }
+                            }
+                        }
+                    }
+
+                    else if (monsters[i].Facing == 2)
+                    {
+                        if (monsters[i].Y < bottomOfScreen)
+                        {
+                            if (!gameMap.CollideWithWall(monsters[i].BoundingBox, 2, monsters[i].MovementRate))
+                            {
+                                monsters[i].Y += monsters[i].MovementRate;
+                                monsters[i].Facing = 2;
+                            }
+                            else
+                            {
+                                monsters[i].Stand(true);
+                                Random random = new Random();
+                                int rand = random.Next(0, 1);
+                                if (rand == 1)
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing + 1) % 4;
+
+                                }
+                                else
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing - 1) % 4;
+                                }
+                            }
+                        }
+                    }
+
+                    else if (monsters[i].Facing == 3)
+                    {
+                        if (monsters[i].X > leftEdgeOfScreen)
+                        {
+                            if (!gameMap.CollideWithWall(monsters[i].BoundingBox, 3, monsters[i].MovementRate))
+                            {
+                                monsters[i].X -= monsters[i].MovementRate;
+                                monsters[i].Facing = 3;
+                            }
+                            else
+                            {
+                                monsters[i].Stand(true);
+                                Random random = new Random();
+                                int rand = random.Next(0, 1);
+                                if (rand == 1)
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing + 1) % 4;
+
+                                }
+                                else
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing - 1) % 4;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         /**
          * GuardsSeeProtag
          * 
