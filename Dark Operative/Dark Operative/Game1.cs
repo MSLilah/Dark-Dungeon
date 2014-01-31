@@ -338,7 +338,7 @@ namespace Dark_Operative
                             {
                                 monsters[i].Stand(true);
                                 Random random = new Random();
-                                int rand = random.Next(0, 1);
+                                int rand = random.Next(2);
                                 if (rand == 1)
                                 {
                                     monsters[i].Facing = (monsters[i].Facing + 1) % 4;
@@ -347,6 +347,10 @@ namespace Dark_Operative
                                 else
                                 {
                                     monsters[i].Facing = (monsters[i].Facing - 1) % 4;
+                                    if (monsters[i].Facing < 0)
+                                    {
+                                        monsters[i].Facing += 4;
+                                    }
                                 }
                             }
                         }
@@ -365,7 +369,7 @@ namespace Dark_Operative
                             {
                                 monsters[i].Stand(true);
                                 Random random = new Random();
-                                int rand = random.Next(0, 1);
+                                int rand = random.Next(2);
                                 if (rand == 1)
                                 {
                                     monsters[i].Facing = (monsters[i].Facing + 1) % 4;
@@ -373,7 +377,11 @@ namespace Dark_Operative
                                 }
                                 else
                                 {
-                                    monsters[i].Facing = (monsters[i].Facing - 1) % 4;
+                                    monsters[i].Facing = (monsters[i].Facing - 1);
+                                    if (monsters[i].Facing < 0)
+                                    {
+                                        monsters[i].Facing += 4;
+                                    }
                                 }
                             }
                         }
@@ -392,7 +400,7 @@ namespace Dark_Operative
                             {
                                 monsters[i].Stand(true);
                                 Random random = new Random();
-                                int rand = random.Next(0, 1);
+                                int rand = random.Next(2);
                                 if (rand == 1)
                                 {
                                     monsters[i].Facing = (monsters[i].Facing + 1) % 4;
@@ -400,7 +408,11 @@ namespace Dark_Operative
                                 }
                                 else
                                 {
-                                    monsters[i].Facing = (monsters[i].Facing - 1) % 4;
+                                    monsters[i].Facing = (monsters[i].Facing - 1);
+                                    if (monsters[i].Facing < 0)
+                                    {
+                                        monsters[i].Facing += 4;
+                                    }
                                 }
                             }
                         }
@@ -419,7 +431,7 @@ namespace Dark_Operative
                             {
                                 monsters[i].Stand(true);
                                 Random random = new Random();
-                                int rand = random.Next(0, 1);
+                                int rand = random.Next(2);
                                 if (rand == 1)
                                 {
                                     monsters[i].Facing = (monsters[i].Facing + 1) % 4;
@@ -427,7 +439,11 @@ namespace Dark_Operative
                                 }
                                 else
                                 {
-                                    monsters[i].Facing = (monsters[i].Facing - 1) % 4;
+                                    monsters[i].Facing = (monsters[i].Facing - 1);
+                                    if (monsters[i].Facing < 0)
+                                    {
+                                        monsters[i].Facing += 4;
+                                    }
                                 }
                             }
                         }
