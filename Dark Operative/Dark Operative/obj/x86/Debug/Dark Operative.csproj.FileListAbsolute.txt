@@ -22,4 +22,15 @@ C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark O
 C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\guardSpriteSheet.xnb
 C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\monsterSpriteSheet.xnb
 C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\monsterSpriteSheet.xnb
-C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\darkBackgroundImage.xnb
+C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Fonts\Pericles.xnb
+C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\protagSpriteSheet.xnb
+C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\backgroundImage.xnb
+C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\wall.xnb
+C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\guardSpriteSheet.xnb
+C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\monsterSpriteSheet.xnb
+C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Dark Operative.exe
+C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Dark Operative.pdb
+C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\obj\x86\Debug\Dark Operative.csprojResolveAssemblyReference.cache
+C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\obj\x86\Debug\Dark Operative.exe
+C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\obj\x86\Debug\Dark Operative.pdb

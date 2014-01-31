@@ -22,8 +22,8 @@ namespace Dark_Operative
 
         Protagonist protag;
         Guard[] guards = new Guard[1];
+        Monster[] monsters = new Monster[1];
         Texture2D backgroundImage;
-        Texture2D darkBackgroundImage;
         Map gameMap;
         public int topOfScreen = 0;
         public int bottomOfScreen = 665;
@@ -31,11 +31,6 @@ namespace Dark_Operative
         public int rightEdgeOfScreen = 1255;
 
         int[,] layout = new int[40, 22];
-
-        Boolean darkMode = false;
-
-        float darkCheckElapsedTime = 1.0f;
-        float darkTarget = 1.0f;
 
         #endregion
 
@@ -71,14 +66,15 @@ namespace Dark_Operative
 
             // TODO: use this.Content to load your game content here
             protag = new Protagonist(Content.Load<Texture2D>(@"Textures\protagSpriteSheet"), 0, 0);
-
             for (int i = 0; i < guards.Length; i++)
             {
                 guards[i] = new Guard(Content.Load<Texture2D>(@"Textures\guardSpriteSheet"), 660, 300, 3);
             }
-
+            for (int i = 0; i < monsters.Length; i++)
+            {
+                monsters[i] = new Monster(Content.Load<Texture2D>(@"Textures\monsterSpriteSheet"), 500, 300, 3);
+            }
             backgroundImage = Content.Load<Texture2D>(@"Textures\backgroundImage");
-            darkBackgroundImage = Content.Load<Texture2D>(@"Textures\darkBackgroundImage");
 
             layout = createSimpleMap();
             gameMap = new Map(layout, Content.Load<Texture2D>(@"Textures\wall"));
@@ -107,11 +103,10 @@ namespace Dark_Operative
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            // TODO: Add your update logic here
             CheckPlayerMovement(keyboard, gamepad);
-
-            CheckDarkMode(gameTime, keyboard, gamepad);
-
             MoveGuards();
+            MoveMonsters();
             protag.Update(gameTime);
             for (int i = 0; i < guards.Length; i++)
             {
@@ -124,6 +119,10 @@ namespace Dark_Operative
                 {
                     guards[i].Reset();
                 }
+            }
+            for (int i = 0; i < monsters.Length; i++)
+            {
+                monsters[i].Update(gameTime);
             }
             //player.Update(gameTime);
 
@@ -142,18 +141,15 @@ namespace Dark_Operative
             spriteBatch.Begin();
             spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, 1280, 720),
                 new Rectangle(0, 0, 1280, 720), Color.White);
-
-            if (darkMode)
-            {
-                spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
-                new Rectangle(0, 0, 1280, 720), Color.White);
-            }
-
             gameMap.Draw(spriteBatch);
             protag.Draw(spriteBatch);
             for (int i = 0; i < guards.Length; i++)
             {
                 guards[i].Draw(spriteBatch);
+            }
+            for (int i = 0; i < monsters.Length; i++)
+            {
+                monsters[i].Draw(spriteBatch);
             }
             //player.Draw(spriteBatch, 0, 0);
             spriteBatch.End();
@@ -239,29 +235,6 @@ namespace Dark_Operative
         }
 
         /**
-         * CheckDarkMode
-         * 
-         * Checks if the player is try to switch to/from dark mode
-         * 
-         * @param gametime - The current elapsed game time
-         * @param keyboard - The current state of the keyboard
-         * @param gamepad - The current state of hte gamepad
-         */
-        protected void CheckDarkMode(GameTime gametime, KeyboardState keyboard, GamePadState gamepad)
-        {
-            darkCheckElapsedTime += (float)gametime.ElapsedGameTime.TotalSeconds;
-
-            if (keyboard.IsKeyDown(Keys.Space) || gamepad.IsButtonDown(Buttons.B))
-            {
-                if (darkCheckElapsedTime > darkTarget)
-                {
-                    darkMode = !darkMode;
-                    darkCheckElapsedTime = 0.0f;
-                }
-            }
-        }
-
-        /**
          * MoveGuards
          * 
          * Goes through the list of all guards and moves them if necessary based on their facing
@@ -341,6 +314,128 @@ namespace Dark_Operative
         }
 
         /**
+         * MoveMonsters
+         * 
+         * Goes through the list of all monsters and moves them if necessary based on their facing
+         * 
+         */
+        protected void MoveMonsters()
+        {
+            for (int i = 0; i < monsters.Length; i++)
+            {
+                if (monsters[i].Move)
+                {
+                    if (monsters[i].Facing == 0)
+                    {
+                        if (monsters[i].Y > topOfScreen)
+                        {
+                            if (!gameMap.CollideWithWall(monsters[i].BoundingBox, 0, monsters[i].MovementRate))
+                            {
+                                monsters[i].Y -= monsters[i].MovementRate;
+                                monsters[i].Facing = 0;
+                            }
+                            else
+                            {
+                                monsters[i].Stand(true);
+                                Random random = new Random();
+                                int rand = random.Next(0, 1);
+                                if (rand == 1)
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing + 1) % 4;
+
+                                }
+                                else
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing - 1) % 4;
+                                }
+                            }
+                        }
+                    }
+
+                    else if (monsters[i].Facing == 1)
+                    {
+                        if (monsters[i].X < rightEdgeOfScreen)
+                        {
+                            if (!gameMap.CollideWithWall(monsters[i].BoundingBox, 1, monsters[i].MovementRate))
+                            {
+                                monsters[i].X += monsters[i].MovementRate;
+                                monsters[i].Facing = 1;
+                            }
+                            else
+                            {
+                                monsters[i].Stand(true);
+                                Random random = new Random();
+                                int rand = random.Next(0, 1);
+                                if (rand == 1)
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing + 1) % 4;
+
+                                }
+                                else
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing - 1) % 4;
+                                }
+                            }
+                        }
+                    }
+
+                    else if (monsters[i].Facing == 2)
+                    {
+                        if (monsters[i].Y < bottomOfScreen)
+                        {
+                            if (!gameMap.CollideWithWall(monsters[i].BoundingBox, 2, monsters[i].MovementRate))
+                            {
+                                monsters[i].Y += monsters[i].MovementRate;
+                                monsters[i].Facing = 2;
+                            }
+                            else
+                            {
+                                monsters[i].Stand(true);
+                                Random random = new Random();
+                                int rand = random.Next(0, 1);
+                                if (rand == 1)
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing + 1) % 4;
+
+                                }
+                                else
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing - 1) % 4;
+                                }
+                            }
+                        }
+                    }
+
+                    else if (monsters[i].Facing == 3)
+                    {
+                        if (monsters[i].X > leftEdgeOfScreen)
+                        {
+                            if (!gameMap.CollideWithWall(monsters[i].BoundingBox, 3, monsters[i].MovementRate))
+                            {
+                                monsters[i].X -= monsters[i].MovementRate;
+                                monsters[i].Facing = 3;
+                            }
+                            else
+                            {
+                                monsters[i].Stand(true);
+                                Random random = new Random();
+                                int rand = random.Next(0, 1);
+                                if (rand == 1)
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing + 1) % 4;
+
+                                }
+                                else
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing - 1) % 4;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        /**
          * GuardsSeeProtag
          * 
          * Goes through the list of all guards and checks if any of them can see the protagonist
@@ -354,54 +449,25 @@ namespace Dark_Operative
                 Rectangle guardHitBox = guards[i].BoundingBox;
 
                 //Check for LOS and return true if the guard can see the protagonist
-                
-                // If the gaurd is facing up/down or if this is a horizontal collision
                 if (guards[i].Facing % 2 == 0)
                 {
-                    // Check for a horizontal collision
                     if ((playerHitBox.Left <= guardHitBox.Right && playerHitBox.Left >= guardHitBox.Left) ||
                         (playerHitBox.Right <= guardHitBox.Right && playerHitBox.Right >= guardHitBox.Left))
                     {
-                        // If we're not in dark mode or we are and the play is less than 50 pixles infront of the gaurd
-                        if (!darkMode || 
-                            (darkMode && ((Math.Abs(guardHitBox.Bottom - playerHitBox.Top) < 50) || 
-                            (Math.Abs(guardHitBox.Top - playerHitBox.Bottom) < 50))))
-                        {
-                            // Check if the player is the gaurd's line of sight, if so return true
-                            return ((guards[i].Facing == 0 && playerHitBox.Bottom < guardHitBox.Top) ||
-                                    (guards[i].Facing == 2 && playerHitBox.Top > guardHitBox.Bottom)) &&
-                                    !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing);
-                        }
-                        // Otherwise, we're in dark mode and the player is not in range of the gaurd so she is unseen
-                        else
-                        {
-                            return false;
-                        }
+                        return ((guards[i].Facing == 0 && playerHitBox.Bottom < guardHitBox.Top) ||
+                                (guards[i].Facing == 2 && playerHitBox.Top > guardHitBox.Bottom)) && 
+                                !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing);
                     }
                 
                 }
-                // If the gaurd is facing left/right or if there is a vertical collision
                 else
                 {
-                    // Check for a vertical collision
                     if ((playerHitBox.Top >= guardHitBox.Top && playerHitBox.Top <= guardHitBox.Bottom) ||
                         (playerHitBox.Bottom >= guardHitBox.Top && playerHitBox.Bottom <= guardHitBox.Bottom)) 
                     {
-                        // If we're not in dark mode or we are and the play is less than 50 pixles infront of the gaurd
-                        if (!darkMode || 
-                            (darkMode && ((Math.Abs(guardHitBox.Left - playerHitBox.Right) < 50) || 
-                            (Math.Abs(guardHitBox.Right - playerHitBox.Left) < 50))))
-                        {
-                            // Check if the player is the gaurd's line of sight, if so return true
-                            return ((guards[i].Facing == 1 && playerHitBox.Left >= guardHitBox.Right) ||
-                                    (guards[i].Facing == 3 && playerHitBox.Right <= guardHitBox.Left)) &&
-                                    !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing);
-                        }
-                        // Otherwise, we're in dark mode and the player is not in range of the gaurd so she is unseen
-                        else
-                        {
-                            return false;
-                        }
+                        return ((guards[i].Facing == 1 && playerHitBox.Left >= guardHitBox.Right) ||
+                                (guards[i].Facing == 3 && playerHitBox.Right <= guardHitBox.Left)) &&
+                                !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing);
                     }
                 }
             }
