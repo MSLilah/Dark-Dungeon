@@ -241,6 +241,11 @@ namespace Dark_Operative
         /**
          * CheckDarkMode
          * 
+         * Checks if the player is try to switch to/from dark mode
+         * 
+         * @param gametime - The current elapsed game time
+         * @param keyboard - The current state of the keyboard
+         * @param gamepad - The current state of hte gamepad
          */
         protected void CheckDarkMode(GameTime gametime, KeyboardState keyboard, GamePadState gamepad)
         {
@@ -362,7 +367,7 @@ namespace Dark_Operative
                             (darkMode && ((Math.Abs(guardHitBox.Bottom - playerHitBox.Top) < 50) || 
                             (Math.Abs(guardHitBox.Top - playerHitBox.Bottom) < 50))))
                         {
-                            // Check if the player is the gaurd's line of site, if so return true
+                            // Check if the player is the gaurd's line of sight, if so return true
                             return ((guards[i].Facing == 0 && playerHitBox.Bottom < guardHitBox.Top) ||
                                     (guards[i].Facing == 2 && playerHitBox.Top > guardHitBox.Bottom)) &&
                                     !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing);
@@ -387,7 +392,7 @@ namespace Dark_Operative
                             (darkMode && ((Math.Abs(guardHitBox.Left - playerHitBox.Right) < 50) || 
                             (Math.Abs(guardHitBox.Right - playerHitBox.Left) < 50))))
                         {
-                            // Check if the player is the gaurd's line of site, if so return true
+                            // Check if the player is the gaurd's line of sight, if so return true
                             return ((guards[i].Facing == 1 && playerHitBox.Left >= guardHitBox.Right) ||
                                     (guards[i].Facing == 3 && playerHitBox.Right <= guardHitBox.Left)) &&
                                     !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing);
