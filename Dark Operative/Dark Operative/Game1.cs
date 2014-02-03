@@ -23,6 +23,7 @@ namespace Dark_Operative
         Protagonist protag;
         Guard[] guards = new Guard[1];
         Texture2D backgroundImage;
+        Texture2D darkBackgroundImage;
         Map gameMap;
         public int topOfScreen = 0;
         public int bottomOfScreen = 665;
@@ -30,6 +31,11 @@ namespace Dark_Operative
         public int rightEdgeOfScreen = 1255;
 
         int[,] layout = new int[40, 22];
+
+        Boolean darkMode = false;
+
+        float darkCheckElapsedTime = 1.0f;
+        float darkTarget = 1.0f;
 
         #endregion
 
@@ -65,11 +71,14 @@ namespace Dark_Operative
 
             // TODO: use this.Content to load your game content here
             protag = new Protagonist(Content.Load<Texture2D>(@"Textures\protagSpriteSheet"), 0, 0);
+
             for (int i = 0; i < guards.Length; i++)
             {
                 guards[i] = new Guard(Content.Load<Texture2D>(@"Textures\guardSpriteSheet"), 660, 300, 3);
             }
+
             backgroundImage = Content.Load<Texture2D>(@"Textures\backgroundImage");
+            darkBackgroundImage = Content.Load<Texture2D>(@"Textures\darkBackgroundImage");
 
             layout = createSimpleMap();
             gameMap = new Map(layout, Content.Load<Texture2D>(@"Textures\wall"));
@@ -98,8 +107,10 @@ namespace Dark_Operative
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
             CheckPlayerMovement(keyboard, gamepad);
+
+            CheckDarkMode(gameTime, keyboard, gamepad);
+
             MoveGuards();
             protag.Update(gameTime);
             for (int i = 0; i < guards.Length; i++)
@@ -131,6 +142,13 @@ namespace Dark_Operative
             spriteBatch.Begin();
             spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, 1280, 720),
                 new Rectangle(0, 0, 1280, 720), Color.White);
+
+            if (darkMode)
+            {
+                spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
+                new Rectangle(0, 0, 1280, 720), Color.White);
+            }
+
             gameMap.Draw(spriteBatch);
             protag.Draw(spriteBatch);
             for (int i = 0; i < guards.Length; i++)
@@ -217,6 +235,24 @@ namespace Dark_Operative
             else
             {
                 protag.Stand();
+            }
+        }
+
+        /**
+         * CheckDarkMode
+         * 
+         */
+        protected void CheckDarkMode(GameTime gametime, KeyboardState keyboard, GamePadState gamepad)
+        {
+            darkCheckElapsedTime += (float)gametime.ElapsedGameTime.TotalSeconds;
+
+            if (keyboard.IsKeyDown(Keys.Space) || gamepad.IsButtonDown(Buttons.B))
+            {
+                if (darkCheckElapsedTime > darkTarget)
+                {
+                    darkMode = !darkMode;
+                    darkCheckElapsedTime = 0.0f;
+                }
             }
         }
 
@@ -313,25 +349,54 @@ namespace Dark_Operative
                 Rectangle guardHitBox = guards[i].BoundingBox;
 
                 //Check for LOS and return true if the guard can see the protagonist
+                
+                // If the gaurd is facing up/down or if this is a horizontal collision
                 if (guards[i].Facing % 2 == 0)
                 {
+                    // Check for a horizontal collision
                     if ((playerHitBox.Left <= guardHitBox.Right && playerHitBox.Left >= guardHitBox.Left) ||
                         (playerHitBox.Right <= guardHitBox.Right && playerHitBox.Right >= guardHitBox.Left))
                     {
-                        return ((guards[i].Facing == 0 && playerHitBox.Bottom < guardHitBox.Top) ||
-                                (guards[i].Facing == 2 && playerHitBox.Top > guardHitBox.Bottom)) && 
-                                !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing);
+                        // If we're not in dark mode or we are and the play is less than 50 pixles infront of the gaurd
+                        if (!darkMode || 
+                            (darkMode && ((Math.Abs(guardHitBox.Bottom - playerHitBox.Top) < 50) || 
+                            (Math.Abs(guardHitBox.Top - playerHitBox.Bottom) < 50))))
+                        {
+                            // Check if the player is the gaurd's line of site, if so return true
+                            return ((guards[i].Facing == 0 && playerHitBox.Bottom < guardHitBox.Top) ||
+                                    (guards[i].Facing == 2 && playerHitBox.Top > guardHitBox.Bottom)) &&
+                                    !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing);
+                        }
+                        // Otherwise, we're in dark mode and the player is not in range of the gaurd so she is unseen
+                        else
+                        {
+                            return false;
+                        }
                     }
                 
                 }
+                // If the gaurd is facing left/right or if there is a vertical collision
                 else
                 {
+                    // Check for a vertical collision
                     if ((playerHitBox.Top >= guardHitBox.Top && playerHitBox.Top <= guardHitBox.Bottom) ||
                         (playerHitBox.Bottom >= guardHitBox.Top && playerHitBox.Bottom <= guardHitBox.Bottom)) 
                     {
-                        return ((guards[i].Facing == 1 && playerHitBox.Left >= guardHitBox.Right) ||
-                                (guards[i].Facing == 3 && playerHitBox.Right <= guardHitBox.Left)) &&
-                                !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing);
+                        // If we're not in dark mode or we are and the play is less than 50 pixles infront of the gaurd
+                        if (!darkMode || 
+                            (darkMode && ((Math.Abs(guardHitBox.Left - playerHitBox.Right) < 50) || 
+                            (Math.Abs(guardHitBox.Right - playerHitBox.Left) < 50))))
+                        {
+                            // Check if the player is the gaurd's line of site, if so return true
+                            return ((guards[i].Facing == 1 && playerHitBox.Left >= guardHitBox.Right) ||
+                                    (guards[i].Facing == 3 && playerHitBox.Right <= guardHitBox.Left)) &&
+                                    !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing);
+                        }
+                        // Otherwise, we're in dark mode and the player is not in range of the gaurd so she is unseen
+                        else
+                        {
+                            return false;
+                        }
                     }
                 }
             }
