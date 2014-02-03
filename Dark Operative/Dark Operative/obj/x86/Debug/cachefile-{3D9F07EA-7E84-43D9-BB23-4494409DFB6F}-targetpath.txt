@@ -4,3 +4,4 @@ Content\Textures\backgroundImage.xnb
 Content\Textures\wall.xnb
 Content\Textures\guardSpriteSheet.xnb
 Content\Textures\monsterSpriteSheet.xnb
+Content\Textures\darkBackgroundImage.xnb
