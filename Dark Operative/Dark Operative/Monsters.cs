@@ -6,6 +6,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 
+/**
+ * Monster.cs
+ * 
+ * A class representing the monsters
+ * 
+ * @author Justice Nichols
+ * 
+ */
 namespace Dark_Operative
 {
     class Monster

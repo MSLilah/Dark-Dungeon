@@ -35,6 +35,10 @@ namespace Dark_Operative
         //Constants representing the various things in each
         //map slot
         private int WALL = 1;
+        private int GOAL = 2;
+        private int PROTAGONIST = 3;
+        private int GUARD = 4;
+        private int MONSTER = 5;
         #endregion
 
         #region Properties

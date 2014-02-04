@@ -34,7 +34,7 @@ namespace Dark_Operative
         
 
         //Used to control the protagonist's movement
-        int moveRate = 1;
+        int moveRate = 2;
         float moveCount = 0.0f;
         float moveDelay = 0.01f;
         #endregion
@@ -78,7 +78,7 @@ namespace Dark_Operative
 
         public Rectangle BoundingBox
         {
-            get { return new Rectangle(xPos, yPos, 21, 51); }
+            get { return new Rectangle(xPos, yPos + 5, 21, 41); }
         }
 
         #endregion
