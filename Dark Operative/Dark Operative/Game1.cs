@@ -114,7 +114,7 @@ namespace Dark_Operative
             {
                 guards[i].Update(gameTime);
             }
-            if (GuardsSeeProtag())
+            if (GuardsSeeProtag() || MonsterTouchesPlayer())
             {
                 protag.Reset();
                 for (int i = 0; i < guards.Length; i++)
@@ -322,8 +322,8 @@ namespace Dark_Operative
         /**
          * MoveMonsters
          * 
-         * Goes through the list of all monsters and moves them if necessary based on their facing
-         * 
+         * Goes through the list of all monsters and moves them. They track the left wall.
+         * If they do not start on the left wall theymove until they find and intersection and then follow it.
          */
         protected void MoveMonsters()
         {
@@ -331,6 +331,7 @@ namespace Dark_Operative
             {
                 if (monsters[i].Move)
                 {
+                    #region Facing Up
                     if (monsters[i].Facing == 0)
                     {
                         if (monsters[i].Y > topOfScreen)
@@ -352,7 +353,8 @@ namespace Dark_Operative
                             }
                         }
                     }
-
+                    #endregion
+                    #region Facing Right
                     else if (monsters[i].Facing == 1)
                     {
                         if (monsters[i].X < rightEdgeOfScreen)
@@ -374,7 +376,8 @@ namespace Dark_Operative
                             }
                         }
                     }
-
+                    #endregion
+                    #region Facing Down
                     else if (monsters[i].Facing == 2)
                     {
                         if (monsters[i].Y < bottomOfScreen)
@@ -395,7 +398,8 @@ namespace Dark_Operative
                             }
                         }
                     }
-
+                    #endregion
+                    #region Facing Left
                     else if (monsters[i].Facing == 3)
                     {
                         if (monsters[i].X > leftEdgeOfScreen)
@@ -416,6 +420,7 @@ namespace Dark_Operative
                             }
                         }
                     }
+                    #endregion
                 }
             }
         }
@@ -453,6 +458,30 @@ namespace Dark_Operative
                                 (guards[i].Facing == 3 && playerHitBox.Right <= guardHitBox.Left)) &&
                                 !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing);
                     }
+                }
+            }
+            return false;
+        }
+
+         /**
+         * MonsterTouchesPlayer
+         * 
+         * Goes through the list of all monsters and checks if any of them are touching the protagonist
+         * 
+         */
+        protected bool MonsterTouchesPlayer()
+        {
+
+            int playerTop = protag.BoundingBox.Top;
+            int playerLeft = protag.BoundingBox.Left;
+
+            for (int i = 0; i < monsters.Length; i++)
+            {
+                int monsterTop = monsters[i].BoundingBox.Top;
+                int monsterLeft = monsters[i].BoundingBox.Left;
+                if ((Math.Abs(playerTop - monsterTop) < 51) && (Math.Abs(playerLeft - monsterLeft) < 21))
+                {
+                    return true;
                 }
             }
             return false;
