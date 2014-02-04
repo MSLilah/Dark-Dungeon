@@ -25,10 +25,12 @@ namespace Dark_Operative
         Monster[] monsters = new Monster[1];
         Texture2D backgroundImage;
         Map gameMap;
+        Random random = new Random();
         public int topOfScreen = 0;
         public int bottomOfScreen = 665;
         public int leftEdgeOfScreen = 0;
         public int rightEdgeOfScreen = 1255;
+        
 
         int[,] layout = new int[40, 22];
 
@@ -118,6 +120,10 @@ namespace Dark_Operative
                 for (int i = 0; i < guards.Length; i++)
                 {
                     guards[i].Reset();
+                }
+                for (int i = 0; i < monsters.Length; i++)
+                {
+                    monsters[i].Reset();
                 }
             }
             for (int i = 0; i < monsters.Length; i++)
@@ -302,7 +308,7 @@ namespace Dark_Operative
                             {
                                 guards[i].X -= guards[i].MovementRate;
                                 guards[i].Facing = 3;
-                            }
+                             }
                             else
                             {
                                 guards[i].Stand(false);
@@ -333,24 +339,24 @@ namespace Dark_Operative
                             {
                                 monsters[i].Y -= monsters[i].MovementRate;
                                 monsters[i].Facing = 0;
+                            
                             }
                             else
                             {
                                 monsters[i].Stand(true);
-                                Random random = new Random();
                                 int rand = random.Next(2);
-                                if (rand == 1)
+                                if (rand == 1 && !gameMap.CollideWithWall(monsters[i].BoundingBox, (monsters[i].Facing + 1) % 4, monsters[i].MovementRate))
                                 {
                                     monsters[i].Facing = (monsters[i].Facing + 1) % 4;
 
                                 }
-                                else
+                                else if (!gameMap.CollideWithWall(monsters[i].BoundingBox, (Math.Abs(monsters[i].Facing - 1)) % 4, monsters[i].MovementRate))
                                 {
-                                    monsters[i].Facing = (monsters[i].Facing - 1) % 4;
-                                    if (monsters[i].Facing < 0)
-                                    {
-                                        monsters[i].Facing += 4;
-                                    }
+                                    monsters[i].Facing = (Math.Abs(monsters[i].Facing - 1)) % 4;
+                                }
+                                if(!gameMap.CollideWithWall(monsters[i].BoundingBox, (monsters[i].Facing + 1) % 4, monsters[i].MovementRate))
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing + 1) % 4;
                                 }
                             }
                         }
@@ -364,11 +370,11 @@ namespace Dark_Operative
                             {
                                 monsters[i].X += monsters[i].MovementRate;
                                 monsters[i].Facing = 1;
+
                             }
                             else
                             {
                                 monsters[i].Stand(true);
-                                Random random = new Random();
                                 int rand = random.Next(2);
                                 if (rand == 1)
                                 {
@@ -377,11 +383,7 @@ namespace Dark_Operative
                                 }
                                 else
                                 {
-                                    monsters[i].Facing = (monsters[i].Facing - 1);
-                                    if (monsters[i].Facing < 0)
-                                    {
-                                        monsters[i].Facing += 4;
-                                    }
+                                    monsters[i].Facing = (Math.Abs(monsters[i].Facing - 1)) % 4;
                                 }
                             }
                         }
@@ -395,11 +397,11 @@ namespace Dark_Operative
                             {
                                 monsters[i].Y += monsters[i].MovementRate;
                                 monsters[i].Facing = 2;
+                                
                             }
                             else
                             {
                                 monsters[i].Stand(true);
-                                Random random = new Random();
                                 int rand = random.Next(2);
                                 if (rand == 1)
                                 {
@@ -408,11 +410,8 @@ namespace Dark_Operative
                                 }
                                 else
                                 {
-                                    monsters[i].Facing = (monsters[i].Facing - 1);
-                                    if (monsters[i].Facing < 0)
-                                    {
-                                        monsters[i].Facing += 4;
-                                    }
+                                    monsters[i].Facing = (Math.Abs(monsters[i].Facing - 1))%4;
+                                    
                                 }
                             }
                         }
@@ -426,11 +425,11 @@ namespace Dark_Operative
                             {
                                 monsters[i].X -= monsters[i].MovementRate;
                                 monsters[i].Facing = 3;
+                               
                             }
                             else
                             {
                                 monsters[i].Stand(true);
-                                Random random = new Random();
                                 int rand = random.Next(2);
                                 if (rand == 1)
                                 {
@@ -439,11 +438,8 @@ namespace Dark_Operative
                                 }
                                 else
                                 {
-                                    monsters[i].Facing = (monsters[i].Facing - 1);
-                                    if (monsters[i].Facing < 0)
-                                    {
-                                        monsters[i].Facing += 4;
-                                    }
+                                    monsters[i].Facing = (Math.Abs(monsters[i].Facing - 1)) % 4;
+                                    
                                 }
                             }
                         }
@@ -503,8 +499,8 @@ namespace Dark_Operative
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0},
-            {0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
+            {0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
             {0,0,0,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,0,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
@@ -512,7 +508,7 @@ namespace Dark_Operative
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1,1,1,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0},
@@ -522,10 +518,10 @@ namespace Dark_Operative
             {0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,1,1,1,1,1,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
