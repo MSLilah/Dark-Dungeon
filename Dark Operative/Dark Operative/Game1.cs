@@ -339,25 +339,16 @@ namespace Dark_Operative
                             {
                                 monsters[i].Y -= monsters[i].MovementRate;
                                 monsters[i].Facing = 0;
+                                if (!gameMap.CollideWithWall(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate))
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing + 3) % 4;
+                                }
                             
                             }
                             else
                             {
                                 monsters[i].Stand(true);
-                                int rand = random.Next(2);
-                                if (rand == 1 && !gameMap.CollideWithWall(monsters[i].BoundingBox, (monsters[i].Facing + 1) % 4, monsters[i].MovementRate))
-                                {
-                                    monsters[i].Facing = (monsters[i].Facing + 1) % 4;
-
-                                }
-                                else if (!gameMap.CollideWithWall(monsters[i].BoundingBox, (Math.Abs(monsters[i].Facing - 1)) % 4, monsters[i].MovementRate))
-                                {
-                                    monsters[i].Facing = (Math.Abs(monsters[i].Facing - 1)) % 4;
-                                }
-                                if(!gameMap.CollideWithWall(monsters[i].BoundingBox, (monsters[i].Facing + 1) % 4, monsters[i].MovementRate))
-                                {
-                                    monsters[i].Facing = (monsters[i].Facing + 1) % 4;
-                                }
+                            monsters[i].Facing = (monsters[i].Facing + 1) % 4;
                             }
                         }
                     }
@@ -370,21 +361,16 @@ namespace Dark_Operative
                             {
                                 monsters[i].X += monsters[i].MovementRate;
                                 monsters[i].Facing = 1;
-
+                                if (!gameMap.CollideWithWall(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate+21))
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing + 3) % 4;
+                                }
                             }
                             else
                             {
                                 monsters[i].Stand(true);
-                                int rand = random.Next(2);
-                                if (rand == 1)
-                                {
-                                    monsters[i].Facing = (monsters[i].Facing + 1) % 4;
-
-                                }
-                                else
-                                {
-                                    monsters[i].Facing = (Math.Abs(monsters[i].Facing - 1)) % 4;
-                                }
+                                monsters[i].Facing = (monsters[i].Facing + 1) % 4;
+                                
                             }
                         }
                     }
@@ -397,22 +383,15 @@ namespace Dark_Operative
                             {
                                 monsters[i].Y += monsters[i].MovementRate;
                                 monsters[i].Facing = 2;
-                                
+                                if (!gameMap.CollideWithWall(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate))
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing + 3) % 4;
+                                }
                             }
                             else
                             {
                                 monsters[i].Stand(true);
-                                int rand = random.Next(2);
-                                if (rand == 1)
-                                {
-                                    monsters[i].Facing = (monsters[i].Facing + 1) % 4;
-
-                                }
-                                else
-                                {
-                                    monsters[i].Facing = (Math.Abs(monsters[i].Facing - 1))%4;
-                                    
-                                }
+                                monsters[i].Facing = (monsters[i].Facing + 1) % 4;
                             }
                         }
                     }
@@ -425,22 +404,15 @@ namespace Dark_Operative
                             {
                                 monsters[i].X -= monsters[i].MovementRate;
                                 monsters[i].Facing = 3;
-                               
+                                if (!gameMap.CollideWithWall(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate+21))
+                                {
+                                    monsters[i].Facing = (monsters[i].Facing + 3) % 4;
+                                }
                             }
                             else
                             {
                                 monsters[i].Stand(true);
-                                int rand = random.Next(2);
-                                if (rand == 1)
-                                {
-                                    monsters[i].Facing = (monsters[i].Facing + 1) % 4;
-
-                                }
-                                else
-                                {
-                                    monsters[i].Facing = (Math.Abs(monsters[i].Facing - 1)) % 4;
-                                    
-                                }
+                                monsters[i].Facing = (monsters[i].Facing + 1) % 4;
                             }
                         }
                     }
