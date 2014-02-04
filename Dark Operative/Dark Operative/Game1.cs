@@ -123,13 +123,16 @@ namespace Dark_Operative
                 for (int i = 0; i < guards.Length; i++)
                 {
                     guards[i].Reset();
+                    monsters[i].Reset();
                 }
             }
             if (MonsterTouchesPlayer() && darkMode)
             {
+                protag.Reset();
                 for (int i = 0; i < monsters.Length; i++)
                 {
                     monsters[i].Reset();
+                    guards[i].Reset();
                 }
             }
             for (int i = 0; i < monsters.Length; i++)
