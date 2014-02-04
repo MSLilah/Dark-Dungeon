@@ -9,6 +9,15 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+/**
+ * Game1.cs
+ * 
+ * The main class for Dark Dungeon
+ * 
+ * @author Preben Ingvaldsen
+ * @author Hailee Kenney
+ * @author Justice Nichols
+ */
 namespace Dark_Operative
 {
     /// <summary>
@@ -25,6 +34,7 @@ namespace Dark_Operative
         Monster[] monsters = new Monster[1];
         Texture2D backgroundImage;
         Texture2D darkBackgroundImage;
+        SpriteFont font;
         Map gameMap;
         Random random = new Random();
         public int topOfScreen = 0;
@@ -35,10 +45,27 @@ namespace Dark_Operative
 
         int[,] layout = new int[40, 22];
 
-        Boolean darkMode = false;
+        bool darkMode = false;
 
         float darkCheckElapsedTime = 1.0f;
         float darkTarget = 1.0f;
+        bool darkPressed = false;
+
+        float pauseCheckElapsedTime = 0.0f;
+        float pauseTarget = 1.0f;
+        bool pausePressed = false;
+
+        float loseElapsedTime = 0.0f;
+        float loseTarget = 1.0f;
+
+        bool pause = false;
+        bool gameOver = false;
+        bool lose = false;
+
+        int lives = 3;
+
+        //Text locations
+        Vector2 PauseAndGameOverTextLoc = new Vector2(570, 330);
 
         #endregion
 
@@ -73,6 +100,7 @@ namespace Dark_Operative
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            font = Content.Load<SpriteFont>(@"Fonts\Pericles");
             protag = new Protagonist(Content.Load<Texture2D>(@"Textures\protagSpriteSheet"), 0, 0);
 
             for (int i = 0; i < guards.Length; i++)
@@ -115,43 +143,48 @@ namespace Dark_Operative
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            CheckPlayerMovement(keyboard, gamepad);
+            CheckPause(gameTime, keyboard, gamepad);
+            if (!pause && !lose && !gameOver)
+            {
+                #region Gameplay
+                CheckPlayerMovement(keyboard, gamepad);
 
-            CheckDarkMode(gameTime, keyboard, gamepad);
+                CheckDarkMode(gameTime, keyboard, gamepad);
 
-            MoveGuards();
-            if (darkMode)
-            {
-                MoveMonsters();
-            }
-            protag.Update(gameTime);
-            for (int i = 0; i < guards.Length; i++)
-            {
-                guards[i].Update(gameTime);
-            }
-            if (GuardsSeeProtag())
-            {
-                protag.Reset();
+                MoveGuards();
+                if (darkMode)
+                {
+                    MoveMonsters();
+                }
+                protag.Update(gameTime);
                 for (int i = 0; i < guards.Length; i++)
                 {
-                    guards[i].Reset();
-                    monsters[i].Reset();
+                    guards[i].Update(gameTime);
                 }
-            }
-            if (MonsterTouchesPlayer() && darkMode)
-            {
-                protag.Reset();
+                if (GuardsSeeProtag())
+                {
+                    lose = true;
+                }
+                if (MonsterTouchesPlayer() && darkMode)
+                {
+                    lose = true;
+                }
                 for (int i = 0; i < monsters.Length; i++)
                 {
-                    monsters[i].Reset();
-                    guards[i].Reset();
+                    monsters[i].Update(gameTime);
+                }
+                //player.Update(gameTime);
+                #endregion
+            }
+            else if (lose)
+            {
+                loseElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (loseElapsedTime > loseTarget)
+                {
+                    loseElapsedTime = 0;
+                    ResetGame();
                 }
             }
-            for (int i = 0; i < monsters.Length; i++)
-            {
-                monsters[i].Update(gameTime);
-            }
-            //player.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -188,7 +221,24 @@ namespace Dark_Operative
                     monsters[i].Draw(spriteBatch);
                 }
             }
-            //player.Draw(spriteBatch, 0, 0);
+
+            if (pause)
+            {
+                spriteBatch.DrawString(font, "P A U S E D", PauseAndGameOverTextLoc, Color.White);
+            }
+            else if (lose)
+            {
+                if (lives > 0)
+                {
+                    spriteBatch.DrawString(font, "Y O U  W E R E  C A U G H T !", PauseAndGameOverTextLoc, Color.White);
+                }
+                else
+                {
+                    spriteBatch.DrawString(font, "G A M E  O V E R", PauseAndGameOverTextLoc, Color.White);
+                }
+            }
+
+
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -273,7 +323,7 @@ namespace Dark_Operative
         /**
          * CheckDarkMode
          * 
-         * Checks if the player is try to switch to/from dark mode
+         * Checks if the player is trying to switch to/from dark mode
          * 
          * @param gametime - The current elapsed game time
          * @param keyboard - The current state of the keyboard
@@ -283,13 +333,39 @@ namespace Dark_Operative
         {
             darkCheckElapsedTime += (float)gametime.ElapsedGameTime.TotalSeconds;
 
-            if (keyboard.IsKeyDown(Keys.Space) || gamepad.IsButtonDown(Buttons.B))
+            if ((keyboard.IsKeyDown(Keys.Space) || gamepad.IsButtonDown(Buttons.B)) && !darkPressed)
             {
                 if (darkCheckElapsedTime > darkTarget)
                 {
                     darkMode = !darkMode;
                     darkCheckElapsedTime = 0.0f;
+                    darkPressed = true;
                 }
+            }
+            else if (keyboard.IsKeyUp(Keys.Space) && gamepad.IsButtonUp(Buttons.B))
+            {
+                darkPressed = false;
+            }
+        }
+
+        /**
+         * CheckPause
+         * 
+         * Checks if the player is trying to pause
+         * 
+         * @param gametime - The current elapsed game time
+         * @param keyboard - The current state of the keyboard
+         * @param gamepad - The current state of the gamepad 
+         */
+        protected void CheckPause(GameTime gametime, KeyboardState keyboard, GamePadState gamepad)
+        {
+            if ((keyboard.IsKeyDown(Keys.Escape) || gamepad.IsButtonDown(Buttons.Start)) && !pausePressed) {
+                pause = !pause;
+                pausePressed = true;
+            }
+            else if (keyboard.IsKeyUp(Keys.Escape) && gamepad.IsButtonUp(Buttons.Start))
+            {
+                pausePressed = false;
             }
         }
 
@@ -567,6 +643,30 @@ namespace Dark_Operative
                 }
             }
             return false;
+        }
+
+        /**
+         * ResetGame
+         * 
+         * Resets the game to either the beginning of the level or 
+         * the title screen, depending on the number of lives remaining
+         */
+        protected void ResetGame()
+        {
+            protag.Reset();
+            for (int i = 0; i < guards.Length; i++)
+            {
+                guards[i].Reset();
+            }
+            for (int i = 0; i < monsters.Length; i++)
+            {
+                monsters[i].Reset();
+            }
+            darkMode = false;
+            darkPressed = false;
+            pausePressed = false;
+            lose = false;
+            //TODO: Go back to the title screen if lives are equal to 0
         }
 
         /**
