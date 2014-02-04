@@ -108,19 +108,25 @@ namespace Dark_Operative
             // TODO: Add your update logic here
             CheckPlayerMovement(keyboard, gamepad);
             MoveGuards();
-            MoveMonsters();
+            if (darkMode)
+            {
+                MoveMonsters();
+            }
             protag.Update(gameTime);
             for (int i = 0; i < guards.Length; i++)
             {
                 guards[i].Update(gameTime);
             }
-            if (GuardsSeeProtag() || MonsterTouchesPlayer())
+            if (GuardsSeeProtag())
             {
                 protag.Reset();
                 for (int i = 0; i < guards.Length; i++)
                 {
                     guards[i].Reset();
                 }
+            }
+            if (MonsterTouchesPlayer() && darkMode)
+            {
                 for (int i = 0; i < monsters.Length; i++)
                 {
                     monsters[i].Reset();
@@ -153,9 +159,12 @@ namespace Dark_Operative
             {
                 guards[i].Draw(spriteBatch);
             }
-            for (int i = 0; i < monsters.Length; i++)
+            if (darkMode)
             {
-                monsters[i].Draw(spriteBatch);
+                for (int i = 0; i < monsters.Length; i++)
+                {
+                    monsters[i].Draw(spriteBatch);
+                }
             }
             //player.Draw(spriteBatch, 0, 0);
             spriteBatch.End();
@@ -177,7 +186,6 @@ namespace Dark_Operative
          */
         protected void CheckPlayerMovement(KeyboardState keyboard, GamePadState gamepad)
         {
-
             bool resetTimer = false;
 
             if ((keyboard.IsKeyDown(Keys.Up)) || (gamepad.ThumbSticks.Left.Y > 0))
