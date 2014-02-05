@@ -24,3 +24,4 @@ C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\
 C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\monsterSpriteSheet.xnb
 C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\darkBackgroundImage.xnb
 C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\darkBackgroundImage.xnb
+C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\Treasure.xnb
