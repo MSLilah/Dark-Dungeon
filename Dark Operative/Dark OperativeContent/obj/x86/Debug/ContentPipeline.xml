@@ -55,6 +55,15 @@
       <Output>C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\monsterSpriteSheet.xnb</Output>
       <Time>2014-01-30T15:50:09.8201496-08:00</Time>
     </Item>
+    <Item>
+      <Source>Textures\Treasure.png</Source>
+      <Name>Textures\Treasure</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\Treasure.xnb</Output>
+      <Time>2014-02-04T17:08:07.8530466-08:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

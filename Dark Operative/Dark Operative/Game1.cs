@@ -61,6 +61,7 @@ namespace Dark_Operative
         bool pause = false;
         bool gameOver = false;
         bool lose = false;
+        bool wonLevel = false;
 
         int lives = 3;
 
@@ -117,7 +118,7 @@ namespace Dark_Operative
             darkBackgroundImage = Content.Load<Texture2D>(@"Textures\darkBackgroundImage");
 
             layout = createSimpleMap();
-            gameMap = new Map(layout, Content.Load<Texture2D>(@"Textures\wall"));
+            gameMap = new Map(layout, Content.Load<Texture2D>(@"Textures\wall"), Content.Load<Texture2D>(@"Textures\Treasure"));
         }
 
         /// <summary>
@@ -144,7 +145,7 @@ namespace Dark_Operative
                 this.Exit();
 
             CheckPause(gameTime, keyboard, gamepad);
-            if (!pause && !lose && !gameOver)
+            if (!pause && !lose && !wonLevel)
             {
                 #region Gameplay
                 CheckPlayerMovement(keyboard, gamepad);
@@ -176,7 +177,7 @@ namespace Dark_Operative
                 //player.Update(gameTime);
                 #endregion
             }
-            else if (lose)
+            else if (lose || wonLevel)
             {
                 loseElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (loseElapsedTime > loseTarget)
@@ -237,7 +238,10 @@ namespace Dark_Operative
                     spriteBatch.DrawString(font, "G A M E  O V E R", PauseAndGameOverTextLoc, Color.White);
                 }
             }
-
+            else if (wonLevel)
+            {
+                spriteBatch.DrawString(font, "L E V E L  C O M P L E T E", PauseAndGameOverTextLoc, Color.White);
+            }
 
             spriteBatch.End();
 
@@ -264,10 +268,10 @@ namespace Dark_Operative
             {
                 if (protag.Y > topOfScreen)
                 {
-                    if (!gameMap.CollideWithWall(protag.BoundingBox, 0, protag.MovementRate))
+                    /*if (!gameMap.CollideWithWall(protag.BoundingBox, 0, protag.MovementRate, Map.WALL))
                     {
                         protag.Y -= protag.MovementRate;
-                    }
+                    }*/
                     resetTimer = true;
                     protag.Facing = 0;
                 }
@@ -278,10 +282,10 @@ namespace Dark_Operative
             {
                 if (protag.Y < bottomOfScreen)
                 {
-                    if (!gameMap.CollideWithWall(protag.BoundingBox, 2, protag.MovementRate))
+                    /*if (!gameMap.CollideWithWall(protag.BoundingBox, 2, protag.MovementRate, Map.WALL))
                     {
                         protag.Y += protag.MovementRate;
-                    }
+                    }*/
                     resetTimer = true;
                     protag.Facing = 2;
                 }
@@ -289,10 +293,10 @@ namespace Dark_Operative
 
             else if ((keyboard.IsKeyDown(Keys.Right)) || (gamepad.ThumbSticks.Left.X > 0)) {
                 if (protag.X < rightEdgeOfScreen) {
-                    if (!gameMap.CollideWithWall(protag.BoundingBox, 1, protag.MovementRate))
+                    /*if (!gameMap.CollideWithWall(protag.BoundingBox, 1, protag.MovementRate, Map.WALL))
                     {
                         protag.X += protag.MovementRate;
-                    }
+                    }*/
                     resetTimer = true;
                     protag.Facing = 1;
                 }
@@ -300,12 +304,38 @@ namespace Dark_Operative
 
             else if ((keyboard.IsKeyDown(Keys.Left)) || (gamepad.ThumbSticks.Left.X < 0)) {
                 if (protag.X > leftEdgeOfScreen) {
-                    if (!gameMap.CollideWithWall(protag.BoundingBox, 3, protag.MovementRate))
+                    /*if (!gameMap.CollideWithWall(protag.BoundingBox, 3, protag.MovementRate, Map.WALL))
                     {
                         protag.X -= protag.MovementRate;
-                    }
+                    }*/
                     resetTimer = true;
                     protag.Facing = 3;
+                }
+            }
+
+            if (gameMap.CollideWithElement(protag.BoundingBox, protag.Facing, protag.MovementRate, Map.GOAL) && resetTimer)
+            {
+                wonLevel = true;
+            }
+
+            else if (!gameMap.CollideWithElement(protag.BoundingBox, protag.Facing, protag.MovementRate, Map.WALL) && resetTimer)
+            {
+                switch (protag.Facing)
+                {
+                    case 0:
+                        protag.Y -= protag.MovementRate;
+                        break;
+                    case 1:
+                        protag.X += protag.MovementRate;
+                        break;
+                    case 2:
+                        protag.Y += protag.MovementRate;
+                        break;
+                    case 3:
+                        protag.X -= protag.MovementRate;
+                        break;
+                    default:
+                        break;
                 }
             }
 
@@ -385,7 +415,7 @@ namespace Dark_Operative
                     {
                         if (guards[i].Y > topOfScreen)
                         {
-                            if (!gameMap.CollideWithWall(guards[i].BoundingBox, 0, guards[i].MovementRate))
+                            if (!gameMap.CollideWithElement(guards[i].BoundingBox, 0, guards[i].MovementRate, Map.WALL))
                             {
                                 guards[i].Y -= guards[i].MovementRate;
                                 guards[i].Facing = 0;
@@ -401,7 +431,7 @@ namespace Dark_Operative
                     {
                         if (guards[i].X < rightEdgeOfScreen)
                         {
-                            if (!gameMap.CollideWithWall(guards[i].BoundingBox, 1, guards[i].MovementRate))
+                            if (!gameMap.CollideWithElement(guards[i].BoundingBox, 1, guards[i].MovementRate, Map.WALL))
                             {
                                 guards[i].X += guards[i].MovementRate;
                                 guards[i].Facing = 1;
@@ -417,7 +447,7 @@ namespace Dark_Operative
                     {
                         if (guards[i].Y < bottomOfScreen)
                         {
-                            if (!gameMap.CollideWithWall(guards[i].BoundingBox, 2, guards[i].MovementRate))
+                            if (!gameMap.CollideWithElement(guards[i].BoundingBox, 2, guards[i].MovementRate, Map.WALL))
                             {
                                 guards[i].Y += guards[i].MovementRate;
                                 guards[i].Facing = 2;
@@ -433,7 +463,7 @@ namespace Dark_Operative
                     {
                         if (guards[i].X > leftEdgeOfScreen)
                         {
-                            if (!gameMap.CollideWithWall(guards[i].BoundingBox, 3, guards[i].MovementRate))
+                            if (!gameMap.CollideWithElement(guards[i].BoundingBox, 3, guards[i].MovementRate, Map.WALL))
                             {
                                 guards[i].X -= guards[i].MovementRate;
                                 guards[i].Facing = 3;
@@ -465,11 +495,11 @@ namespace Dark_Operative
                     {
                         if (monsters[i].Y > topOfScreen)
                         {
-                            if (!gameMap.CollideWithWall(monsters[i].BoundingBox, 0, monsters[i].MovementRate))
+                            if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 0, monsters[i].MovementRate, Map.WALL))
                             {
                                 monsters[i].Y -= monsters[i].MovementRate;
                                 monsters[i].Facing = 0;
-                                if (!gameMap.CollideWithWall(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate))
+                                if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate, Map.WALL))
                                 {
                                     monsters[i].Facing = (monsters[i].Facing + 3) % 4;
                                 }
@@ -488,11 +518,11 @@ namespace Dark_Operative
                     {
                         if (monsters[i].X < rightEdgeOfScreen)
                         {
-                            if (!gameMap.CollideWithWall(monsters[i].BoundingBox, 1, monsters[i].MovementRate))
+                            if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 1, monsters[i].MovementRate, Map.WALL))
                             {
                                 monsters[i].X += monsters[i].MovementRate;
                                 monsters[i].Facing = 1;
-                                if (!gameMap.CollideWithWall(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate+21))
+                                if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate+21, Map.WALL))
                                 {
                                     monsters[i].Facing = (monsters[i].Facing + 3) % 4;
                                 }
@@ -511,11 +541,11 @@ namespace Dark_Operative
                     {
                         if (monsters[i].Y < bottomOfScreen)
                         {
-                            if (!gameMap.CollideWithWall(monsters[i].BoundingBox, 2, monsters[i].MovementRate))
+                            if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 2, monsters[i].MovementRate, Map.WALL))
                             {
                                 monsters[i].Y += monsters[i].MovementRate;
                                 monsters[i].Facing = 2;
-                                if (!gameMap.CollideWithWall(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate))
+                                if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate, Map.WALL))
                                 {
                                     monsters[i].Facing = (monsters[i].Facing + 3) % 4;
                                 }
@@ -533,11 +563,11 @@ namespace Dark_Operative
                     {
                         if (monsters[i].X > leftEdgeOfScreen)
                         {
-                            if (!gameMap.CollideWithWall(monsters[i].BoundingBox, 3, monsters[i].MovementRate))
+                            if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 3, monsters[i].MovementRate, Map.WALL))
                             {
                                 monsters[i].X -= monsters[i].MovementRate;
                                 monsters[i].Facing = 3;
-                                if (!gameMap.CollideWithWall(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate+21))
+                                if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate+21, Map.WALL))
                                 {
                                     monsters[i].Facing = (monsters[i].Facing + 3) % 4;
                                 }
@@ -666,6 +696,7 @@ namespace Dark_Operative
             darkPressed = false;
             pausePressed = false;
             lose = false;
+            wonLevel = false;
             //TODO: Go back to the title screen if lives are equal to 0
         }
 
@@ -692,7 +723,7 @@ namespace Dark_Operative
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1,1,1,0,0},
-            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,0,2,1,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,1,1,0,0,1,0,0},
@@ -703,7 +734,7 @@ namespace Dark_Operative
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,3,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},

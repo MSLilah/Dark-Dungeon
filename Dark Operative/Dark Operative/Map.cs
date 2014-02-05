@@ -26,19 +26,26 @@ namespace Dark_Operative
         // The image that represents a 30x30 section of wall
         Texture2D wallImage;
 
+        //The image that represents the player's goal
+        Texture2D goalImage;
+
         // The x length of a section of wall
         int wallXDim = 30;
 
         // The y length of a section of wall
         int wallYDim = 30;
 
+        // Dimensions of the goal
+        int goalXDim = 30;
+        int goalYDim = 30;
+
         //Constants representing the various things in each
         //map slot
-        private int WALL = 1;
-        private int GOAL = 2;
-        private int PROTAGONIST = 3;
-        private int GUARD = 4;
-        private int MONSTER = 5;
+        public const int WALL = 1;
+        public const int GOAL = 2;
+        public const int PROTAGONIST = 3;
+        public const int GUARD = 4;
+        public const int MONSTER = 5;
         #endregion
 
         #region Properties
@@ -56,10 +63,11 @@ namespace Dark_Operative
          * 
          * Constructor for the Map class
          */
-        public Map(int[,] mapLayout, Texture2D wall)
+        public Map(int[,] mapLayout, Texture2D wall, Texture2D goal)
         {
             levelLayout = mapLayout;
             wallImage = wall;
+            goalImage = goal;
         }
 
         /**
@@ -83,16 +91,20 @@ namespace Dark_Operative
                 for (int j = 0; j < levelLayout.GetLength(1); j++)
                 {
 
-                    if (levelLayout[i, j] == 1)
+                    if (levelLayout[i, j] == WALL)
                     {
                         sb.Draw(wallImage, new Rectangle(i * wallXDim, j * wallYDim, wallXDim, wallYDim), Color.White);
+                    }
+                    else if (levelLayout[i, j] == GOAL)
+                    {
+                        sb.Draw(goalImage, new Rectangle(i * goalXDim, j * goalYDim, goalXDim, goalYDim), Color.White);
                     }
                 }
             }
         }
 
         /**
-         * CollideWithWall
+         * CollideWithElement
          * 
          * Calculates if movement in a given direction causes a given
          * rectangle to collide with a wall
@@ -101,24 +113,43 @@ namespace Dark_Operative
          * @param facing An integer representing the direction
          *                of movement
          * @param moveRate the number of pixels the Rectangle will move
+         * @param type What to check for collision with the player
          * 
          * @return True if there will be a collision with a wall, else false
          */
-        public bool CollideWithWall(Rectangle hitBox, int facing, int moveRate)
+        public bool CollideWithElement(Rectangle hitBox, int facing, int moveRate, int type)
         {
-            int top = hitBox.Top / wallYDim;
-            int bottom = hitBox.Bottom / wallYDim;
-            int left = hitBox.Left / wallXDim;
-            int right = hitBox.Right / wallXDim;
+            int xDim;
+            int yDim;
+
+            if (type == WALL)
+            {
+                xDim = wallXDim;
+                yDim = wallYDim;
+            }
+            else if (type == GOAL)
+            {
+                xDim = goalXDim;
+                yDim = goalYDim;
+            }
+            else
+            {
+                return true;
+            }
+
+            int top = hitBox.Top / yDim;
+            int bottom = hitBox.Bottom / yDim;
+            int left = hitBox.Left / xDim;
+            int right = hitBox.Right / xDim;
 
             #region Facing Up
             if (facing == 0)
             {
-                if (((hitBox.Top - moveRate) / wallYDim) != top && top != 0) 
+                if (((hitBox.Top - moveRate) / yDim) != top && top != 0) 
                 {
                     for (int i = left; i <= right; i++)
                     {
-                        if (levelLayout[i,top-1] == WALL)
+                        if (levelLayout[i,top-1] == type)
                         {
                             return true;
                         }
@@ -131,11 +162,11 @@ namespace Dark_Operative
 
             else if (facing == 1)
             {
-                if (((hitBox.Right + moveRate) / wallXDim) != right && right != 39) 
+                if (((hitBox.Right + moveRate) / xDim) != right && right != 39) 
                 {
                     for (int i = top; i <= bottom; i++)
                     {
-                        if (levelLayout[right+1, i] == WALL)
+                        if (levelLayout[right+1, i] == type)
                         {
                             return true;
                         }
@@ -149,11 +180,11 @@ namespace Dark_Operative
 
             else if (facing == 2)
             {
-                if (((hitBox.Bottom + moveRate) / wallYDim) != bottom && bottom != 22)
+                if (((hitBox.Bottom + moveRate) / yDim) != bottom && bottom != 22)
                 {
                     for (int i = left; i <= right; i++)
                     {
-                        if (levelLayout[i, bottom+1] == WALL)
+                        if (levelLayout[i, bottom+1] == type)
                         {
                             return true;
                         }
@@ -166,11 +197,11 @@ namespace Dark_Operative
 
             else if (facing == 3)
             {
-                if (((hitBox.Left - moveRate) / wallXDim) != left && left != 0)
+                if (((hitBox.Left - moveRate) / xDim) != left && left != 0)
                 {
                     for (int i = top; i <= bottom; i++)
                     {
-                        if (levelLayout[left-1, i] == WALL)
+                        if (levelLayout[left-1, i] == type)
                         {
                             return true;
                         }
