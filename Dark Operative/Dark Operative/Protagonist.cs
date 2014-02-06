@@ -161,7 +161,15 @@ namespace Dark_Operative
             if (protagSprite.IsAnimating)
             {
                 protagSprite.numberOfFrames = 3;
-                protagSprite.CurrFrame = 2;
+
+                if (facing == 0 || facing == 2)
+                {
+                    protagSprite.CurrFrame = 2;
+                }
+                else
+                {
+                    protagSprite.CurrFrame = 1;
+                }
                 protagSprite.IsAnimating = false;
             }
         }
@@ -177,7 +185,14 @@ namespace Dark_Operative
         {
             if (!protagSprite.IsAnimating)
             {
-                protagSprite.numberOfFrames = 2;
+                if (facing == 0 || facing == 2)
+                {
+                    protagSprite.numberOfFrames = 2;
+                }
+                else
+                {
+                    protagSprite.numberOfFrames = 4;
+                }
                 protagSprite.CurrFrame = 0;
                 protagSprite.IsAnimating = true;
             }
