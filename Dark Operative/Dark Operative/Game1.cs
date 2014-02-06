@@ -34,6 +34,7 @@ namespace Dark_Operative
         Monster[] monsters = new Monster[1];
         Texture2D backgroundImage;
         Texture2D darkBackgroundImage;
+        Texture2D exclamationPoint;
         SpriteFont font;
         Map gameMap;
         Random random = new Random();
@@ -64,6 +65,7 @@ namespace Dark_Operative
         bool wonLevel = false;
 
         int lives = 3;
+        int guardWhoSaw = -1;
 
         //Text locations
         Vector2 PauseAndGameOverTextLoc = new Vector2(570, 330);
@@ -102,6 +104,7 @@ namespace Dark_Operative
 
             // TODO: use this.Content to load your game content here
             font = Content.Load<SpriteFont>(@"Fonts\Pericles");
+            exclamationPoint = Content.Load<Texture2D>(@"Textures\spotted");
             protag = new Protagonist(Content.Load<Texture2D>(@"Textures\protagSpriteSheet"), 0, 0);
 
             for (int i = 0; i < guards.Length; i++)
@@ -236,6 +239,13 @@ namespace Dark_Operative
                 else
                 {
                     spriteBatch.DrawString(font, "G A M E  O V E R", PauseAndGameOverTextLoc, Color.White);
+                }
+
+                //The player was caught by a guard, so draw the exclamation point above their head
+                if (guardWhoSaw > -1)
+                {
+                    Rectangle guardBox = guards[guardWhoSaw].BoundingBox;
+                    spriteBatch.Draw(exclamationPoint, new Rectangle(guardBox.Left, guardBox.Top - 25, 20, 20), Color.White);
                 }
             }
             else if (wonLevel)
@@ -611,15 +621,15 @@ namespace Dark_Operative
                             (Math.Abs(guardHitBox.Top - playerHitBox.Bottom) < 50))))
                         {
                             // Check if the player is the gaurd's line of sight, if so return true
-                            return ((guards[i].Facing == 0 && playerHitBox.Bottom < guardHitBox.Top) ||
+                            if (((guards[i].Facing == 0 && playerHitBox.Bottom < guardHitBox.Top) ||
                                     (guards[i].Facing == 2 && playerHitBox.Top > guardHitBox.Bottom)) &&
-                                    !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing);
+                                    !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing))
+                            {
+                                guardWhoSaw = i;
+                                return true;
+                            }
                         }
                         // Otherwise, we're in dark mode and the player is not in range of the gaurd so she is unseen
-                        else
-                        {
-                            return false;
-                        }
                     }
                 
                 }
@@ -636,18 +646,19 @@ namespace Dark_Operative
                             (Math.Abs(guardHitBox.Right - playerHitBox.Left) < 50))))
                         {
                             // Check if the player is the gaurd's line of sight, if so return true
-                            return ((guards[i].Facing == 1 && playerHitBox.Left >= guardHitBox.Right) ||
+                            if (((guards[i].Facing == 1 && playerHitBox.Left >= guardHitBox.Right) ||
                                     (guards[i].Facing == 3 && playerHitBox.Right <= guardHitBox.Left)) &&
-                                    !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing);
+                                    !gameMap.WallBetween(guards[i].BoundingBox, protag.BoundingBox, guards[i].Facing))
+                            {
+                                guardWhoSaw = i;
+                                return true;
+                            }
                         }
                         // Otherwise, we're in dark mode and the player is not in range of the gaurd so she is unseen
-                        else
-                        {
-                            return false;
-                        }
                     }
                 }
             }
+            guardWhoSaw = -1;
             return false;
         }
 

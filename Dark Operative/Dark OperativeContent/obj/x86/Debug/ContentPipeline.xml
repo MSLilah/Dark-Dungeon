@@ -7,8 +7,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Fonts\Pericles.xnb</Output>
-      <Time>2014-01-30T15:50:09.8051929-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Fonts\Pericles.xnb</Output>
+      <Time>2014-02-03T21:51:45.0037208-08:00</Time>
     </Item>
     <Item>
       <Source>Textures\protagSpriteSheet.png</Source>
@@ -16,8 +16,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\protagSpriteSheet.xnb</Output>
-      <Time>2014-01-30T15:50:09.8221444-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\protagSpriteSheet.xnb</Output>
+      <Time>2014-02-03T21:51:45.007721-08:00</Time>
     </Item>
     <Item>
       <Source>Textures\backgroundImage.png</Source>
@@ -25,8 +25,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\backgroundImage.xnb</Output>
-      <Time>2014-01-30T15:50:09.8151619-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\backgroundImage.xnb</Output>
+      <Time>2014-02-03T21:51:45.0047209-08:00</Time>
     </Item>
     <Item>
       <Source>Textures\wall.png</Source>
@@ -34,8 +34,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\wall.xnb</Output>
-      <Time>2014-01-30T15:50:09.8281332-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\wall.xnb</Output>
+      <Time>2014-02-03T21:51:45.0087211-08:00</Time>
     </Item>
     <Item>
       <Source>Textures\guardSpriteSheet.png</Source>
@@ -43,8 +43,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\guardSpriteSheet.xnb</Output>
-      <Time>2014-01-30T15:50:09.8171658-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\guardSpriteSheet.xnb</Output>
+      <Time>2014-02-03T21:51:45.006721-08:00</Time>
     </Item>
     <Item>
       <Source>Textures\monsterSpriteSheet.png</Source>
@@ -52,8 +52,17 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\monsterSpriteSheet.xnb</Output>
-      <Time>2014-01-30T15:50:09.8201496-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\monsterSpriteSheet.xnb</Output>
+      <Time>2014-02-03T21:51:45.006721-08:00</Time>
+    </Item>
+    <Item>
+      <Source>Textures\darkBackgroundImage.png</Source>
+      <Name>Textures\darkBackgroundImage</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\darkBackgroundImage.xnb</Output>
+      <Time>2014-02-03T21:51:45.0057209-08:00</Time>
     </Item>
     <Item>
       <Source>Textures\Treasure.png</Source>
@@ -64,16 +73,25 @@
       <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\Treasure.xnb</Output>
       <Time>2014-02-04T17:08:07.8530466-08:00</Time>
     </Item>
+    <Item>
+      <Source>Textures\spotted.png</Source>
+      <Name>Textures\spotted</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\spotted.xnb</Output>
+      <Time>2014-02-06T12:12:19.1705757-08:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark OperativeContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark OperativeContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\justicenichols\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark OperativeContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark OperativeContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -102,7 +120,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2014-01-23T12:21:10.1262159-08:00</Value>
+        <Value>2014-01-19T12:15:09.7124785-08:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
