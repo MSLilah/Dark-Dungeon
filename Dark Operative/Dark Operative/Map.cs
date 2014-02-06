@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -39,13 +40,27 @@ namespace Dark_Operative
         int goalXDim = 30;
         int goalYDim = 30;
 
+        // Count of guard and monsters in the level layout
+        int numMonsters = 0;
+        int numGuards = 0;
+
+        Vector2 protagStart;
+        ArrayList guardCoords = new ArrayList();
+        ArrayList monsterCoords = new ArrayList();
+
         //Constants representing the various things in each
         //map slot
         public const int WALL = 1;
         public const int GOAL = 2;
         public const int PROTAGONIST = 3;
-        public const int GUARD = 4;
-        public const int MONSTER = 5;
+        public const int GUARD_UP = 4;
+        public const int GUARD_RIGHT = 5;
+        public const int GUARD_DOWN = 6;
+        public const int GUARD_LEFT = 7;
+        public const int MONSTER_UP = 8;
+        public const int MONSTER_RIGHT = 9;
+        public const int MONSTER_DOWN = 10;
+        public const int MONSTER_LEFT = 11;
         #endregion
 
         #region Properties
@@ -53,6 +68,21 @@ namespace Dark_Operative
         public int[,] Layout
         {
             get { return levelLayout; }
+        }
+
+        public Vector2 ProtagStartCoords
+        {
+            get { return protagStart; }
+        }
+
+        public ArrayList MonsterCoords
+        {
+            get { return monsterCoords; }
+        }
+
+        public ArrayList GuardCoords
+        {
+            get { return guardCoords; }
         }
         #endregion
 
@@ -68,6 +98,27 @@ namespace Dark_Operative
             levelLayout = mapLayout;
             wallImage = wall;
             goalImage = goal;
+
+            //Count the guards and monsters so we can return their start coordinates as an array
+            for (int i = 0; i < levelLayout.GetLength(0); i++)
+            {
+                for (int j = 0; j < levelLayout.GetLength(1); j++)
+                {
+                    if (levelLayout[i, j] >= GUARD_UP && levelLayout[i, j] <= GUARD_LEFT)
+                    {
+                        guardCoords.Add(MapStartCoords(i, j, levelLayout[i, j] - 4));
+                    }
+                    else if (levelLayout[i, j] >= MONSTER_UP && levelLayout[i, j] <= MONSTER_LEFT)
+                    {
+                        monsterCoords.Add(MapStartCoords(i, j, levelLayout[i, j] - 8));
+                    }
+                    else if (levelLayout[i, j] == PROTAGONIST)
+                    {
+                        protagStart = MapStartCoords(i, j, 0);
+                    }
+                }
+            }
+
         }
 
         /**
@@ -101,6 +152,43 @@ namespace Dark_Operative
                     }
                 }
             }
+        }
+
+        /**
+         * MapStartCoords
+         * 
+         * Returns the starting coordinates of a given entity using its map slot and its facing
+         * 
+         * @return A Vector2 containing the position of the entity's upper left corner
+         * 
+         */
+        protected Vector2 MapStartCoords(int i, int j, int facing)
+        {
+            int x = i * 30;
+            int y = j * 30;
+
+            //Modify spacing based on the direction the entity is facing
+            if (facing == 0)
+            {
+                x += 20;
+                y -= 5;
+            }
+            else if (facing == 1)
+            {
+                y += 3;
+                x += 5;
+            }
+            else if (facing == 2)
+            {
+                x += 20;
+                y += 5;
+            }
+            else if (facing == 3)
+            {
+                x -= 5;
+                y += 3;
+            }
+            return new Vector2(x, y);
         }
 
         /**
