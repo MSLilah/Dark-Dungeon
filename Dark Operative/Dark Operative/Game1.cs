@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -30,7 +31,7 @@ namespace Dark_Operative
         SpriteBatch spriteBatch;
 
         Protagonist protag;
-        Guard[] guards = new Guard[1];
+        Guard[] guards;
         Monster[] monsters = new Monster[1];
         Texture2D backgroundImage;
         Texture2D darkBackgroundImage;
@@ -103,25 +104,36 @@ namespace Dark_Operative
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            layout = createSimpleMap();
+            gameMap = new Map(layout, Content.Load<Texture2D>(@"Textures\wall"), Content.Load<Texture2D>(@"Textures\Treasure"));
             font = Content.Load<SpriteFont>(@"Fonts\Pericles");
             exclamationPoint = Content.Load<Texture2D>(@"Textures\spotted");
-            protag = new Protagonist(Content.Load<Texture2D>(@"Textures\protagSpriteSheet"), 0, 0);
 
-            for (int i = 0; i < guards.Length; i++)
+            //Create and place the protagonist
+            Vector2 protagCoords = gameMap.ProtagStartCoords;
+            protag = new Protagonist(Content.Load<Texture2D>(@"Textures\protagSpriteSheet"), (int)protagCoords.X, (int)protagCoords.Y);
+
+            //Create and place the guards
+            ArrayList enemyCoordList = gameMap.GuardCoords;
+            Vector2 enemyCoords;
+            guards = new Guard[enemyCoordList.ToArray().Length];
+            for (int i = 0; i < enemyCoordList.ToArray().Length; i++)
             {
-                guards[i] = new Guard(Content.Load<Texture2D>(@"Textures\guardSpriteSheet"), 660, 300, 3);
+                enemyCoords = (Vector2)enemyCoordList[i];
+                guards[i] = new Guard(Content.Load<Texture2D>(@"Textures\guardSpriteSheet"), (int)enemyCoords.X, (int)enemyCoords.Y, 3);
             }
 
-            for (int i = 0; i < monsters.Length; i++)
+            //Create and place the monsters
+            enemyCoordList = gameMap.MonsterCoords;
+            monsters = new Monster[enemyCoordList.ToArray().Length];
+            for (int i = 0; i < enemyCoordList.ToArray().Length; i++)
             {
-                monsters[i] = new Monster(Content.Load<Texture2D>(@"Textures\monsterSpriteSheet"), 500, 300, 3);
+                enemyCoords = (Vector2)enemyCoordList[i];
+                monsters[i] = new Monster(Content.Load<Texture2D>(@"Textures\monsterSpriteSheet"), (int)enemyCoords.X, (int)enemyCoords.Y, 3);
             }
 
             backgroundImage = Content.Load<Texture2D>(@"Textures\backgroundImage");
             darkBackgroundImage = Content.Load<Texture2D>(@"Textures\darkBackgroundImage");
-
-            layout = createSimpleMap();
-            gameMap = new Map(layout, Content.Load<Texture2D>(@"Textures\wall"), Content.Load<Texture2D>(@"Textures\Treasure"));
         }
 
         /// <summary>
@@ -168,10 +180,12 @@ namespace Dark_Operative
                 if (GuardsSeeProtag())
                 {
                     lose = true;
+                    lives--;
                 }
-                if (EnemyTouchesPlayer())
+                else if (EnemyTouchesPlayer())
                 {
                     lose = true;
+                    lives--;
                 }
                 for (int i = 0; i < monsters.Length; i++)
                 {
@@ -232,7 +246,7 @@ namespace Dark_Operative
             }
             else if (lose)
             {
-                if (lives > 0)
+                if (lives >= 0)
                 {
                     spriteBatch.DrawString(font, "Y O U  W E R E  C A U G H T !", PauseAndGameOverTextLoc, Color.White);
                 }
@@ -756,7 +770,7 @@ namespace Dark_Operative
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0},
-            {0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
+            {0,0,0,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
             {0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
             {0,0,0,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,0,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
@@ -776,8 +790,8 @@ namespace Dark_Operative
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,1,3,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,11,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,7,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
