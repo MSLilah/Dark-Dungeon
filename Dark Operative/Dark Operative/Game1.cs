@@ -38,9 +38,9 @@ namespace Dark_Operative
         Map gameMap;
         Random random = new Random();
         public int topOfScreen = 0;
-        public int bottomOfScreen = 665;
+        public int bottomOfScreen = 599;
         public int leftEdgeOfScreen = 0;
-        public int rightEdgeOfScreen = 1255;
+        public int rightEdgeOfScreen = 1169;
         
 
         int[,] layout = new int[40, 22];
@@ -166,7 +166,7 @@ namespace Dark_Operative
                 {
                     lose = true;
                 }
-                if (MonsterTouchesPlayer() && darkMode)
+                if (EnemyTouchesPlayer())
                 {
                     lose = true;
                 }
@@ -652,27 +652,59 @@ namespace Dark_Operative
         }
 
          /**
-         * MonsterTouchesPlayer
+         * EnemyTouchesPlayer
          * 
-         * Goes through the list of all monsters and checks if any of them are touching the protagonist
+         * Goes through the list of all monsters and guards and checks if any of them are touching the protagonist
+         * 
+         * @return True if an enemy touches the player, else false
          * 
          */
-        protected bool MonsterTouchesPlayer()
+        protected bool EnemyTouchesPlayer()
         {
 
-            int playerTop = protag.BoundingBox.Top;
-            int playerLeft = protag.BoundingBox.Left;
+            Rectangle playerBox = protag.BoundingBox;
+            Rectangle enemyBox;
 
-            for (int i = 0; i < monsters.Length; i++)
+            if (darkMode)
             {
-                int monsterTop = monsters[i].BoundingBox.Top;
-                int monsterLeft = monsters[i].BoundingBox.Left;
-                if ((Math.Abs(playerTop - monsterTop) < 51) && (Math.Abs(playerLeft - monsterLeft) < 21))
+                for (int i = 0; i < monsters.Length; i++)
+                {
+                    enemyBox = monsters[i].BoundingBox;
+                    if (Collision(playerBox, enemyBox))
+                    {
+                        return true;
+                    }
+
+                }
+            }
+
+            //Only check for collision with monsters if Dark Mode is active
+            for (int j = 0; j < guards.Length; j++)
+            {
+                enemyBox = guards[j].BoundingBox;
+                if (Collision(playerBox, enemyBox))
                 {
                     return true;
                 }
+
             }
             return false;
+        }
+
+        /**
+         * Collision
+         * 
+         * Checks whether two hitboxes have collided with each other
+         * 
+         * @param box1 The first box
+         * @param box2 The second box
+         * @return True if the two boxes have collided, else false
+         * 
+         */
+        protected bool Collision(Rectangle box1, Rectangle box2)
+        {
+            return (box1.Right > box2.Left && box1.Left < box2.Right &&
+                    box1.Bottom > box2.Top && box1.Top < box2.Bottom);
         }
 
         /**
