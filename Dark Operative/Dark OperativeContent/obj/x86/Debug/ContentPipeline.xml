@@ -73,16 +73,25 @@
       <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\Treasure.xnb</Output>
       <Time>2014-02-04T17:08:07.8530466-08:00</Time>
     </Item>
+    <Item>
+      <Source>Textures\spotted.png</Source>
+      <Name>Textures\spotted</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\spotted.xnb</Output>
+      <Time>2014-02-06T12:12:19.1705757-08:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark OperativeContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark OperativeContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark OperativeContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark OperativeContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
