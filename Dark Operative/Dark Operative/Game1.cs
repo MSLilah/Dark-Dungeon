@@ -345,7 +345,9 @@ namespace Dark_Operative
         protected void CheckPlayerMovement(KeyboardState keyboard, GamePadState gamepad)
         {
             bool resetTimer = false;
+            int oldFacing = protag.Facing;
 
+            //Change the player's facing if a key is pressed
             if ((keyboard.IsKeyDown(Keys.Up)) || (gamepad.ThumbSticks.Left.Y > 0))
             {
                 if (protag.Y > topOfScreen)
@@ -383,7 +385,8 @@ namespace Dark_Operative
             {
                 wonLevel = true;
             }
-
+            
+            //Move the player if no collision will occur
             else if (!gameMap.CollideWithElement(protag.BoundingBox, protag.Facing, protag.MovementRate, Map.WALL) && resetTimer)
             {
                 switch (protag.Facing)
@@ -407,8 +410,8 @@ namespace Dark_Operative
 
             if (resetTimer)
             {
-                protag.MovementCount = 0f;
-                protag.StartMovement();
+                protag.MovementCount = 0.0f;
+                protag.StartMovement(oldFacing);
             }
             else
             {
