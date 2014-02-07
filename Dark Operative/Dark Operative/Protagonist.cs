@@ -180,10 +180,14 @@ namespace Dark_Operative
          * Changes the protagonist's sprite to its moving
          * version, and kicks off the movement animation
          * 
+         * @param oldFacing The protagonist's facing before movement started
+         * 
          */
-        public void StartMovement()
+        public void StartMovement(int oldFacing)
         {
-            if (!protagSprite.IsAnimating)
+            //Movement should "start" if the protagonist is stationary or
+            //has changed facing
+            if (!protagSprite.IsAnimating || oldFacing != facing)
             {
                 if (facing == 0 || facing == 2)
                 {
