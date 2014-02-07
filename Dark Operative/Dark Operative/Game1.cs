@@ -32,10 +32,15 @@ namespace Dark_Operative
 
         Protagonist protag;
         Guard[] guards;
-        Monster[] monsters = new Monster[1];
+        Monster[] monsters;
         Texture2D backgroundImage;
         Texture2D darkBackgroundImage;
         Texture2D exclamationPoint;
+        Texture2D protagSprite;
+        Texture2D guardSprite;
+        Texture2D monsterSprite;
+        Texture2D wallSprite;
+        Texture2D treasureSprite;
         SpriteFont font;
         Map gameMap;
         Random random = new Random();
@@ -44,8 +49,9 @@ namespace Dark_Operative
         public int leftEdgeOfScreen = 0;
         public int rightEdgeOfScreen = 1169;
         
-
-        int[,] layout = new int[40, 22];
+        //Level controls
+        ArrayList levelList;
+        int currentLevel = 0;
 
         bool darkMode = false;
 
@@ -60,6 +66,7 @@ namespace Dark_Operative
         float loseElapsedTime = 0.0f;
         float loseTarget = 1.0f;
 
+        //Determines the type of "pausing" that is occuring
         bool pause = false;
         bool lose = false;
         bool wonLevel = false;
@@ -67,6 +74,7 @@ namespace Dark_Operative
         int lives = 3;
         int guardWhoSaw = -1;
 
+        //Controls for the timer
         int timer = 400;
         int score = 0;
         float elapsedTimerTime = 0.0f;
@@ -116,36 +124,18 @@ namespace Dark_Operative
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            layout = createSimpleMap();
-            gameMap = new Map(layout, Content.Load<Texture2D>(@"Textures\wall"), Content.Load<Texture2D>(@"Textures\Treasure"));
+            levelList = createSimpleMap();
             font = Content.Load<SpriteFont>(@"Fonts\emulogic");
             exclamationPoint = Content.Load<Texture2D>(@"Textures\spotted");
-
-            //Create and place the protagonist
-            Vector3 protagCoords = gameMap.ProtagStartCoords;
-            protag = new Protagonist(Content.Load<Texture2D>(@"Textures\protagSpriteSheet"), (int)protagCoords.X, (int)protagCoords.Y);
-
-            //Create and place the guards
-            ArrayList enemyCoordList = gameMap.GuardCoords;
-            Vector3 enemyCoords;
-            guards = new Guard[enemyCoordList.ToArray().Length];
-            for (int i = 0; i < enemyCoordList.ToArray().Length; i++)
-            {
-                enemyCoords = (Vector3)enemyCoordList[i];
-                guards[i] = new Guard(Content.Load<Texture2D>(@"Textures\guardSpriteSheet"), (int)enemyCoords.X, (int)enemyCoords.Y, (int)enemyCoords.Z);
-            }
-
-            //Create and place the monsters
-            enemyCoordList = gameMap.MonsterCoords;
-            monsters = new Monster[enemyCoordList.ToArray().Length];
-            for (int i = 0; i < enemyCoordList.ToArray().Length; i++)
-            {
-                enemyCoords = (Vector3)enemyCoordList[i];
-                monsters[i] = new Monster(Content.Load<Texture2D>(@"Textures\monsterSpriteSheet"), (int)enemyCoords.X, (int)enemyCoords.Y, (int)enemyCoords.Z);
-            }
-
+            protagSprite = Content.Load<Texture2D>(@"Textures\protagSpriteSheet");
+            guardSprite = Content.Load<Texture2D>(@"Textures\guardSpriteSheet");
+            monsterSprite = Content.Load<Texture2D>(@"Textures\monsterSpriteSheet");
+            wallSprite = Content.Load<Texture2D>(@"Textures\wall");
+            treasureSprite = Content.Load<Texture2D>(@"Textures\Treasure");
             backgroundImage = Content.Load<Texture2D>(@"Textures\backgroundImage");
             darkBackgroundImage = Content.Load<Texture2D>(@"Textures\darkBackgroundImage");
+
+            LoadMap();
         }
 
         /// <summary>
@@ -223,6 +213,12 @@ namespace Dark_Operative
                 if (loseElapsedTime > loseTarget)
                 {
                     loseElapsedTime = 0;
+                    if (lives < 0)
+                    {
+                        currentLevel = 0;
+                        lives = 3;
+                        LoadMap();
+                    }
                     ResetGame();
                 }
             }
@@ -234,6 +230,9 @@ namespace Dark_Operative
                     if (loseElapsedTime > loseTarget)
                     {
                         loseElapsedTime = 0;
+                        currentLevel++;
+                        currentLevel = currentLevel % levelList.ToArray().Length;
+                        LoadMap();
                         ResetGame();
                     }
                 }
@@ -309,8 +308,16 @@ namespace Dark_Operative
                 spriteBatch.DrawString(font, "Timer: " + timer, TimerWinLocation, Color.White);
                 
             }
-
-            spriteBatch.DrawString(font, "LIVES: " + lives, LivesLocation, Color.White);
+            int drawLives;
+            if (lives < 0)
+            {
+                drawLives = 0;
+            }
+            else
+            {
+                drawLives = lives;
+            }
+            spriteBatch.DrawString(font, "LIVES: " + drawLives, LivesLocation, Color.White);
 
             if (!wonLevel)
             {
@@ -794,11 +801,46 @@ namespace Dark_Operative
         }
 
         /**
+         * LoadMap
+         * 
+         * Loads the currently set level, placing all the enemies and the protagonist
+         * as necessary
+         *  
+         */
+        private void LoadMap()
+        {
+            gameMap = new Map((int[,])levelList[currentLevel], wallSprite, treasureSprite);
+
+            //Create and place the protagonist
+            Vector3 protagCoords = gameMap.ProtagStartCoords;
+            protag = new Protagonist(protagSprite, (int)protagCoords.X, (int)protagCoords.Y);
+
+            //Create and place the guards
+            ArrayList enemyCoordList = gameMap.GuardCoords;
+            Vector3 enemyCoords;
+            guards = new Guard[enemyCoordList.ToArray().Length];
+            for (int i = 0; i < enemyCoordList.ToArray().Length; i++)
+            {
+                enemyCoords = (Vector3)enemyCoordList[i];
+                guards[i] = new Guard(guardSprite, (int)enemyCoords.X, (int)enemyCoords.Y, (int)enemyCoords.Z);
+            }
+
+            //Create and place the monsters
+            enemyCoordList = gameMap.MonsterCoords;
+            monsters = new Monster[enemyCoordList.ToArray().Length];
+            for (int i = 0; i < enemyCoordList.ToArray().Length; i++)
+            {
+                enemyCoords = (Vector3)enemyCoordList[i];
+                monsters[i] = new Monster(monsterSprite, (int)enemyCoords.X, (int)enemyCoords.Y, (int)enemyCoords.Z);
+            }
+        }
+
+        /**
          * createSimpleMap
          * 
          * Generates a very basic array to represent the maze map
          */
-        private int[,] createSimpleMap()
+        private ArrayList createSimpleMap()
         {
             #region Define Simple Map
             int[,] layoutLevel = {
@@ -888,8 +930,11 @@ namespace Dark_Operative
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
             #endregion
 
+            ArrayList levelList = new ArrayList();
+            levelList.Add(layoutLevel);
+            levelList.Add(layoutLevel3);
             //return layoutLevel;
-            return layoutLevel3;
+            return levelList;
         }
         
         #endregion
