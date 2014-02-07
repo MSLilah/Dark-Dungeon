@@ -71,10 +71,17 @@ namespace Dark_Operative
         int score = 0;
         float elapsedTimerTime = 0.0f;
         float targetTimerTime = 1.0f;
+
         //Text locations
-        Vector2 PauseAndGameOverTextLoc = new Vector2(570, 330);
-        Vector2 ScoreWinLocation = new Vector2(570, 360);
-        Vector2 TimerWinLocation = new Vector2(570, 390);
+        Vector2 PauseTextLoc = new Vector2(500, 330);
+        Vector2 GameOverTextLoc = new Vector2(480, 330);
+        Vector2 CaughtTextLoc = new Vector2(330, 330);
+        Vector2 LevelCompleteTextLoc = new Vector2(460, 330);
+        Vector2 ScoreWinLocation = new Vector2(500, 360);
+        Vector2 TimerWinLocation = new Vector2(500, 390);
+        Vector2 ScoreLocation = new Vector2(1050, 650);
+        Vector2 TimerLocation = new Vector2(1050, 670);
+        Vector2 LivesLocation = new Vector2(1050, 630);
 
         #endregion
 
@@ -111,7 +118,7 @@ namespace Dark_Operative
             // TODO: use this.Content to load your game content here
             layout = createSimpleMap();
             gameMap = new Map(layout, Content.Load<Texture2D>(@"Textures\wall"), Content.Load<Texture2D>(@"Textures\Treasure"));
-            font = Content.Load<SpriteFont>(@"Fonts\Pericles");
+            font = Content.Load<SpriteFont>(@"Fonts\emulogic");
             exclamationPoint = Content.Load<Texture2D>(@"Textures\spotted");
 
             //Create and place the protagonist
@@ -275,17 +282,17 @@ namespace Dark_Operative
 
             if (pause)
             {
-                spriteBatch.DrawString(font, "P A U S E D", PauseAndGameOverTextLoc, Color.White);
+                spriteBatch.DrawString(font, "P A U S E D", PauseTextLoc, Color.White);
             }
             else if (lose)
             {
                 if (lives >= 0)
                 {
-                    spriteBatch.DrawString(font, "Y O U  W E R E  C A U G H T !", PauseAndGameOverTextLoc, Color.White);
+                    spriteBatch.DrawString(font, "Y O U  W E R E  C A U G H T !", CaughtTextLoc, Color.White);
                 }
                 else
                 {
-                    spriteBatch.DrawString(font, "G A M E  O V E R", PauseAndGameOverTextLoc, Color.White);
+                    spriteBatch.DrawString(font, "G A M E  O V E R", GameOverTextLoc, Color.White);
                 }
 
                 //The player was caught by a guard, so draw the exclamation point above their head
@@ -297,11 +304,20 @@ namespace Dark_Operative
             }
             else if (wonLevel)
             {
-                spriteBatch.DrawString(font, "L E V E L  C O M P L E T E", PauseAndGameOverTextLoc, Color.White);
+                spriteBatch.DrawString(font, "L E V E L  C O M P L E T E", CaughtTextLoc, Color.White);
                 spriteBatch.DrawString(font, "Score: " + score, ScoreWinLocation, Color.White);
                 spriteBatch.DrawString(font, "Timer: " + timer, TimerWinLocation, Color.White);
                 
             }
+
+            spriteBatch.DrawString(font, "LIVES: " + lives, LivesLocation, Color.White);
+
+            if (!wonLevel)
+            {
+                spriteBatch.DrawString(font, "SCORE: " + score, TimerLocation, Color.White);
+                spriteBatch.DrawString(font, "TIME: " + timer, ScoreLocation, Color.White);
+            }
+
             spriteBatch.End();
 
             base.Draw(gameTime);
