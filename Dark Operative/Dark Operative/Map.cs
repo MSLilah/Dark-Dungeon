@@ -44,7 +44,7 @@ namespace Dark_Operative
         int numMonsters = 0;
         int numGuards = 0;
 
-        Vector2 protagStart;
+        Vector3 protagStart;
         ArrayList guardCoords = new ArrayList();
         ArrayList monsterCoords = new ArrayList();
 
@@ -70,7 +70,7 @@ namespace Dark_Operative
             get { return levelLayout; }
         }
 
-        public Vector2 ProtagStartCoords
+        public Vector3 ProtagStartCoords
         {
             get { return protagStart; }
         }
@@ -162,7 +162,7 @@ namespace Dark_Operative
          * @return A Vector2 containing the position of the entity's upper left corner
          * 
          */
-        protected Vector2 MapStartCoords(int i, int j, int facing)
+        protected Vector3 MapStartCoords(int i, int j, int facing)
         {
             int x = i * 30;
             int y = j * 30;
@@ -188,7 +188,7 @@ namespace Dark_Operative
                 x -= 5;
                 y += 3;
             }
-            return new Vector2(x, y);
+            return new Vector3(x, y, facing);
         }
 
         /**

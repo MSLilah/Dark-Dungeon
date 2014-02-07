@@ -1,4 +1,5 @@
 Content\Fonts\Pericles.xnb
+Content\Fonts\emulogic.xnb
 Content\Textures\protagSpriteSheet.xnb
 Content\Textures\backgroundImage.xnb
 Content\Textures\wall.xnb
@@ -7,4 +8,3 @@ Content\Textures\monsterSpriteSheet.xnb
 Content\Textures\darkBackgroundImage.xnb
 Content\Textures\Treasure.xnb
 Content\Textures\spotted.xnb
-Content\Fonts\emulogic.xnb
