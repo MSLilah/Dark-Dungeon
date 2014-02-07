@@ -122,17 +122,17 @@ namespace Dark_Operative
             exclamationPoint = Content.Load<Texture2D>(@"Textures\spotted");
 
             //Create and place the protagonist
-            Vector2 protagCoords = gameMap.ProtagStartCoords;
+            Vector3 protagCoords = gameMap.ProtagStartCoords;
             protag = new Protagonist(Content.Load<Texture2D>(@"Textures\protagSpriteSheet"), (int)protagCoords.X, (int)protagCoords.Y);
 
             //Create and place the guards
             ArrayList enemyCoordList = gameMap.GuardCoords;
-            Vector2 enemyCoords;
+            Vector3 enemyCoords;
             guards = new Guard[enemyCoordList.ToArray().Length];
             for (int i = 0; i < enemyCoordList.ToArray().Length; i++)
             {
-                enemyCoords = (Vector2)enemyCoordList[i];
-                guards[i] = new Guard(Content.Load<Texture2D>(@"Textures\guardSpriteSheet"), (int)enemyCoords.X, (int)enemyCoords.Y, 3);
+                enemyCoords = (Vector3)enemyCoordList[i];
+                guards[i] = new Guard(Content.Load<Texture2D>(@"Textures\guardSpriteSheet"), (int)enemyCoords.X, (int)enemyCoords.Y, (int)enemyCoords.Z);
             }
 
             //Create and place the monsters
@@ -140,8 +140,8 @@ namespace Dark_Operative
             monsters = new Monster[enemyCoordList.ToArray().Length];
             for (int i = 0; i < enemyCoordList.ToArray().Length; i++)
             {
-                enemyCoords = (Vector2)enemyCoordList[i];
-                monsters[i] = new Monster(Content.Load<Texture2D>(@"Textures\monsterSpriteSheet"), (int)enemyCoords.X, (int)enemyCoords.Y, 3);
+                enemyCoords = (Vector3)enemyCoordList[i];
+                monsters[i] = new Monster(Content.Load<Texture2D>(@"Textures\monsterSpriteSheet"), (int)enemyCoords.X, (int)enemyCoords.Y, (int)enemyCoords.Z);
             }
 
             backgroundImage = Content.Load<Texture2D>(@"Textures\backgroundImage");
@@ -844,7 +844,52 @@ namespace Dark_Operative
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
             #endregion
 
-            return layoutLevel;
+            #region Define Level 3
+            int[,] layoutLevel3 = {
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,3,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,1,1,0,2,1},
+            {1,0,0,0,0,0,0,0,1,0,0,0,8,1,0,0,1,1,1,0,0,1},
+            {1,1,1,1,1,1,0,0,1,0,0,1,1,1,0,0,1,1,1,0,0,1},
+            {1,6,10,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,4,0,1},
+            {1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,1,0,0,1,0,0,1,0,0,1,0,0,1,1,1,1,1},
+            {1,0,0,0,0,0,0,0,1,0,0,1,0,0,1,0,0,1,1,1,1,1},
+            {1,0,0,0,0,0,0,0,1,0,0,1,0,0,1,0,0,1,1,1,1,1},
+            {1,0,0,1,1,1,0,0,1,0,0,1,0,0,1,0,0,1,1,1,1,1},
+            {1,0,0,1,1,1,7,0,1,0,0,1,0,0,1,0,0,1,1,1,1,1},
+            {1,0,0,1,1,1,1,1,1,0,0,1,0,0,1,0,0,1,1,1,1,1},
+            {1,0,0,1,6,0,0,0,0,0,0,1,0,0,1,6,0,0,0,0,0,1},
+            {1,0,0,1,0,0,0,0,0,0,0,1,7,0,1,0,0,0,0,0,0,1},
+            {1,0,0,1,1,1,1,0,0,1,1,1,1,1,1,0,0,1,1,0,0,1},
+            {1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1},
+            {1,0,0,0,0,8,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1},
+            {1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,1},
+            {1,6,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,1},
+            {1,0,0,0,0,0,0,0,0,4,0,1,0,0,1,0,0,1,1,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,1,1,0,0,1},
+            {1,0,0,1,1,1,0,0,1,1,1,1,0,0,1,0,0,1,1,0,0,1},
+            {1,7,0,1,1,1,0,0,1,1,1,1,0,0,1,0,0,1,1,0,0,1},
+            {1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,0,0,1,1,0,0,1},
+            {1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,0,0,1,1,0,0,1},
+            {1,0,0,0,0,0,0,0,0,4,0,1,1,1,1,0,0,1,1,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,1,1,0,0,1},
+            {1,1,1,1,1,0,0,1,1,1,1,1,6,0,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,0,0,1,0,0,1},
+            {1,1,1,1,1,0,0,0,0,0,0,0,5,0,0,0,0,0,1,0,0,1},
+            {1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1},
+            {1,1,1,1,1,0,0,1,1,1,0,0,0,0,1,1,1,1,1,0,0,1},
+            {1,6,0,0,0,0,0,1,1,1,0,0,0,0,1,10,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,1,1,1,0,0,0,0,1,0,0,0,0,0,0,1},
+            {1,1,1,1,1,0,0,1,1,1,0,0,0,0,1,1,1,1,1,0,0,1},
+            {1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
+            #endregion
+
+            //return layoutLevel;
+            return layoutLevel3;
         }
         
         #endregion
