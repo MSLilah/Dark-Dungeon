@@ -61,15 +61,20 @@ namespace Dark_Operative
         float loseTarget = 1.0f;
 
         bool pause = false;
-        bool gameOver = false;
         bool lose = false;
         bool wonLevel = false;
 
         int lives = 3;
         int guardWhoSaw = -1;
 
+        int timer = 400;
+        int score = 0;
+        float elapsedTimerTime = 0.0f;
+        float targetTimerTime = 1.0f;
         //Text locations
         Vector2 PauseAndGameOverTextLoc = new Vector2(570, 330);
+        Vector2 ScoreWinLocation = new Vector2(570, 360);
+        Vector2 TimerWinLocation = new Vector2(570, 390);
 
         #endregion
 
@@ -160,8 +165,19 @@ namespace Dark_Operative
                 this.Exit();
 
             CheckPause(gameTime, keyboard, gamepad);
+
             if (!pause && !lose && !wonLevel)
             {
+                elapsedTimerTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (elapsedTimerTime >= targetTimerTime)
+                {
+                    timer--;
+                    elapsedTimerTime = 0.0f;
+                }
+                if (timer <= 0)
+                {
+                    lose = true;
+                }
                 #region Gameplay
                 CheckPlayerMovement(keyboard, gamepad);
 
@@ -194,13 +210,30 @@ namespace Dark_Operative
                 //player.Update(gameTime);
                 #endregion
             }
-            else if (lose || wonLevel)
+            else if (lose)
             {
                 loseElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (loseElapsedTime > loseTarget)
                 {
                     loseElapsedTime = 0;
                     ResetGame();
+                }
+            }
+            else if (wonLevel)
+            {
+                if (timer == 0)
+                {
+                    loseElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (loseElapsedTime > loseTarget)
+                    {
+                        loseElapsedTime = 0;
+                        ResetGame();
+                    }
+                }
+                else
+                {
+                    timer--;
+                    score += 5;
                 }
             }
 
@@ -265,8 +298,10 @@ namespace Dark_Operative
             else if (wonLevel)
             {
                 spriteBatch.DrawString(font, "L E V E L  C O M P L E T E", PauseAndGameOverTextLoc, Color.White);
+                spriteBatch.DrawString(font, "Score: " + score, ScoreWinLocation, Color.White);
+                spriteBatch.DrawString(font, "Timer: " + timer, TimerWinLocation, Color.White);
+                
             }
-
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -292,13 +327,9 @@ namespace Dark_Operative
             {
                 if (protag.Y > topOfScreen)
                 {
-                    /*if (!gameMap.CollideWithWall(protag.BoundingBox, 0, protag.MovementRate, Map.WALL))
-                    {
-                        protag.Y -= protag.MovementRate;
-                    }*/
                     resetTimer = true;
-                    protag.Facing = 0;
                 }
+                protag.Facing = 0;
             }
 
             //These elses restrict the player to only moving in four directions, which is what we want
@@ -306,35 +337,23 @@ namespace Dark_Operative
             {
                 if (protag.Y < bottomOfScreen)
                 {
-                    /*if (!gameMap.CollideWithWall(protag.BoundingBox, 2, protag.MovementRate, Map.WALL))
-                    {
-                        protag.Y += protag.MovementRate;
-                    }*/
-                    resetTimer = true;
-                    protag.Facing = 2;
+                    resetTimer = true;                   
                 }
+                protag.Facing = 2;
             }
 
             else if ((keyboard.IsKeyDown(Keys.Right)) || (gamepad.ThumbSticks.Left.X > 0)) {
                 if (protag.X < rightEdgeOfScreen) {
-                    /*if (!gameMap.CollideWithWall(protag.BoundingBox, 1, protag.MovementRate, Map.WALL))
-                    {
-                        protag.X += protag.MovementRate;
-                    }*/
-                    resetTimer = true;
-                    protag.Facing = 1;
+                    resetTimer = true;                   
                 }
+                protag.Facing = 1;
             }
 
             else if ((keyboard.IsKeyDown(Keys.Left)) || (gamepad.ThumbSticks.Left.X < 0)) {
                 if (protag.X > leftEdgeOfScreen) {
-                    /*if (!gameMap.CollideWithWall(protag.BoundingBox, 3, protag.MovementRate, Map.WALL))
-                    {
-                        protag.X -= protag.MovementRate;
-                    }*/
                     resetTimer = true;
-                    protag.Facing = 3;
                 }
+                protag.Facing = 3;
             }
 
             if (gameMap.CollideWithElement(protag.BoundingBox, protag.Facing, protag.MovementRate, Map.GOAL) && resetTimer)
@@ -754,6 +773,7 @@ namespace Dark_Operative
             pausePressed = false;
             lose = false;
             wonLevel = false;
+            timer = 400;
             //TODO: Go back to the title screen if lives are equal to 0
         }
 
