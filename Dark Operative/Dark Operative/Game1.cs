@@ -319,7 +319,11 @@ namespace Dark_Operative
                     new Rectangle(0, 0, 1280, 720), Color.White);
                 }
 
-                gameMap.Draw(spriteBatch);
+                if (!darkMode)
+                {
+                    gameMap.Draw(spriteBatch);
+                }
+
                 protag.Draw(spriteBatch);
                 for (int i = 0; i < guards.Length; i++)
                 {
