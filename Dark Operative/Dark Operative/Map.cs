@@ -61,6 +61,10 @@ namespace Dark_Operative
         public const int MONSTER_RIGHT = 9;
         public const int MONSTER_DOWN = 10;
         public const int MONSTER_LEFT = 11;
+        public const int GUARD_STATIONARY_UP = 12;
+        public const int GUARD_STATIONARY_RIGHT = 13;
+        public const int GUARD_STATIONARY_DOWN = 14;
+        public const int GUARD_STATIONARY_LEFT = 15;
         #endregion
 
         #region Properties
@@ -106,15 +110,19 @@ namespace Dark_Operative
                 {
                     if (levelLayout[i, j] >= GUARD_UP && levelLayout[i, j] <= GUARD_LEFT)
                     {
-                        guardCoords.Add(MapStartCoords(i, j, levelLayout[i, j] - 4));
+                        guardCoords.Add(MapStartCoords(i, j, levelLayout[i, j] - 4, false));
                     }
                     else if (levelLayout[i, j] >= MONSTER_UP && levelLayout[i, j] <= MONSTER_LEFT)
                     {
-                        monsterCoords.Add(MapStartCoords(i, j, levelLayout[i, j] - 8));
+                        monsterCoords.Add(MapStartCoords(i, j, levelLayout[i, j] - 8, false));
                     }
                     else if (levelLayout[i, j] == PROTAGONIST)
                     {
-                        protagStart = MapStartCoords(i, j, 0);
+                        protagStart = MapStartCoords(i, j, 0, false);
+                    }
+                    else if (levelLayout[i, j] >= GUARD_STATIONARY_UP && levelLayout[i, j] <= GUARD_STATIONARY_LEFT)
+                    {
+                        guardCoords.Add(MapStartCoords(i, j, levelLayout[i, j] - 12, true));
                     }
                 }
             }
@@ -162,7 +170,7 @@ namespace Dark_Operative
          * @return A Vector2 containing the position of the entity's upper left corner
          * 
          */
-        protected Vector3 MapStartCoords(int i, int j, int facing)
+        protected Vector3 MapStartCoords(int i, int j, int facing, bool stationary)
         {
             int x = i * 30;
             int y = j * 30;
@@ -187,6 +195,13 @@ namespace Dark_Operative
             {
                 x -= 5;
                 y += 3;
+            }
+
+            //Give a higher facing value if the entity is stationary
+            //so that Game1 will know not to move that entity
+            if (stationary)
+            {
+                return new Vector3(x, y, facing + 4);
             }
             return new Vector3(x, y, facing);
         }

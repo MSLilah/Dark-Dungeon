@@ -506,6 +506,8 @@ namespace Dark_Operative
                     darkPressed = true;
                 }
             }
+
+            //Make sure dark mode won't continually toggle if the button is held down
             else if (keyboard.IsKeyUp(Keys.Space) && gamepad.IsButtonUp(Buttons.B))
             {
                 darkPressed = false;
@@ -527,6 +529,8 @@ namespace Dark_Operative
                 pause = !pause;
                 pausePressed = true;
             }
+
+            //Make sure pause mode won't continually toggle when the button is held down
             else if (keyboard.IsKeyUp(Keys.Escape) && gamepad.IsButtonUp(Buttons.Start))
             {
                 pausePressed = false;
@@ -543,7 +547,9 @@ namespace Dark_Operative
         {
             for (int i = 0; i < guards.Length; i++)
             {
-                if (guards[i].Move)
+                //Guard should only move if their patrol is in progress and they are
+                //not a stationary type guard
+                if (guards[i].Move && !guards[i].Stationary)
                 {
                     if (guards[i].Facing == 0)
                     {
@@ -888,12 +894,20 @@ namespace Dark_Operative
             //Create and place the guards
             ArrayList enemyCoordList = gameMap.GuardCoords;
             Vector3 enemyCoords;
-            startScreenGuard = new Guard(guardSprite, 0, 0, 0);
+            int enemyFacing;
+            startScreenGuard = new Guard(guardSprite, 0, 0, 0, true);
             guards = new Guard[enemyCoordList.ToArray().Length];
             for (int i = 0; i < enemyCoordList.ToArray().Length; i++)
             {
                 enemyCoords = (Vector3)enemyCoordList[i];
-                guards[i] = new Guard(guardSprite, (int)enemyCoords.X, (int)enemyCoords.Y, (int)enemyCoords.Z);
+                enemyFacing = (int)enemyCoords.Z;
+
+                //If the guard is stationary, correct their facing
+                if (enemyFacing >= 4)
+                {
+                    enemyFacing -= 4;
+                }
+                guards[i] = new Guard(guardSprite, (int)enemyCoords.X, (int)enemyCoords.Y, enemyFacing, enemyCoords.Z > 3);
             }
 
             //Create and place the monsters
@@ -963,7 +977,7 @@ namespace Dark_Operative
             {1,3,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,1,1,0,2,1},
             {1,0,0,0,0,0,0,0,1,0,0,0,8,1,0,0,1,1,1,0,0,1},
             {1,1,1,1,1,1,0,0,1,0,0,1,1,1,0,0,1,1,1,0,0,1},
-            {1,6,10,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,4,0,1},
+            {1,14,10,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,4,0,1},
             {1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
             {1,1,1,1,1,1,0,0,1,0,0,1,0,0,1,0,0,1,1,1,1,1},
             {1,0,0,0,0,0,0,0,1,0,0,1,0,0,1,0,0,1,1,1,1,1},
@@ -972,7 +986,7 @@ namespace Dark_Operative
             {1,0,0,1,1,1,7,0,1,0,0,1,0,0,1,0,0,1,1,1,1,1},
             {1,0,0,1,1,1,1,1,1,0,0,1,0,0,1,0,0,1,1,1,1,1},
             {1,0,0,1,6,0,0,0,0,0,0,1,0,0,1,6,0,0,0,0,0,1},
-            {1,0,0,1,0,0,0,0,0,0,0,1,7,0,1,0,0,0,0,0,0,1},
+            {1,0,0,1,0,0,0,0,0,0,0,1,15,0,1,0,0,0,0,0,0,1},
             {1,0,0,1,1,1,1,0,0,1,1,1,1,1,1,0,0,1,1,0,0,1},
             {1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1},
             {1,0,0,0,0,8,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1},
@@ -982,7 +996,7 @@ namespace Dark_Operative
             {1,0,0,0,0,0,0,0,0,4,0,1,0,0,1,0,0,1,1,0,0,1},
             {1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,1,1,0,0,1},
             {1,0,0,1,1,1,0,0,1,1,1,1,0,0,1,0,0,1,1,0,0,1},
-            {1,7,0,1,1,1,0,0,1,1,1,1,0,0,1,0,0,1,1,0,0,1},
+            {1,15,0,1,1,1,0,0,1,1,1,1,0,0,1,0,0,1,1,0,0,1},
             {1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,0,0,1,1,0,0,1},
             {1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,0,0,1,1,0,0,1},
             {1,0,0,0,0,0,0,0,0,4,0,1,1,1,1,0,0,1,1,0,0,1},
@@ -1004,7 +1018,6 @@ namespace Dark_Operative
             ArrayList levelList = new ArrayList();
             levelList.Add(layoutLevel);
             levelList.Add(layoutLevel3);
-            //return layoutLevel;
             return levelList;
         }
         
