@@ -33,6 +33,9 @@ namespace Dark_Operative
         float waitCount = 0.0f;
         float waitTime = 1.0f;
         bool move = false;
+        
+        //Determines whether or not this guard is stationary
+        bool stationary = false;
 
         //Determines how long a guard will walk for
         //TODO: Guard should stop when it reaches the end of a corridor.
@@ -92,9 +95,18 @@ namespace Dark_Operative
             set { moveDelay = value; }
         }
 
+        //States whether or not a guard is moving at the current
+        //moment
         public bool Move
         {
             get { return move; }
+        }
+
+        //States whether or not the current guard is a stationary
+        //guard
+        public bool Stationary
+        {
+            get { return stationary; }
         }
 
         public Rectangle BoundingBox
@@ -112,7 +124,7 @@ namespace Dark_Operative
          * Constructor for the Guard class
          * 
          */
-        public Guard(Texture2D spriteToSet, int x, int y, int directionToFace)
+        public Guard(Texture2D spriteToSet, int x, int y, int directionToFace, bool stationaryGuard)
         {
             facing = directionToFace;
             startFacing = facing;
@@ -121,7 +133,12 @@ namespace Dark_Operative
             xStart = x;
             yPos = y;
             yStart = y;
-            guardSprite.IsAnimating = false;
+            //guardSprite.IsAnimating = false;
+            stationary = stationaryGuard;
+            if (stationary)
+            {
+                Stand(true);
+            }
         }
 
         /**
@@ -171,20 +188,12 @@ namespace Dark_Operative
                 {
                     waitCount = 0;
                     move = true;
-                    StartMovement();
+                    if (!stationary)
+                    {
+                        StartMovement();
+                    }
                 }
             }
-
-            /*else
-            {
-                walkCount += (float)gametime.ElapsedGameTime.TotalSeconds;
-                if (walkCount > walkTime)
-                {
-                    walkCount = 0;
-                    move = false;
-                    Stand(false);
-                }
-            }*/
             guardSprite.Update(gametime);
         }
 
