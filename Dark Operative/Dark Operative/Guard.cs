@@ -136,6 +136,22 @@ namespace Dark_Operative
         }
 
         /**
+        * DrawMenu
+        * 
+        * Draws the guard's sprite in the desired position
+        * for the state menu
+        * 
+        * @param sb - The SpriteBatch to be used for drawing
+        * 
+        */
+        public void DrawMenu(SpriteBatch sb)
+        {
+            guardSprite.Draw(sb, 870, 190);
+            guardSprite.CurrFrame = 3;
+            guardSprite.spriteSheetYOffset = 102;
+        }
+
+        /**
          * Update
          * 
          * Updates the Guard's sprite based on its current facing

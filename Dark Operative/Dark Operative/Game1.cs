@@ -32,6 +32,7 @@ namespace Dark_Operative
 
         Protagonist protag;
         Guard[] guards;
+        Guard startScreenGuard;
         Monster[] monsters;
         Texture2D backgroundImage;
         Texture2D darkBackgroundImage;
@@ -70,6 +71,8 @@ namespace Dark_Operative
         bool pause = false;
         bool lose = false;
         bool wonLevel = false;
+        bool gameStarted = false;
+        bool gameOver = false;
 
         int lives = 3;
         int guardWhoSaw = -1;
@@ -82,14 +85,23 @@ namespace Dark_Operative
 
         //Text locations
         Vector2 PauseTextLoc = new Vector2(500, 330);
-        Vector2 GameOverTextLoc = new Vector2(480, 330);
         Vector2 CaughtTextLoc = new Vector2(330, 330);
+
+        Vector2 GameOverTextLoc = new Vector2(480, 200);
+        Vector2 RestartTextLoc = new Vector2(350, 300);
+        Vector2 QuitTextLoc = new Vector2(350, 350);
+
         Vector2 LevelCompleteTextLoc = new Vector2(460, 330);
         Vector2 ScoreWinLocation = new Vector2(500, 360);
         Vector2 TimerWinLocation = new Vector2(500, 390);
+
         Vector2 ScoreLocation = new Vector2(1050, 650);
         Vector2 TimerLocation = new Vector2(1050, 670);
         Vector2 LivesLocation = new Vector2(1050, 630);
+
+        Vector2 TitleLocation = new Vector2(400, 200);
+        Vector2 StartGameLocation = new Vector2(400, 350);
+        Vector2 NuxModeLocation = new Vector2(400, 400);
 
         #endregion
 
@@ -161,88 +173,127 @@ namespace Dark_Operative
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            CheckPause(gameTime, keyboard, gamepad);
-
-            if (!pause && !lose && !wonLevel)
+            if (gameStarted)
             {
-                elapsedTimerTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (elapsedTimerTime >= targetTimerTime)
-                {
-                    timer--;
-                    elapsedTimerTime = 0.0f;
-                }
-                if (timer <= 0)
-                {
-                    lose = true;
-                }
-                #region Gameplay
-                CheckPlayerMovement(keyboard, gamepad);
 
-                CheckDarkMode(gameTime, keyboard, gamepad);
+                CheckPause(gameTime, keyboard, gamepad);
 
-                MoveGuards();
-                if (darkMode)
+                if (!pause && !lose && !wonLevel)
                 {
-                    MoveMonsters();
-                }
-                protag.Update(gameTime);
-                for (int i = 0; i < guards.Length; i++)
-                {
-                    guards[i].Update(gameTime);
-                }
-                if (GuardsSeeProtag())
-                {
-                    lose = true;
-                    lives--;
-                }
-                else if (EnemyTouchesPlayer())
-                {
-                    lose = true;
-                    lives--;
-                }
-                for (int i = 0; i < monsters.Length; i++)
-                {
-                    monsters[i].Update(gameTime);
-                }
-                //player.Update(gameTime);
-                #endregion
-            }
-            else if (lose)
-            {
-                loseElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (loseElapsedTime > loseTarget)
-                {
-                    loseElapsedTime = 0;
-                    if (lives < 0)
+                    elapsedTimerTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (elapsedTimerTime >= targetTimerTime)
                     {
-                        currentLevel = 0;
-                        lives = 3;
-                        LoadMap();
+                        timer--;
+                        elapsedTimerTime = 0.0f;
                     }
-                    ResetGame();
-                }
-            }
-            else if (wonLevel)
-            {
-                if (timer == 0)
-                {
-                    loseElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    if (loseElapsedTime > loseTarget)
+                    if (timer <= 0)
                     {
-                        loseElapsedTime = 0;
-                        currentLevel++;
-                        currentLevel = currentLevel % levelList.ToArray().Length;
-                        LoadMap();
-                        ResetGame();
+                        lose = true;
+                    }
+                    #region Gameplay
+                    CheckPlayerMovement(keyboard, gamepad);
+
+                    CheckDarkMode(gameTime, keyboard, gamepad);
+
+                    MoveGuards();
+                    if (darkMode)
+                    {
+                        MoveMonsters();
+                    }
+                    protag.Update(gameTime);
+                    for (int i = 0; i < guards.Length; i++)
+                    {
+                        guards[i].Update(gameTime);
+                    }
+                    if (GuardsSeeProtag())
+                    {
+                        lose = true;
+                        lives--;
+                    }
+                    else if (EnemyTouchesPlayer())
+                    {
+                        lose = true;
+                        lives--;
+                    }
+                    for (int i = 0; i < monsters.Length; i++)
+                    {
+                        monsters[i].Update(gameTime);
+                    }
+                    //player.Update(gameTime);
+                    #endregion
+                }
+
+                //Logic for when a player dies
+                else if (lose)
+                {
+                    if (!gameOver)
+                    {
+                        loseElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        if (loseElapsedTime > loseTarget)
+                        {
+                            loseElapsedTime = 0;
+
+                            //Go to game over screen if the player is dead
+                            if (lives < 0)
+                            {
+                                gameOver = true;
+                            }
+
+                            //Reset level, as player has not yet died
+                            else
+                            {
+                                ResetGame();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (keyboard.IsKeyDown(Keys.Enter))
+                        {
+                            currentLevel = 0;
+                            lives = 3;
+                            LoadMap();
+                            ResetGame();
+                        }
+                        else if (keyboard.IsKeyDown(Keys.Q))
+                        {
+                            gameStarted = false;
+                            ResetGame();
+                        }
                     }
                 }
-                else
+
+                else if (wonLevel)
                 {
-                    timer--;
-                    score += 5;
+                    if (timer == 0)
+                    {
+                        loseElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        if (loseElapsedTime > loseTarget)
+                        {
+                            loseElapsedTime = 0;
+                            currentLevel++;
+                            currentLevel = currentLevel % levelList.ToArray().Length;
+                            LoadMap();
+                            ResetGame();
+                        }
+                    }
+                    else
+                    {
+                        timer--;
+                        score += 5;
+                    }
                 }
             }
-
+            else
+            {
+                if(keyboard.IsKeyDown(Keys.Enter))
+                {
+                    currentLevel = 0;
+                    lives = 3;
+                    gameStarted = true;
+                    LoadMap();
+                }
+            }
             base.Update(gameTime);
         }
 
@@ -256,75 +307,89 @@ namespace Dark_Operative
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, 1280, 720),
-                new Rectangle(0, 0, 1280, 720), Color.White);
 
-            if (darkMode)
+            if (gameStarted && !gameOver)
             {
-                spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
-                new Rectangle(0, 0, 1280, 720), Color.White);
-            }
+                spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, 1280, 720),
+                    new Rectangle(0, 0, 1280, 720), Color.White);
 
-            gameMap.Draw(spriteBatch);
-            protag.Draw(spriteBatch);
-            for (int i = 0; i < guards.Length; i++)
-            {
-                guards[i].Draw(spriteBatch);
-            }
-            if (darkMode)
-            {
-                for (int i = 0; i < monsters.Length; i++)
+                if (darkMode)
                 {
-                    monsters[i].Draw(spriteBatch);
+                    spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
+                    new Rectangle(0, 0, 1280, 720), Color.White);
                 }
-            }
 
-            if (pause)
-            {
-                spriteBatch.DrawString(font, "P A U S E D", PauseTextLoc, Color.White);
-            }
-            else if (lose)
-            {
-                if (lives >= 0)
+                gameMap.Draw(spriteBatch);
+                protag.Draw(spriteBatch);
+                for (int i = 0; i < guards.Length; i++)
+                {
+                    guards[i].Draw(spriteBatch);
+                }
+                if (darkMode)
+                {
+                    for (int i = 0; i < monsters.Length; i++)
+                    {
+                        monsters[i].Draw(spriteBatch);
+                    }
+                }
+
+                if (pause)
+                {
+                    spriteBatch.DrawString(font, "P A U S E D", PauseTextLoc, Color.White);
+                }
+                else if (lose)
                 {
                     spriteBatch.DrawString(font, "Y O U  W E R E  C A U G H T !", CaughtTextLoc, Color.White);
+                    //The player was caught by a guard, so draw the exclamation point above their head
+                    if (guardWhoSaw > -1)
+                    {
+                        Rectangle guardBox = guards[guardWhoSaw].BoundingBox;
+                        spriteBatch.Draw(exclamationPoint, new Rectangle(guardBox.Left, guardBox.Top - 25, 20, 20), Color.White);
+                    }
+                }
+                else if (wonLevel)
+                {
+                    spriteBatch.DrawString(font, "L E V E L  C O M P L E T E", CaughtTextLoc, Color.White);
+                    spriteBatch.DrawString(font, "Score: " + score, ScoreWinLocation, Color.White);
+                    spriteBatch.DrawString(font, "Timer: " + timer, TimerWinLocation, Color.White);
+
+                }
+                int drawLives;
+                if (lives < 0)
+                {
+                    drawLives = 0;
                 }
                 else
                 {
-                    spriteBatch.DrawString(font, "G A M E  O V E R", GameOverTextLoc, Color.White);
+                    drawLives = lives;
                 }
+                spriteBatch.DrawString(font, "LIVES: " + drawLives, LivesLocation, Color.White);
 
-                //The player was caught by a guard, so draw the exclamation point above their head
-                if (guardWhoSaw > -1)
+                if (!wonLevel)
                 {
-                    Rectangle guardBox = guards[guardWhoSaw].BoundingBox;
-                    spriteBatch.Draw(exclamationPoint, new Rectangle(guardBox.Left, guardBox.Top - 25, 20, 20), Color.White);
+                    spriteBatch.DrawString(font, "SCORE: " + score, TimerLocation, Color.White);
+                    spriteBatch.DrawString(font, "TIME: " + timer, ScoreLocation, Color.White);
                 }
             }
-            else if (wonLevel)
-            {
-                spriteBatch.DrawString(font, "L E V E L  C O M P L E T E", CaughtTextLoc, Color.White);
-                spriteBatch.DrawString(font, "Score: " + score, ScoreWinLocation, Color.White);
-                spriteBatch.DrawString(font, "Timer: " + timer, TimerWinLocation, Color.White);
-                
-            }
-            int drawLives;
-            if (lives < 0)
-            {
-                drawLives = 0;
+            else if(gameOver) {
+                spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
+                   new Rectangle(0, 0, 1280, 720), Color.White);
+                spriteBatch.DrawString(font, "G A M E  O V E R", GameOverTextLoc, Color.White);
+                spriteBatch.DrawString(font, "> Press ENTER to start over", RestartTextLoc, Color.White);
+                spriteBatch.DrawString(font, "> Press Q to return to title screen", QuitTextLoc, Color.White);
             }
             else
             {
-                drawLives = lives;
-            }
-            spriteBatch.DrawString(font, "LIVES: " + drawLives, LivesLocation, Color.White);
+                spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
+                    new Rectangle(0, 0, 1280, 720), Color.White);
 
-            if (!wonLevel)
-            {
-                spriteBatch.DrawString(font, "SCORE: " + score, TimerLocation, Color.White);
-                spriteBatch.DrawString(font, "TIME: " + timer, ScoreLocation, Color.White);
+                protag.DrawMenu(spriteBatch);
+                startScreenGuard.DrawMenu(spriteBatch);
+                spriteBatch.DrawString(font, "D A R K    D U N G E O N", TitleLocation, Color.White);
+                spriteBatch.DrawString(font, "> Press ENTER to begin", StartGameLocation, Color.White);
+                // NOTE: Nux Mode has not yet been implemented
+                spriteBatch.DrawString(font, "> Press SHIFT for Nux Mode", NuxModeLocation, Color.White);
             }
-
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -785,6 +850,8 @@ namespace Dark_Operative
          */
         protected void ResetGame()
         {
+            gameOver = false;
+
             protag.Reset();
             for (int i = 0; i < guards.Length; i++)
             {
@@ -821,6 +888,7 @@ namespace Dark_Operative
             //Create and place the guards
             ArrayList enemyCoordList = gameMap.GuardCoords;
             Vector3 enemyCoords;
+            startScreenGuard = new Guard(guardSprite, 0, 0, 0);
             guards = new Guard[enemyCoordList.ToArray().Length];
             for (int i = 0; i < enemyCoordList.ToArray().Length; i++)
             {

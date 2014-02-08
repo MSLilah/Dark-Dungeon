@@ -118,6 +118,21 @@ namespace Dark_Operative
             protagSprite.Draw(sb, xPos, yPos);
         }
 
+        /**
+         * DrawMenu
+         * 
+         * Draws the protagonist's sprite in the desired position
+         * for the state menu
+         * 
+         * @param sb - The SpriteBatch to be used for drawing
+         * 
+         */
+        public void DrawMenu(SpriteBatch sb)
+        {
+            protagSprite.Draw(sb, 360, 190);
+            protagSprite.CurrFrame = 2;
+        }
+
 
         /**
          * Update
