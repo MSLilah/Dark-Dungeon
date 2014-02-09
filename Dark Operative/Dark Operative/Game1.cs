@@ -315,11 +315,11 @@ namespace Dark_Operative
 
                 if (darkMode)
                 {
-                    spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
-                    new Rectangle(0, 0, 1280, 720), Color.White);
+                    //spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
+                    //new Rectangle(0, 0, 1280, 720), Color.White);
                 }
 
-                if (!darkMode)
+                //if (!darkMode)
                 {
                     gameMap.Draw(spriteBatch);
                 }
@@ -623,110 +623,372 @@ namespace Dark_Operative
         }
 
         /**
-         * MoveMonsters
-         * 
-         * Goes through the list of all monsters and moves them. They track the left wall.
-         * If they do not start on the left wall theymove until they find and intersection and then follow it.
-         */
+                * MoveMonsters
+                * 
+                * Goes through the list of all monsters and moves them. They track the left wall.
+                * If they do not start on the left wall theymove until they find and intersection and then follow it.
+                */
+
         protected void MoveMonsters()
         {
             for (int i = 0; i < monsters.Length; i++)
+            //{
+            //    if (stuck[i] > 250)
+            //    {
+            //        stuck[i] = 0;
+            //    }
+            //    if (stuck[i] > 0 && stuck[i] <= 250)
+            //    {
+            //        stuck[i]++;
+
+            //        if (monsters[i].Move)
+            //        {
+            //            #region Facing Up
+            //            if (monsters[i].Facing == 0)
+            //            {
+            //                if (monsters[i].Y > topOfScreen)
+            //                {
+            //                    if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 0, monsters[i].MovementRate, Map.WALL))
+            //                    {
+            //                        monsters[i].Y -= monsters[i].MovementRate;
+            //                        monsters[i].Facing = 0;
+            //                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate, Map.WALL))
+            //                        {
+            //                            monsters[i].Facing = (monsters[i].Facing + 3) % 4;
+            //                        }
+
+            //                    }
+            //                    else
+            //                    {
+            //                        monsters[i].Stand(true);
+            //                        monsters[i].Facing = (monsters[i].Facing + 1) % 4;
+            //                    }
+            //                }
+            //            }
+            //            #endregion
+            //            #region Facing Right
+            //            else if (monsters[i].Facing == 1)
+            //            {
+            //                if (monsters[i].X < rightEdgeOfScreen)
+            //                {
+            //                    if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 1, monsters[i].MovementRate, Map.WALL))
+            //                    {
+            //                        monsters[i].X += monsters[i].MovementRate;
+            //                        monsters[i].Facing = 1;
+            //                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate + 21, Map.WALL))
+            //                        {
+            //                            monsters[i].Facing = (monsters[i].Facing + 3) % 4;
+            //                        }
+            //                    }
+            //                    else
+            //                    {
+            //                        monsters[i].Stand(true);
+            //                        monsters[i].Facing = (monsters[i].Facing + 1) % 4;
+
+            //                    }
+            //                }
+            //            }
+            //            #endregion
+            //            #region Facing Down
+            //            else if (monsters[i].Facing == 2)
+            //            {
+            //                if (monsters[i].Y < bottomOfScreen)
+            //                {
+            //                    if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 2, monsters[i].MovementRate, Map.WALL))
+            //                    {
+            //                        monsters[i].Y += monsters[i].MovementRate;
+            //                        monsters[i].Facing = 2;
+            //                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate, Map.WALL))
+            //                        {
+            //                            monsters[i].Facing = (monsters[i].Facing + 3) % 4;
+            //                        }
+            //                    }
+            //                    else
+            //                    {
+            //                        monsters[i].Stand(true);
+            //                        monsters[i].Facing = (monsters[i].Facing + 1) % 4;
+            //                    }
+            //                }
+            //            }
+            //            #endregion
+            //            #region Facing Left
+            //            else if (monsters[i].Facing == 3)
+            //            {
+            //                if (monsters[i].X > leftEdgeOfScreen)
+            //                {
+            //                    if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 3, monsters[i].MovementRate, Map.WALL))
+            //                    {
+            //                        monsters[i].X -= monsters[i].MovementRate;
+            //                        monsters[i].Facing = 3;
+            //                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate + 21, Map.WALL))
+            //                        {
+            //                            monsters[i].Facing = (monsters[i].Facing + 3) % 4;
+            //                        }
+            //                    }
+            //                    else
+            //                    {
+            //                        monsters[i].Stand(true);
+            //                        monsters[i].Facing = (monsters[i].Facing + 1) % 4;
+            //                    }
+            //                }
+            //            }
+            //            #endregion
+            //        }
+            //    }
+            //  else
             {
                 if (monsters[i].Move)
                 {
-                    #region Facing Up
-                    if (monsters[i].Facing == 0)
+                    int dx = monsters[i].X - protag.X;
+                    int dy = monsters[i].Y - protag.Y;
+                    if (Math.Abs(dx) > Math.Abs(dy))
                     {
-                        if (monsters[i].Y > topOfScreen)
+                        #region Closest Left
+                        if (dx > 0)
                         {
-                            if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 0, monsters[i].MovementRate, Map.WALL))
+                            if (monsters[i].X > leftEdgeOfScreen)
                             {
-                                monsters[i].Y -= monsters[i].MovementRate;
-                                monsters[i].Facing = 0;
-                                if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate, Map.WALL))
+                                if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 3, monsters[i].MovementRate, Map.WALL))
                                 {
-                                    monsters[i].Facing = (monsters[i].Facing + 3) % 4;
+                                    monsters[i].X -= monsters[i].MovementRate;
+                                    monsters[i].Facing = 3;
                                 }
-                            
-                            }
-                            else
-                            {
-                                monsters[i].Stand(true);
-                            monsters[i].Facing = (monsters[i].Facing + 1) % 4;
-                            }
-                        }
-                    }
-                    #endregion
-                    #region Facing Right
-                    else if (monsters[i].Facing == 1)
-                    {
-                        if (monsters[i].X < rightEdgeOfScreen)
-                        {
-                            if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 1, monsters[i].MovementRate, Map.WALL))
-                            {
-                                monsters[i].X += monsters[i].MovementRate;
-                                monsters[i].Facing = 1;
-                                if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate+21, Map.WALL))
+                                else
                                 {
-                                    monsters[i].Facing = (monsters[i].Facing + 3) % 4;
-                                }
-                            }
-                            else
-                            {
-                                monsters[i].Stand(true);
-                                monsters[i].Facing = (monsters[i].Facing + 1) % 4;
-                                
-                            }
-                        }
-                    }
-                    #endregion
-                    #region Facing Down
-                    else if (monsters[i].Facing == 2)
-                    {
-                        if (monsters[i].Y < bottomOfScreen)
-                        {
-                            if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 2, monsters[i].MovementRate, Map.WALL))
-                            {
-                                monsters[i].Y += monsters[i].MovementRate;
-                                monsters[i].Facing = 2;
-                                if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate, Map.WALL))
-                                {
-                                    monsters[i].Facing = (monsters[i].Facing + 3) % 4;
-                                }
-                            }
-                            else
-                            {
-                                monsters[i].Stand(true);
-                                monsters[i].Facing = (monsters[i].Facing + 1) % 4;
-                            }
-                        }
-                    }
-                    #endregion
-                    #region Facing Left
-                    else if (monsters[i].Facing == 3)
-                    {
-                        if (monsters[i].X > leftEdgeOfScreen)
-                        {
-                            if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 3, monsters[i].MovementRate, Map.WALL))
-                            {
-                                monsters[i].X -= monsters[i].MovementRate;
-                                monsters[i].Facing = 3;
-                                if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate+21, Map.WALL))
-                                {
-                                    monsters[i].Facing = (monsters[i].Facing + 3) % 4;
+                                    if (dy > 0)
+                                    {
+                                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 0, monsters[i].MovementRate, Map.WALL))
+                                        {
+                                            if (monsters[i].Facing == 2 && (!gameMap.CollideWithElement(monsters[i].BoundingBox, 2, monsters[i].MovementRate, Map.WALL)))
+                                            {
+                                                    monsters[i].Y += monsters[i].MovementRate;
+                                                    monsters[i].Facing = 2;
+
+                                            }
+                                            else
+                                            {
+                                                monsters[i].Y -= monsters[i].MovementRate;
+                                                monsters[i].Facing = 0;
+                                            }
+
+                                        }
+                                        //else
+                                        //{
+                                        //    stuck[i]++;
+                                        //}
+                                    }
+                                    else
+                                    {
+                                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 2, monsters[i].MovementRate, Map.WALL))
+                                        {
+                                            if (monsters[i].Facing == 0 && (!gameMap.CollideWithElement(monsters[i].BoundingBox, 0, monsters[i].MovementRate, Map.WALL)))
+                                            {
+
+                                                monsters[i].Y -= monsters[i].MovementRate;
+                                                monsters[i].Facing = 0;
+
+                                            }
+                                            else
+                                            {
+                                                monsters[i].Y += monsters[i].MovementRate;
+                                                monsters[i].Facing = 2;
+                                            }
+                                        }
+                                        //else
+                                        //{
+                                        //    stuck[i]++;
+                                        //}
+                                    }
                                 }
                             }
-                            else
+                        }
+                        #endregion
+                        #region Closest Right
+                        else
+                        {
+                            if (monsters[i].X < rightEdgeOfScreen)
                             {
-                                monsters[i].Stand(true);
-                                monsters[i].Facing = (monsters[i].Facing + 1) % 4;
+                                if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 1, monsters[i].MovementRate, Map.WALL))
+                                {
+                                    monsters[i].X += monsters[i].MovementRate;
+                                    monsters[i].Facing = 1;
+                                }
+                                else
+                                {
+                                    if (dy > 0)
+                                    {
+                                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 0, monsters[i].MovementRate, Map.WALL))
+                                        {
+                                            if (monsters[i].Facing == 2 && (!gameMap.CollideWithElement(monsters[i].BoundingBox, 2, monsters[i].MovementRate, Map.WALL)))
+                                            {
+                                                monsters[i].Y += monsters[i].MovementRate;
+                                                monsters[i].Facing = 2;
+                                            }
+                                            else
+                                            {
+                                                monsters[i].Y -= monsters[i].MovementRate;
+                                                monsters[i].Facing = 0;
+                                            }
+
+                                        }
+                                        //else
+                                        //{
+                                        //    stuck[i]++;
+                                        //}
+                                    }
+                                    else
+                                    {
+                                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 2, monsters[i].MovementRate, Map.WALL))
+                                        {
+                                            if (monsters[i].Facing == 0 && (!gameMap.CollideWithElement(monsters[i].BoundingBox, 0, monsters[i].MovementRate, Map.WALL)))
+                                            {
+
+                                                monsters[i].Y -= monsters[i].MovementRate;
+                                                monsters[i].Facing = 0;
+
+                                            }
+                                            else
+                                            {
+                                                monsters[i].Y += monsters[i].MovementRate;
+                                                monsters[i].Facing = 2;
+                                            }
+
+                                        }
+                                        //else
+                                        //{
+                                        //    stuck[i]++;
+                                        //}
+                                    }
+                                }
                             }
                         }
+                        #endregion
                     }
-                    #endregion
+                    else
+                    {
+                        #region Closest Up
+                        if (dy > 0)
+                        {
+                            if (monsters[i].Y > leftEdgeOfScreen)
+                            {
+                                if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 0, monsters[i].MovementRate, Map.WALL))
+                                {
+                                    monsters[i].Y -= monsters[i].MovementRate;
+                                    monsters[i].Facing = 0;
+                                }
+                                else
+                                {
+                                    if (dx > 0)
+                                    {
+                                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 3, monsters[i].MovementRate, Map.WALL))
+                                        {
+                                            if (monsters[i].Facing == 1 &&  (!gameMap.CollideWithElement(monsters[i].BoundingBox, 1, monsters[i].MovementRate, Map.WALL)))
+                                            {
+                                                    monsters[i].X += monsters[i].MovementRate;
+                                                    monsters[i].Facing = 1;
+                                            }
+                                            else
+                                            {
+                                                monsters[i].X -= monsters[i].MovementRate;
+                                                monsters[i].Facing = 3;
+                                            }
+
+                                        }
+                                        //else
+                                        //{
+                                        //    stuck[i]++;
+                                        //}
+                                    }
+                                    else
+                                    {
+                                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 1, monsters[i].MovementRate, Map.WALL))
+                                        {
+                                            if (monsters[i].Facing == 3 && (!gameMap.CollideWithElement(monsters[i].BoundingBox, 3, monsters[i].MovementRate, Map.WALL)))
+                                            {
+                                                    monsters[i].X -= monsters[i].MovementRate;
+                                                    monsters[i].Facing = 3;
+                                            }
+                                            else
+                                            {
+                                                monsters[i].X += monsters[i].MovementRate;
+                                                monsters[i].Facing = 1;
+                                            }
+                                        }
+                                        //else
+                                        //{
+                                        //    stuck[i]++;
+                                        //}
+                                    }
+                                }
+                            }
+                        }
+                        #endregion
+                        #region Closest Down
+                        else
+                        {
+                            if (monsters[i].X > leftEdgeOfScreen)
+                            {
+                                if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 2, monsters[i].MovementRate, Map.WALL))
+                                {
+                                    monsters[i].Y += monsters[i].MovementRate;
+                                    monsters[i].Facing = 2;
+                                }
+                                else
+                                {
+                                    if (dx > 0)
+                                    {
+                                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 3, monsters[i].MovementRate, Map.WALL))
+                                        {
+                                            if (monsters[i].Facing == 1 && (!gameMap.CollideWithElement(monsters[i].BoundingBox, 1, monsters[i].MovementRate, Map.WALL)))
+                                            {
+
+                                                monsters[i].X += monsters[i].MovementRate;
+                                                monsters[i].Facing = 1;
+                                            }
+                                            else
+                                            {
+                                                monsters[i].X -= monsters[i].MovementRate;
+                                                monsters[i].Facing = 3;
+                                            }
+
+
+                                        }
+                                        //else
+                                        //{
+                                        //    stuck[i]++;
+                                        //}
+                                    }
+                                    else
+                                    {
+                                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 1, monsters[i].MovementRate, Map.WALL))
+                                        {
+                                            if (monsters[i].Facing == 3 && (!gameMap.CollideWithElement(monsters[i].BoundingBox, 3, monsters[i].MovementRate, Map.WALL)))
+                                            {
+                                                    monsters[i].X -= monsters[i].MovementRate;
+                                                    monsters[i].Facing = 3;
+                                            }
+                                            else
+                                            {
+                                                monsters[i].X += monsters[i].MovementRate;
+                                                monsters[i].Facing = 1;
+                                            }
+
+                                        }
+                                        //else
+                                        //{
+                                        //    stuck[i]++;
+                                        //}
+                                    }
+                                }
+                            }
+                        #endregion
+
+                        }
+                    }
                 }
             }
         }
+
         /**
          * GuardsSeeProtag
          * 
