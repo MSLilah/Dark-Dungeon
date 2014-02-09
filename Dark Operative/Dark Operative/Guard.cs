@@ -129,11 +129,19 @@ namespace Dark_Operative
             facing = directionToFace;
             startFacing = facing;
             guardSprite = new Sprite(spriteToSet, 0, 51 * facing, 21, 51, 2);
+            if (facing == 0 || facing == 2)
+            {
+                guardSprite.CurrFrame = 2;
+            }
+            else
+            {
+                guardSprite.CurrFrame = 1;
+            }
             xPos = x;
             xStart = x;
             yPos = y;
             yStart = y;
-            //guardSprite.IsAnimating = false;
+            guardSprite.IsAnimating = false;
             stationary = stationaryGuard;
             if (stationary)
             {
@@ -226,6 +234,15 @@ namespace Dark_Operative
                 {
                     facing += 2;
                 }
+
+                if (facing == 0 || facing == 2)
+                {
+                    guardSprite.CurrFrame = 2;
+                }
+                else
+                {
+                    guardSprite.CurrFrame = 1;
+                }
             }
         }
 
@@ -241,7 +258,14 @@ namespace Dark_Operative
             move = true;
             if (!guardSprite.IsAnimating)
             {
-                guardSprite.numberOfFrames = 2;
+                if (facing == 0 || facing == 2)
+                {
+                    guardSprite.numberOfFrames = 2;
+                }
+                else
+                {
+                    guardSprite.numberOfFrames = 4;
+                }
                 guardSprite.CurrFrame = 0;
                 guardSprite.IsAnimating = true;
             }
