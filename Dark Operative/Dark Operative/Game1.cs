@@ -34,6 +34,7 @@ namespace Dark_Operative
         Guard[] guards;
         Guard startScreenGuard;
         Monster[] monsters;
+        int[] dxlarger;
         Texture2D backgroundImage;
         Texture2D darkBackgroundImage;
         Texture2D exclamationPoint;
@@ -208,12 +209,12 @@ namespace Dark_Operative
                     if (GuardsSeeProtag())
                     {
                         lose = true;
-                        lives--;
+                        //lives--;
                     }
                     else if (EnemyTouchesPlayer())
                     {
                         lose = true;
-                        lives--;
+                        //lives--;
                     }
                     for (int i = 0; i < monsters.Length; i++)
                     {
@@ -741,8 +742,35 @@ namespace Dark_Operative
                 {
                     int dx = monsters[i].X - protag.X;
                     int dy = monsters[i].Y - protag.Y;
+                    bool collide0 = gameMap.CollideWithElement(monsters[i].BoundingBox, 0, monsters[i].MovementRate, Map.WALL);
+                    bool collide1 = gameMap.CollideWithElement(monsters[i].BoundingBox, 1, monsters[i].MovementRate, Map.WALL);
+                    bool collide2 = gameMap.CollideWithElement(monsters[i].BoundingBox, 2, monsters[i].MovementRate, Map.WALL);
+                    bool collide3 = gameMap.CollideWithElement(monsters[i].BoundingBox, 3, monsters[i].MovementRate, Map.WALL);
+                    //int overrun = (int)Math.Sqrt(dx * dx + dy * dy) / 20;
+                    int overrun = 100;
+                    if (dx == 0 || dy == 0)
+                    {
+                        dxlarger[i] = 0; 
+                    }
                     if (Math.Abs(dx) > Math.Abs(dy))
                     {
+                        dxlarger[i]++;
+                        if (dxlarger[i] > overrun )
+                        {
+                            dxlarger[i] = overrun;
+                        }
+                    }
+                    else
+                    {
+                        dxlarger[i]--;
+                        if (dxlarger[i] < -overrun) 
+                        {
+                            dxlarger[i] = -overrun;
+                        }
+                    }
+                    if (dxlarger[i] > 0)
+                    {
+                        
                         #region Closest Left
                         if (dx > 0)
                         {
@@ -761,9 +789,8 @@ namespace Dark_Operative
                                         {
                                             if (monsters[i].Facing == 2 && (!gameMap.CollideWithElement(monsters[i].BoundingBox, 2, monsters[i].MovementRate, Map.WALL)))
                                             {
-                                                    monsters[i].Y += monsters[i].MovementRate;
-                                                    monsters[i].Facing = 2;
-
+                                                monsters[i].Y += monsters[i].MovementRate;
+                                                monsters[i].Facing = 2;
                                             }
                                             else
                                             {
@@ -810,6 +837,7 @@ namespace Dark_Operative
                             {
                                 if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 1, monsters[i].MovementRate, Map.WALL))
                                 {
+     
                                     monsters[i].X += monsters[i].MovementRate;
                                     monsters[i].Facing = 1;
                                 }
@@ -1179,6 +1207,7 @@ namespace Dark_Operative
             //Create and place the monsters
             enemyCoordList = gameMap.MonsterCoords;
             monsters = new Monster[enemyCoordList.ToArray().Length];
+            dxlarger = new int[enemyCoordList.ToArray().Length];
             for (int i = 0; i < enemyCoordList.ToArray().Length; i++)
             {
                 enemyCoords = (Vector3)enemyCoordList[i];
