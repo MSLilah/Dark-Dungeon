@@ -315,11 +315,11 @@ namespace Dark_Operative
 
                 if (darkMode)
                 {
-                    //spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
-                    //new Rectangle(0, 0, 1280, 720), Color.White);
+                    spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
+                    new Rectangle(0, 0, 1280, 720), Color.White);
                 }
 
-                //if (!darkMode)
+                if (!darkMode)
                 {
                     gameMap.Draw(spriteBatch);
                 }
