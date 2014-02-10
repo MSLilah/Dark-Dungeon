@@ -649,6 +649,14 @@ namespace Dark_Operative
             if ((keyboard.IsKeyDown(Keys.Escape) || gamepad.IsButtonDown(Buttons.Start)) && !pausePressed) {
                 pause = !pause;
                 pausePressed = true;
+                if (pause)
+                {
+                    MediaPlayer.Pause();
+                }
+                else
+                {
+                    MediaPlayer.Resume();
+                }
             }
 
             //Make sure pause mode won't continually toggle when the button is held down
