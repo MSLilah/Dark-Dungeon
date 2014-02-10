@@ -43,6 +43,7 @@ namespace Dark_Operative
         Texture2D monsterSprite;
         Texture2D wallSprite;
         Texture2D treasureSprite;
+        Texture2D dotLOS;
         SpriteFont font;
         Map gameMap;
         Random random = new Random();
@@ -74,6 +75,8 @@ namespace Dark_Operative
         bool wonLevel = false;
         bool gameStarted = false;
         bool gameOver = false;
+        bool nuxMode = false;
+        bool wonGame = false;
 
         int lives = 3;
         int guardWhoSaw = -1;
@@ -147,6 +150,7 @@ namespace Dark_Operative
             treasureSprite = Content.Load<Texture2D>(@"Textures\Treasure");
             backgroundImage = Content.Load<Texture2D>(@"Textures\backgroundImage");
             darkBackgroundImage = Content.Load<Texture2D>(@"Textures\darkBackgroundImage");
+            dotLOS = Content.Load<Texture2D>(@"Textures\lineOfSight");
 
             LoadMap();
         }
@@ -181,6 +185,8 @@ namespace Dark_Operative
 
                 if (!pause && !lose && !wonLevel)
                 {
+
+                    //Control the on-screen timer
                     elapsedTimerTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
                     if (elapsedTimerTime >= targetTimerTime)
                     {
@@ -191,9 +197,9 @@ namespace Dark_Operative
                     {
                         lose = true;
                     }
+
                     #region Gameplay
                     CheckPlayerMovement(keyboard, gamepad);
-
                     CheckDarkMode(gameTime, keyboard, gamepad);
 
                     MoveGuards();
@@ -206,21 +212,23 @@ namespace Dark_Operative
                     {
                         guards[i].Update(gameTime);
                     }
-                    if (GuardsSeeProtag())
+
+                    //The level is lost if a guard sees the player or
+                    //the player collides with a monster
+                    if (GuardsSeeProtag() && !nuxMode)
                     {
                         lose = true;
-                        //lives--;
+                        lives--;
                     }
-                    else if (EnemyTouchesPlayer())
+                    else if (EnemyTouchesPlayer() && !nuxMode)
                     {
                         lose = true;
-                        //lives--;
+                        lives--;
                     }
                     for (int i = 0; i < monsters.Length; i++)
                     {
                         monsters[i].Update(gameTime);
                     }
-                    //player.Update(gameTime);
                     #endregion
                 }
 
@@ -273,7 +281,11 @@ namespace Dark_Operative
                         {
                             loseElapsedTime = 0;
                             currentLevel++;
-                            currentLevel = currentLevel % levelList.ToArray().Length;
+                            if (currentLevel >= levelList.ToArray().Length) {
+                                wonLevel = false;
+                                currentLevel = 0;
+                                wonGame = true;
+                            }
                             LoadMap();
                             ResetGame();
                         }
@@ -314,12 +326,15 @@ namespace Dark_Operative
                 spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, 1280, 720),
                     new Rectangle(0, 0, 1280, 720), Color.White);
 
+                //Draw a black background in dark mode to give the illusion of darkness
                 if (darkMode)
                 {
                     spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
                     new Rectangle(0, 0, 1280, 720), Color.White);
                 }
 
+                //Do not draw the map if the player is in Dark Mode, as they should not
+                //be able to see the walls
                 if (!darkMode)
                 {
                     gameMap.Draw(spriteBatch);
@@ -329,7 +344,13 @@ namespace Dark_Operative
                 for (int i = 0; i < guards.Length; i++)
                 {
                     guards[i].Draw(spriteBatch);
+                    if (darkMode)
+                    {
+                        DrawGuardLOS(guards[i]);
+                    }
                 }
+
+                //Make sure the monsters are only present in Dark Mode
                 if (darkMode)
                 {
                     for (int i = 0; i < monsters.Length; i++)
@@ -338,6 +359,7 @@ namespace Dark_Operative
                     }
                 }
 
+                //Draw the various types of pause screens
                 if (pause)
                 {
                     spriteBatch.DrawString(font, "P A U S E D", PauseTextLoc, Color.White);
@@ -359,6 +381,8 @@ namespace Dark_Operative
                     spriteBatch.DrawString(font, "Timer: " + timer, TimerWinLocation, Color.White);
 
                 }
+
+                //Make sure that -1 isn't drawn when the player runs out of lives
                 int drawLives;
                 if (lives < 0)
                 {
@@ -451,6 +475,7 @@ namespace Dark_Operative
                 protag.Facing = 3;
             }
 
+            //The player wins the level if their movement has them collide with the goal
             if (gameMap.CollideWithElement(protag.BoundingBox, protag.Facing, protag.MovementRate, Map.GOAL) && resetTimer)
             {
                 wonLevel = true;
@@ -1024,7 +1049,6 @@ namespace Dark_Operative
          * 
          */
         protected bool GuardsSeeProtag() {
-            //TODO: Modify this method to include walls and account for darkness
             Rectangle playerHitBox = protag.BoundingBox;
             for (int i = 0; i < guards.Length; i++)
             {
@@ -1086,6 +1110,104 @@ namespace Dark_Operative
             return false;
         }
 
+        /**
+         * DrawGuardLOS
+         * 
+         * Draws the LOS for a given guard. Only called in Dark Mode.
+         * 
+         * @param guard The guard for whom to draw the LOS
+         * 
+         */
+        private void DrawGuardLOS(Guard guard)
+        {
+            Rectangle hitBox = guard.BoundingBox;
+            Vector2 guardUpperLeft = new Vector2(hitBox.Left, hitBox.Top);
+            Vector2 guardUpperRight = new Vector2(hitBox.Right, hitBox.Top);
+            Vector2 guardLowerLeft = new Vector2(hitBox.Left, hitBox.Bottom);
+            Vector2 guardLowerRight = new Vector2(hitBox.Right, hitBox.Bottom);
+            Vector2 dotPosition;
+
+            #region Facing Up
+            if (guard.Facing == 0)
+            {
+                dotPosition = guardUpperLeft;
+                dotPosition.Y -= 8;
+                dotPosition.X += 10;
+                for (int i = 0; i < 6; i++)
+                {
+                    if (!DrawDot(dotPosition))
+                    {
+                        return;
+                    }
+                    dotPosition.Y -= 8;
+                }
+            }
+            #endregion
+
+            #region Facing Right
+            else if (guard.Facing == 1)
+            {
+                dotPosition = guardUpperRight;
+                dotPosition.Y += 25;
+                dotPosition.X += 2;
+                for (int i = 0; i < 6; i++)
+                {
+                    if (!DrawDot(dotPosition))
+                    {
+                        return;
+                    }
+                    dotPosition.X += 8;
+                }
+            }
+            #endregion
+
+            #region Facing Down
+            else if (guard.Facing == 2)
+            {
+                dotPosition = guardLowerLeft;
+                dotPosition.Y += 2;
+                dotPosition.X += 10;
+                for (int i = 0; i < 6; i++)
+                {
+                    if (!DrawDot(dotPosition))
+                    {
+                        return;
+                    }
+                    dotPosition.Y += 8;
+                }
+            }
+            #endregion
+
+            #region Facing Left
+            else if (guard.Facing == 3)
+            {
+                dotPosition = guardUpperLeft;
+                dotPosition.Y += 25;
+                dotPosition.X -= 8;
+                for (int i = 0; i < 6; i++)
+                {
+                    if (!DrawDot(dotPosition))
+                    {
+                        return;
+                    }
+                    dotPosition.X -= 8;
+                }
+            }
+            #endregion
+        }
+
+        protected bool DrawDot(Vector2 dotPosition)
+        {
+            int dotPositionXSquare = Math.Min((int)(dotPosition.X / 30), 39);
+            int dotPositionYSquare = Math.Min((int)(dotPosition.Y / 30), 21);
+            if (gameMap.Layout[dotPositionXSquare, dotPositionYSquare] == Map.WALL)
+            {
+                return false;
+            }
+            spriteBatch.Draw(dotLOS, new Rectangle((int)dotPosition.X, (int)dotPosition.Y, 6, 6), Color.White);
+            return true;
+        }
+
          /**
          * EnemyTouchesPlayer
          * 
@@ -1100,6 +1222,7 @@ namespace Dark_Operative
             Rectangle playerBox = protag.BoundingBox;
             Rectangle enemyBox;
 
+            //Only check for collision with monsters if Dark Mode is active
             if (darkMode)
             {
                 for (int i = 0; i < monsters.Length; i++)
@@ -1113,7 +1236,6 @@ namespace Dark_Operative
                 }
             }
 
-            //Only check for collision with monsters if Dark Mode is active
             for (int j = 0; j < guards.Length; j++)
             {
                 enemyBox = guards[j].BoundingBox;
@@ -1151,7 +1273,6 @@ namespace Dark_Operative
         protected void ResetGame()
         {
             gameOver = false;
-
             protag.Reset();
             for (int i = 0; i < guards.Length; i++)
             {
@@ -1167,7 +1288,6 @@ namespace Dark_Operative
             lose = false;
             wonLevel = false;
             timer = 400;
-            //TODO: Go back to the title screen if lives are equal to 0
         }
 
         /**

@@ -130,15 +130,6 @@ namespace Dark_Operative
         }
 
         /**
-         * Update
-         * 
-         * A method which updates the map accordingly
-         */
-        public void Update(GameTime gametime)
-        {
-        }
-
-        /**
          * Draw
          * 
          * Draws the walls of the map on the screen
@@ -175,7 +166,8 @@ namespace Dark_Operative
             int x = i * 30;
             int y = j * 30;
 
-            //Modify spacing based on the direction the entity is facing
+            //Modify spacing based on the direction the entity is facing so that
+            //the entity is in the middle of a corridor
             if (facing == 0)
             {
                 x += 20;
@@ -245,6 +237,9 @@ namespace Dark_Operative
             int left = hitBox.Left / xDim;
             int right = hitBox.Right / xDim;
 
+            //Check if the entity enters the same square as an element
+            //of the given type if they were to move at the given moveRate
+            //in the given direction
             #region Facing Up
             if (facing == 0)
             {
@@ -342,6 +337,9 @@ namespace Dark_Operative
             int protagLeft = protag.Left / wallXDim;
             int protagRight = protag.Right / wallXDim;
 
+            //This method will only be called if a guard would have LOS without any
+            //walls in the way. Check if there is a wall in the row/column shared
+            //by the protagonist and the guard between their two locations
             #region Facing Up
             if (facing == 0)
             {

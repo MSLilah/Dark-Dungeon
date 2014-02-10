@@ -191,6 +191,8 @@ namespace Dark_Operative
 
             if (!move)
             {
+                //Non-stationary guards should only remain stationary for a set
+                //amount of time
                 waitCount += (float)gametime.ElapsedGameTime.TotalSeconds;
                 if (waitCount > waitTime)
                 {
@@ -235,6 +237,8 @@ namespace Dark_Operative
                     facing += 2;
                 }
 
+                //Sprite sheet differs in which frame is stationary
+                //depending on the guard's facing
                 if (facing == 0 || facing == 2)
                 {
                     guardSprite.CurrFrame = 2;

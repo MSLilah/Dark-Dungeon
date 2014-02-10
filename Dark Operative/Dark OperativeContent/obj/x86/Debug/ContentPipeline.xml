@@ -7,8 +7,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Fonts\Pericles.xnb</Output>
-      <Time>2014-02-09T14:23:17.8234151-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Fonts\Pericles.xnb</Output>
+      <Time>2014-02-03T21:51:45.0037208-08:00</Time>
     </Item>
     <Item>
       <Source>Fonts\emulogic.spritefont</Source>
@@ -16,8 +16,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Fonts\emulogic.xnb</Output>
-      <Time>2014-02-09T14:23:17.8234151-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Fonts\emulogic.xnb</Output>
+      <Time>2014-02-06T20:51:19.5276343-08:00</Time>
     </Item>
     <Item>
       <Source>Textures\protagSpriteSheet.png</Source>
@@ -25,8 +25,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\protagSpriteSheet.xnb</Output>
-      <Time>2014-02-09T14:23:57.6956956-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\protagSpriteSheet.xnb</Output>
+      <Time>2014-02-09T14:39:16.0898244-08:00</Time>
     </Item>
     <Item>
       <Source>Textures\backgroundImage.png</Source>
@@ -34,8 +34,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\backgroundImage.xnb</Output>
-      <Time>2014-02-09T14:23:17.8254152-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\backgroundImage.xnb</Output>
+      <Time>2014-02-09T14:02:50.1647966-08:00</Time>
     </Item>
     <Item>
       <Source>Textures\wall.png</Source>
@@ -43,8 +43,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\wall.xnb</Output>
-      <Time>2014-02-09T14:23:17.8294154-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\wall.xnb</Output>
+      <Time>2014-02-09T14:02:50.1667968-08:00</Time>
     </Item>
     <Item>
       <Source>Textures\guardSpriteSheet.png</Source>
@@ -52,8 +52,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\guardSpriteSheet.xnb</Output>
-      <Time>2014-02-09T14:24:00.4658541-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\guardSpriteSheet.xnb</Output>
+      <Time>2014-02-09T14:39:16.0888243-08:00</Time>
     </Item>
     <Item>
       <Source>Textures\monsterSpriteSheet.png</Source>
@@ -61,8 +61,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\monsterSpriteSheet.xnb</Output>
-      <Time>2014-02-09T14:23:17.8274153-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\monsterSpriteSheet.xnb</Output>
+      <Time>2014-02-08T10:38:17.9682782-08:00</Time>
     </Item>
     <Item>
       <Source>Textures\darkBackgroundImage.png</Source>
@@ -70,8 +70,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\darkBackgroundImage.xnb</Output>
-      <Time>2014-02-09T14:23:17.8264152-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\darkBackgroundImage.xnb</Output>
+      <Time>2014-02-03T21:51:45.0057209-08:00</Time>
     </Item>
     <Item>
       <Source>Textures\Treasure.png</Source>
@@ -79,8 +79,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\Treasure.xnb</Output>
-      <Time>2014-02-09T14:23:17.8244151-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\Treasure.xnb</Output>
+      <Time>2014-02-04T17:08:07.8530466-08:00</Time>
     </Item>
     <Item>
       <Source>Textures\spotted.png</Source>
@@ -88,8 +88,17 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\spotted.xnb</Output>
-      <Time>2014-02-09T14:23:17.8284154-08:00</Time>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\spotted.xnb</Output>
+      <Time>2014-02-06T12:12:19.1705757-08:00</Time>
+    </Item>
+    <Item>
+      <Source>Textures\lineOfSight.png</Source>
+      <Name>Textures\lineOfSight</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Textures\lineOfSight.xnb</Output>
+      <Time>2014-02-09T15:16:43.4753675-08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -97,10 +106,10 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark OperativeContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark OperativeContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark OperativeContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark OperativeContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -129,7 +138,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2014-01-19T20:39:06.4387614-08:00</Value>
+        <Value>2014-01-19T12:15:09.7124785-08:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
