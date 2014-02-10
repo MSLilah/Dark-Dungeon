@@ -78,7 +78,7 @@ namespace Dark_Operative
         bool gameStarted = false;
         bool gameOver = false;
         bool nuxMode = false;
-        bool wonGame = true;
+        bool wonGame = false;
         bool instructionMode = false;
 
         int lives = 3;
@@ -188,7 +188,10 @@ namespace Dark_Operative
 
             if (gameStarted)
             {
-                CheckPause(gameTime, keyboard, gamepad);
+                if (!lose && !wonLevel && !wonGame)
+                {
+                    CheckPause(gameTime, keyboard, gamepad);
+                }
 
                 if (!pause && !lose && !wonLevel && !wonGame)
                 {
