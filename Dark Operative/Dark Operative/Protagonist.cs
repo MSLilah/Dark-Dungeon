@@ -177,6 +177,7 @@ namespace Dark_Operative
             {
                 protagSprite.numberOfFrames = 3;
 
+                //Spritesheet differs based on the protagonist's facing
                 if (facing == 0 || facing == 2)
                 {
                     protagSprite.CurrFrame = 2;
