@@ -9,3 +9,5 @@ Content\Textures\darkBackgroundImage.xnb
 Content\Textures\Treasure.xnb
 Content\Textures\spotted.xnb
 Content\Textures\lineOfSight.xnb
+Content\Sounds\VideoDungeonCrawl.xnb
+Content\Sounds\VideoDungeonCrawl.wma

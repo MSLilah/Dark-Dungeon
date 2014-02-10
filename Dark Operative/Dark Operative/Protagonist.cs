@@ -98,6 +98,7 @@ namespace Dark_Operative
         {
             protagSprite = new Sprite(texture, 0, facing * 51, 21, 51, 2);
             protagSprite.IsAnimating = false;
+            protagSprite.CurrFrame = 2;
             xPos = x;
             xStart = x;
             yPos = y;
