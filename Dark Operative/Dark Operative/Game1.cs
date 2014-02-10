@@ -78,7 +78,7 @@ namespace Dark_Operative
         bool gameStarted = false;
         bool gameOver = false;
         bool nuxMode = false;
-        bool wonGame = false;
+        bool wonGame = true;
         bool instructionMode = false;
 
         int lives = 3;
@@ -91,15 +91,15 @@ namespace Dark_Operative
         float targetTimerTime = 1.0f;
 
         //Text locations
-        Vector2 PauseTextLoc = new Vector2(500, 330);
+        Vector2 PauseTextLoc = new Vector2(530, 330);
         Vector2 CaughtTextLoc = new Vector2(330, 330);
 
         Vector2 GameOverTextLoc = new Vector2(480, 200);
         Vector2 RestartTextLoc = new Vector2(350, 300);
         Vector2 QuitTextLoc = new Vector2(350, 350);
-        Vector2 FinalScoreLoc = new Vector2(450, 500);
+        Vector2 FinalScoreLoc = new Vector2(400, 500);
 
-        Vector2 LevelCompleteTextLoc = new Vector2(460, 330);
+        Vector2 LevelCompleteTextLoc = new Vector2(385, 330);
         Vector2 ScoreWinLocation = new Vector2(500, 360);
         Vector2 TimerWinLocation = new Vector2(500, 390);
 
@@ -439,7 +439,7 @@ namespace Dark_Operative
                 }
                 else if (wonLevel)
                 {
-                    spriteBatch.DrawString(font, "L E V E L  C O M P L E T E", CaughtTextLoc, Color.White);
+                    spriteBatch.DrawString(font, "L E V E L  C O M P L E T E", LevelCompleteTextLoc, Color.White);
                     spriteBatch.DrawString(font, "Score: " + score, ScoreWinLocation, Color.White);
                     spriteBatch.DrawString(font, "Timer: " + timer, TimerWinLocation, Color.White);
 
@@ -466,18 +466,22 @@ namespace Dark_Operative
             else if(gameOver) {
                 spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
                    new Rectangle(0, 0, 1280, 720), Color.White);
+                GameOverTextLoc.X = 640 - (font.MeasureString("G A M E  O V E R").X) / 2;
                 spriteBatch.DrawString(font, "G A M E  O V E R", GameOverTextLoc, Color.White);
                 spriteBatch.DrawString(font, "> Press ENTER to start over", RestartTextLoc, Color.White);
                 spriteBatch.DrawString(font, "> Press Q to return to title screen", QuitTextLoc, Color.White);
+                FinalScoreLoc.X = 640 - (font.MeasureString("F I N A L  S C O R E: " + score).X) / 2;
                 spriteBatch.DrawString(font, "F I N A L  S C O R E: " + score, FinalScoreLoc, Color.White);
             }
             else if (wonGame)
             {
                 spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
                     new Rectangle(0, 0, 1280, 720), Color.White);
+                GameOverTextLoc.X = 640 - (font.MeasureString("Y O U  W O N !").X) / 2;
                 spriteBatch.DrawString(font, "Y O U  W O N !", GameOverTextLoc, Color.White);
                 spriteBatch.DrawString(font, "> Press ENTER to play again", RestartTextLoc, Color.White);
                 spriteBatch.DrawString(font, "> Press Q to return to title screen", QuitTextLoc, Color.White);
+                FinalScoreLoc.X = 640 - (font.MeasureString("F I N A L  S C O R E: " + score).X) / 2;
                 spriteBatch.DrawString(font, "F I N A L  S C O R E: " + score, FinalScoreLoc, Color.White);
             }
             else if (instructionMode)
