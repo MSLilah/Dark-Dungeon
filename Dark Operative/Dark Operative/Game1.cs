@@ -95,6 +95,7 @@ namespace Dark_Operative
         Vector2 GameOverTextLoc = new Vector2(480, 200);
         Vector2 RestartTextLoc = new Vector2(350, 300);
         Vector2 QuitTextLoc = new Vector2(350, 350);
+        Vector2 FinalScoreLoc = new Vector2(450, 500);
 
         Vector2 LevelCompleteTextLoc = new Vector2(460, 330);
         Vector2 ScoreWinLocation = new Vector2(500, 360);
@@ -318,6 +319,7 @@ namespace Dark_Operative
                     {
                         nuxMode = false;
                         gameStarted = false;
+                        wonGame = false;
                         ResetGame();
                     }
 
@@ -451,6 +453,7 @@ namespace Dark_Operative
                 spriteBatch.DrawString(font, "G A M E  O V E R", GameOverTextLoc, Color.White);
                 spriteBatch.DrawString(font, "> Press ENTER to start over", RestartTextLoc, Color.White);
                 spriteBatch.DrawString(font, "> Press Q to return to title screen", QuitTextLoc, Color.White);
+                spriteBatch.DrawString(font, "F I N A L  S C O R E: " + score, FinalScoreLoc, Color.White);
             }
             else if (wonGame)
             {
@@ -459,6 +462,7 @@ namespace Dark_Operative
                 spriteBatch.DrawString(font, "Y O U  W O N !", GameOverTextLoc, Color.White);
                 spriteBatch.DrawString(font, "> Press ENTER to play again", RestartTextLoc, Color.White);
                 spriteBatch.DrawString(font, "> Press Q to return to title screen", QuitTextLoc, Color.White);
+                spriteBatch.DrawString(font, "F I N A L  S C O R E: " + score, FinalScoreLoc, Color.White);
             }
             else if (instructionMode)
             {
@@ -1350,6 +1354,7 @@ namespace Dark_Operative
             darkPressed = false;
             pausePressed = false;
             lose = false;
+            wonLevel = false;
             timer = 400;
         }
 
@@ -1538,8 +1543,8 @@ namespace Dark_Operative
 
             ArrayList levelList = new ArrayList();
             levelList.Add(layoutLevel);
-            //levelList.Add(layoutLevel2);
-            //levelList.Add(layoutLevel3);
+            levelList.Add(layoutLevel2);
+            levelList.Add(layoutLevel3);
             return levelList;
         }
         
