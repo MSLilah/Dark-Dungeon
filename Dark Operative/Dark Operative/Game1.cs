@@ -45,6 +45,8 @@ namespace Dark_Operative
         Texture2D treasureSprite;
         Texture2D dotLOS;
         SpriteFont font;
+        Song music;
+        SoundEffectInstance musicInstance;
         Map gameMap;
         Random random = new Random();
         public int topOfScreen = 0;
@@ -156,7 +158,8 @@ namespace Dark_Operative
             backgroundImage = Content.Load<Texture2D>(@"Textures\backgroundImage");
             darkBackgroundImage = Content.Load<Texture2D>(@"Textures\darkBackgroundImage");
             dotLOS = Content.Load<Texture2D>(@"Textures\lineOfSight");
-
+            music = Content.Load<Song>(@"Sounds\VideoDungeonCrawl");
+            //musicInstance = music.CreateInstance();
             LoadMap();
         }
 
@@ -185,7 +188,6 @@ namespace Dark_Operative
 
             if (gameStarted)
             {
-
                 CheckPause(gameTime, keyboard, gamepad);
 
                 if (!pause && !lose && !wonLevel && !wonGame)
@@ -251,6 +253,7 @@ namespace Dark_Operative
                             if (lives < 0)
                             {
                                 gameOver = true;
+                                MediaPlayer.Stop();
                             }
 
                             //Reset level, as player has not yet died
@@ -267,8 +270,11 @@ namespace Dark_Operative
                             nuxMode = false;
                             currentLevel = 0;
                             lives = 3;
+                            score = 0;
                             LoadMap();
                             ResetGame();
+                            MediaPlayer.Play(music);
+                            MediaPlayer.IsRepeating = true;
                         }
                         else if (keyboard.IsKeyDown(Keys.Q))
                         {
@@ -293,6 +299,7 @@ namespace Dark_Operative
                                 wonLevel = false;
                                 currentLevel = 0;
                                 wonGame = true;
+                                MediaPlayer.Stop();
                             }
                             LoadMap();
                             ResetGame();
@@ -312,8 +319,11 @@ namespace Dark_Operative
                         wonGame = false;
                         currentLevel = 0;
                         lives = 3;
+                        score = 0;
                         LoadMap();
                         ResetGame();
+                        MediaPlayer.Play(music);
+                        MediaPlayer.IsRepeating = true;
                     }
                     else if (keyboard.IsKeyDown(Keys.Q))
                     {
@@ -338,7 +348,10 @@ namespace Dark_Operative
                 {
                     currentLevel = 0;
                     lives = 3;
+                    score = 0;
                     gameStarted = true;
+                    MediaPlayer.Play(music);
+                    MediaPlayer.IsRepeating = true;
                     LoadMap();
                 }
                 else if (keyboard.IsKeyDown(Keys.LeftShift) || keyboard.IsKeyDown(Keys.RightShift))
@@ -346,7 +359,10 @@ namespace Dark_Operative
                     nuxMode = true;
                     currentLevel = 0;
                     lives = 3;
+                    score = 0;
                     gameStarted = true;
+                    MediaPlayer.Play(music);
+                    MediaPlayer.IsRepeating = true;
                     LoadMap();
                 }
                 else if (keyboard.IsKeyDown(Keys.Tab))
