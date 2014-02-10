@@ -77,6 +77,7 @@ namespace Dark_Operative
         bool gameOver = false;
         bool nuxMode = false;
         bool wonGame = false;
+        bool instructionMode = false;
 
         int lives = 3;
         int guardWhoSaw = -1;
@@ -106,6 +107,9 @@ namespace Dark_Operative
         Vector2 TitleLocation = new Vector2(400, 200);
         Vector2 StartGameLocation = new Vector2(400, 350);
         Vector2 NuxModeLocation = new Vector2(400, 400);
+        Vector2 InstructionModeLocation = new Vector2(400, 450);
+
+        Vector2  InstructionsLocation = new Vector2(100, 100);
 
         #endregion
 
@@ -183,7 +187,7 @@ namespace Dark_Operative
 
                 CheckPause(gameTime, keyboard, gamepad);
 
-                if (!pause && !lose && !wonLevel)
+                if (!pause && !lose && !wonLevel && !wonGame)
                 {
 
                     //Control the on-screen timer
@@ -259,6 +263,7 @@ namespace Dark_Operative
                     {
                         if (keyboard.IsKeyDown(Keys.Enter))
                         {
+                            nuxMode = false;
                             currentLevel = 0;
                             lives = 3;
                             LoadMap();
@@ -266,6 +271,7 @@ namespace Dark_Operative
                         }
                         else if (keyboard.IsKeyDown(Keys.Q))
                         {
+                            nuxMode = false;
                             gameStarted = false;
                             ResetGame();
                         }
@@ -281,7 +287,8 @@ namespace Dark_Operative
                         {
                             loseElapsedTime = 0;
                             currentLevel++;
-                            if (currentLevel >= levelList.ToArray().Length) {
+                            if (currentLevel >= levelList.ToArray().Length)
+                            {
                                 wonLevel = false;
                                 currentLevel = 0;
                                 wonGame = true;
@@ -296,17 +303,56 @@ namespace Dark_Operative
                         score += 5;
                     }
                 }
+                else if (wonGame)
+                {
+                    if (keyboard.IsKeyDown(Keys.Enter))
+                    {
+                        nuxMode = false;
+                        wonGame = false;
+                        currentLevel = 0;
+                        lives = 3;
+                        LoadMap();
+                        ResetGame();
+                    }
+                    else if (keyboard.IsKeyDown(Keys.Q))
+                    {
+                        nuxMode = false;
+                        gameStarted = false;
+                        ResetGame();
+                    }
+
+                }
+            }
+            else if (instructionMode)
+            {
+                if (keyboard.IsKeyDown(Keys.Back))
+                {
+                    instructionMode = false;
+                }
             }
             else
             {
-                if(keyboard.IsKeyDown(Keys.Enter))
+                if (keyboard.IsKeyDown(Keys.Enter))
                 {
                     currentLevel = 0;
                     lives = 3;
                     gameStarted = true;
                     LoadMap();
                 }
+                else if (keyboard.IsKeyDown(Keys.LeftShift) || keyboard.IsKeyDown(Keys.RightShift))
+                {
+                    nuxMode = true;
+                    currentLevel = 0;
+                    lives = 3;
+                    gameStarted = true;
+                    LoadMap();
+                }
+                else if (keyboard.IsKeyDown(Keys.Tab))
+                {
+                    instructionMode = true;
+                }
             }
+
             base.Update(gameTime);
         }
 
@@ -318,10 +364,9 @@ namespace Dark_Operative
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            if (gameStarted && !gameOver)
+            if (gameStarted && !gameOver && !wonGame)
             {
                 spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, 1280, 720),
                     new Rectangle(0, 0, 1280, 720), Color.White);
@@ -407,6 +452,25 @@ namespace Dark_Operative
                 spriteBatch.DrawString(font, "> Press ENTER to start over", RestartTextLoc, Color.White);
                 spriteBatch.DrawString(font, "> Press Q to return to title screen", QuitTextLoc, Color.White);
             }
+            else if (wonGame)
+            {
+                spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
+                    new Rectangle(0, 0, 1280, 720), Color.White);
+                spriteBatch.DrawString(font, "Y O U  W O N !", GameOverTextLoc, Color.White);
+                spriteBatch.DrawString(font, "> Press ENTER to play again", RestartTextLoc, Color.White);
+                spriteBatch.DrawString(font, "> Press Q to return to title screen", QuitTextLoc, Color.White);
+            }
+            else if (instructionMode)
+            {
+                spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
+                    new Rectangle(0, 0, 1280, 720), Color.White);
+
+                spriteBatch.DrawString(font, "Move with the arrow keys to find the treasure chest. \n" +
+                "Make sure to avoid the guards! Press space to go into \ndark mode, where the guards will have a harder time \nseeing you." +
+                "But in dark mode, monsters will hunt you, \nand you won't be able to see walls. Happy thieving!\n\n" +
+                "When playing Nux mode, you cannot be seen by guards or \nkilled by monsters. Upon completing the game, Nux mode \nwill be deactivated." +
+                "\n\n\n\n> Press back to return to the title screen", InstructionsLocation, Color.White);
+            }
             else
             {
                 spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
@@ -416,8 +480,8 @@ namespace Dark_Operative
                 startScreenGuard.DrawMenu(spriteBatch);
                 spriteBatch.DrawString(font, "D A R K    D U N G E O N", TitleLocation, Color.White);
                 spriteBatch.DrawString(font, "> Press ENTER to begin", StartGameLocation, Color.White);
-                // NOTE: Nux Mode has not yet been implemented
                 spriteBatch.DrawString(font, "> Press SHIFT for Nux Mode", NuxModeLocation, Color.White);
+                spriteBatch.DrawString(font, "> Press TAB for Instructions", InstructionModeLocation, Color.White);
             }
             spriteBatch.End();
 
@@ -1286,7 +1350,6 @@ namespace Dark_Operative
             darkPressed = false;
             pausePressed = false;
             lose = false;
-            wonLevel = false;
             timer = 400;
         }
 
@@ -1475,8 +1538,8 @@ namespace Dark_Operative
 
             ArrayList levelList = new ArrayList();
             levelList.Add(layoutLevel);
-            levelList.Add(layoutLevel2);
-            levelList.Add(layoutLevel3);
+            //levelList.Add(layoutLevel2);
+            //levelList.Add(layoutLevel3);
             return levelList;
         }
         
