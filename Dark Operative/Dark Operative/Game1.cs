@@ -80,6 +80,7 @@ namespace Dark_Operative
         bool nuxMode = false;
         bool wonGame = false;
         bool instructionMode = false;
+        bool creditsMode = false;
 
         int lives = 3;
         int guardWhoSaw = -1;
@@ -97,6 +98,7 @@ namespace Dark_Operative
         Vector2 GameOverTextLoc = new Vector2(480, 200);
         Vector2 RestartTextLoc = new Vector2(350, 300);
         Vector2 QuitTextLoc = new Vector2(350, 350);
+        Vector2 QuitGameTextLoc = new Vector2(350, 400);
         Vector2 FinalScoreLoc = new Vector2(400, 500);
 
         Vector2 LevelCompleteTextLoc = new Vector2(385, 330);
@@ -111,6 +113,8 @@ namespace Dark_Operative
         Vector2 StartGameLocation = new Vector2(400, 350);
         Vector2 NuxModeLocation = new Vector2(400, 400);
         Vector2 InstructionModeLocation = new Vector2(400, 450);
+        Vector2 CreditsModeLocation = new Vector2(400, 500);
+        Vector2 QuitGameLocation = new Vector2(400, 550);
 
         Vector2  InstructionsLocation = new Vector2(100, 100);
 
@@ -192,6 +196,10 @@ namespace Dark_Operative
                 {
                     CheckPause(gameTime, keyboard, gamepad);
                 }
+                if (pause)
+                {
+                    QuitCheck(keyboard);
+                }
 
                 if (!pause && !lose && !wonLevel && !wonGame)
                 {
@@ -268,6 +276,7 @@ namespace Dark_Operative
                     }
                     else
                     {
+                        QuitCheck(keyboard);
                         if (keyboard.IsKeyDown(Keys.Enter))
                         {
                             nuxMode = false;
@@ -279,7 +288,7 @@ namespace Dark_Operative
                             MediaPlayer.Play(music);
                             MediaPlayer.IsRepeating = true;
                         }
-                        else if (keyboard.IsKeyDown(Keys.Q))
+                        else if (keyboard.IsKeyDown(Keys.Escape))
                         {
                             nuxMode = false;
                             gameStarted = false;
@@ -316,6 +325,7 @@ namespace Dark_Operative
                 }
                 else if (wonGame)
                 {
+                    QuitCheck(keyboard);
                     if (keyboard.IsKeyDown(Keys.Enter))
                     {
                         nuxMode = false;
@@ -328,7 +338,7 @@ namespace Dark_Operative
                         MediaPlayer.Play(music);
                         MediaPlayer.IsRepeating = true;
                     }
-                    else if (keyboard.IsKeyDown(Keys.Q))
+                    else if (keyboard.IsKeyDown(Keys.Escape))
                     {
                         nuxMode = false;
                         gameStarted = false;
@@ -338,11 +348,12 @@ namespace Dark_Operative
 
                 }
             }
-            else if (instructionMode)
+            else if (instructionMode || creditsMode)
             {
                 if (keyboard.IsKeyDown(Keys.Back))
                 {
                     instructionMode = false;
+                    creditsMode = false;
                 }
             }
             else
@@ -371,6 +382,14 @@ namespace Dark_Operative
                 else if (keyboard.IsKeyDown(Keys.Tab))
                 {
                     instructionMode = true;
+                }
+                else if (keyboard.IsKeyDown(Keys.Space))
+                {
+                    creditsMode = true;
+                }
+                else
+                {
+                    QuitCheck(keyboard);
                 }
             }
 
@@ -429,6 +448,10 @@ namespace Dark_Operative
                 if (pause)
                 {
                     spriteBatch.DrawString(font, "P A U S E D", PauseTextLoc, Color.White);
+                    Vector2 quitInstructions = font.MeasureString("> Press Q to Quit");
+                    quitInstructions.X = 640 - (quitInstructions.X / 2);
+                    quitInstructions.Y = ScoreWinLocation.Y;
+                    spriteBatch.DrawString(font, "> Press Q to Quit", quitInstructions, Color.White);
                 }
                 else if (lose)
                 {
@@ -472,7 +495,8 @@ namespace Dark_Operative
                 GameOverTextLoc.X = 640 - (font.MeasureString("G A M E  O V E R").X) / 2;
                 spriteBatch.DrawString(font, "G A M E  O V E R", GameOverTextLoc, Color.White);
                 spriteBatch.DrawString(font, "> Press ENTER to start over", RestartTextLoc, Color.White);
-                spriteBatch.DrawString(font, "> Press Q to return to title screen", QuitTextLoc, Color.White);
+                spriteBatch.DrawString(font, "> Press ESC to return to title screen", QuitTextLoc, Color.White);
+                spriteBatch.DrawString(font, "> Press Q to quit", QuitGameTextLoc, Color.White);
                 FinalScoreLoc.X = 640 - (font.MeasureString("F I N A L  S C O R E: " + score).X) / 2;
                 spriteBatch.DrawString(font, "F I N A L  S C O R E: " + score, FinalScoreLoc, Color.White);
             }
@@ -483,7 +507,8 @@ namespace Dark_Operative
                 GameOverTextLoc.X = 640 - (font.MeasureString("Y O U  W O N !").X) / 2;
                 spriteBatch.DrawString(font, "Y O U  W O N !", GameOverTextLoc, Color.White);
                 spriteBatch.DrawString(font, "> Press ENTER to play again", RestartTextLoc, Color.White);
-                spriteBatch.DrawString(font, "> Press Q to return to title screen", QuitTextLoc, Color.White);
+                spriteBatch.DrawString(font, "> Press ESC to return to title screen", QuitTextLoc, Color.White);
+                spriteBatch.DrawString(font, "> Press Q to quit", QuitGameTextLoc, Color.White);
                 FinalScoreLoc.X = 640 - (font.MeasureString("F I N A L  S C O R E: " + score).X) / 2;
                 spriteBatch.DrawString(font, "F I N A L  S C O R E: " + score, FinalScoreLoc, Color.White);
             }
@@ -498,6 +523,28 @@ namespace Dark_Operative
                 "When playing Nux mode, you cannot be seen by guards or \nkilled by monsters. Upon completing the game, Nux mode \nwill be deactivated." +
                 "\n\n\n\n> Press back to return to the title screen", InstructionsLocation, Color.White);
             }
+            else if (creditsMode)
+            {
+                spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
+                    new Rectangle(0, 0, 1280, 720), Color.White);
+
+                spriteBatch.DrawString(font, "Lead Designer and Lead Gameplay Programmer \n" +
+                    "Lilah Ingvaldsen\n\n" +
+                    "Art Director and Gameplay Programmer\n" +
+                    "Hailee Kenney\n\n" +
+                    "Gameplay and Ghost AI Programmer\n" +
+                    "Justice Nichols\n\n" +
+                    "Music\n" +
+                    "'Video Dungeon Crawl' by Kevin MacLeod (incompetech.com)\n" +
+                    "Licensed Under Creative Commons: By Attribution 3.0\n" +
+                    "http://creativecommons.org/licenses/by/3.0/ \n\n" +
+                    "Font\n" +
+                    "Emulogic - Truetype Font\n" +
+                    "Copyright (c) 2004 by ck! [Freaky Fonts]\n" +
+                    "All rights reserved\n" +
+                    "www.freakyfonts.de\n\n" +
+                    "> Press back to return to the title screen", InstructionsLocation, Color.White);
+            }
             else
             {
                 spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
@@ -509,6 +556,8 @@ namespace Dark_Operative
                 spriteBatch.DrawString(font, "> Press ENTER to begin", StartGameLocation, Color.White);
                 spriteBatch.DrawString(font, "> Press SHIFT for Nux Mode", NuxModeLocation, Color.White);
                 spriteBatch.DrawString(font, "> Press TAB for Instructions", InstructionModeLocation, Color.White);
+                spriteBatch.DrawString(font, "> Press SPACE for Credits", CreditsModeLocation, Color.White);
+                spriteBatch.DrawString(font, "> Press Q to Quit", QuitGameLocation, Color.White);
             }
             spriteBatch.End();
 
@@ -663,6 +712,13 @@ namespace Dark_Operative
             else if (keyboard.IsKeyUp(Keys.Escape) && gamepad.IsButtonUp(Buttons.Start))
             {
                 pausePressed = false;
+            }
+        }
+
+        protected void QuitCheck(KeyboardState keyboard)
+        {
+            if (keyboard.IsKeyDown(Keys.Q)) {
+                this.Exit();
             }
         }
 
@@ -1441,8 +1497,8 @@ namespace Dark_Operative
          */
         private ArrayList createSimpleMap()
         {
-            #region Define Level 1
-            int[,] layoutLevel = {
+            #region Define Level 2
+            int[,] layoutLevel2 = {
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -1485,8 +1541,55 @@ namespace Dark_Operative
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
             #endregion
 
-            #region Define Level 2
-            int[,] layoutLevel2 = {
+            #region Define Level 3
+
+            int[,] layoutLevel3 = {
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,1,0,2,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0},
+                {0,0,0,1,0,0,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,0},
+                {0,0,0,1,0,0,1,9,0,0,1,0,0,1,0,0,0,0,0,0,0,0},
+                {0,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0},
+                {1,1,1,1,0,0,1,0,0,0,1,0,0,1,1,1,1,1,1,0,0,0},
+                {1,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
+                {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
+                {1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0},
+                {0,0,0,0,0,0,0,1,1,1,1,0,0,1,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,12,0,1,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0},
+                {0,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0},
+                {0,1,3,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
+                {0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
+                {0,1,1,1,1,1,0,0,1,1,1,0,0,1,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,1,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,1,0,0,1,0,1,7,0,1,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,1,11,0,1,0,1,1,1,1,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+
+
+            #endregion
+
+            #region Define Level 4
+            int[,] layoutLevel4 = {
             {0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,},
             {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,1,1,1,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
@@ -1528,8 +1631,8 @@ namespace Dark_Operative
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
             #endregion
 
-            #region Define Level 3
-            int[,] layoutLevel3 = {
+            #region Define Level 5
+            int[,] layoutLevel5 = {
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,3,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,1,1,0,2,1},
             {1,0,0,0,0,0,0,0,1,0,0,0,8,1,0,0,1,1,1,0,0,1},
@@ -1573,9 +1676,10 @@ namespace Dark_Operative
             #endregion
 
             ArrayList levelList = new ArrayList();
-            levelList.Add(layoutLevel);
-            levelList.Add(layoutLevel2);
+            //levelList.Add(layoutLevel2);
             levelList.Add(layoutLevel3);
+            //levelList.Add(layoutLevel4);
+            //levelList.Add(layoutLevel5);
             return levelList;
         }
         
