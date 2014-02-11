@@ -36,3 +36,7 @@ C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark O
 C:\Users\quakeaddict\Documents\Visual Studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Content\Sounds\VideoDungeonCrawl.wma
 C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Sounds\VideoDungeonCrawl.xnb
 C:\Users\Hailee\Documents\GitHub\Dark-Dungeon\Dark Operative\Dark Operative\bin\x86\Debug\Content\Sounds\VideoDungeonCrawl.wma
+C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Dark Operative.exe.manifest
+C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\bin\x86\Debug\Dark Operative.application
+C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\obj\x86\Debug\Dark Operative.exe.manifest
+C:\Users\quakeaddict\documents\visual studio 2010\Projects\Dark Operative\Dark Operative\Dark Operative\obj\x86\Debug\Dark Operative.application

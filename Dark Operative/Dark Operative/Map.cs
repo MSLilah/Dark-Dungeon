@@ -40,10 +40,6 @@ namespace Dark_Operative
         int goalXDim = 30;
         int goalYDim = 30;
 
-        // Count of guard and monsters in the level layout
-        int numMonsters = 0;
-        int numGuards = 0;
-
         Vector3 protagStart;
         ArrayList guardCoords = new ArrayList();
         ArrayList monsterCoords = new ArrayList();

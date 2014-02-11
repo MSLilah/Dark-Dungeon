@@ -46,7 +46,6 @@ namespace Dark_Operative
         Texture2D dotLOS;
         SpriteFont font;
         Song music;
-        SoundEffectInstance musicInstance;
         Map gameMap;
         Random random = new Random();
         public int topOfScreen = 0;
@@ -63,9 +62,6 @@ namespace Dark_Operative
         float darkCheckElapsedTime = 1.0f;
         float darkTarget = 1.0f;
         bool darkPressed = false;
-
-        float pauseCheckElapsedTime = 0.0f;
-        float pauseTarget = 1.0f;
         bool pausePressed = false;
 
         float loseElapsedTime = 0.0f;
@@ -135,7 +131,6 @@ namespace Dark_Operative
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             graphics.PreferredBackBufferHeight = 720;
             graphics.PreferredBackBufferWidth = 1280;
             graphics.ApplyChanges();
@@ -151,7 +146,6 @@ namespace Dark_Operative
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
             levelList = createSimpleMap();
             font = Content.Load<SpriteFont>(@"Fonts\emulogic");
             exclamationPoint = Content.Load<Texture2D>(@"Textures\spotted");
@@ -174,7 +168,7 @@ namespace Dark_Operative
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+
         }
 
         /// <summary>
