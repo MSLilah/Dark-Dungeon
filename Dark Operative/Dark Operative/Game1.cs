@@ -1676,10 +1676,10 @@ namespace Dark_Operative
             #endregion
 
             ArrayList levelList = new ArrayList();
-            //levelList.Add(layoutLevel2);
+            levelList.Add(layoutLevel2);
             levelList.Add(layoutLevel3);
-            //levelList.Add(layoutLevel4);
-            //levelList.Add(layoutLevel5);
+            levelList.Add(layoutLevel4);
+            levelList.Add(layoutLevel5);
             return levelList;
         }
         
