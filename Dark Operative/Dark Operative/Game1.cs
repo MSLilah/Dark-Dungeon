@@ -116,7 +116,8 @@ namespace Dark_Operative
         Vector2 CreditsModeLocation = new Vector2(400, 500);
         Vector2 QuitGameLocation = new Vector2(400, 550);
 
-        Vector2  InstructionsLocation = new Vector2(100, 100);
+        Vector2 InstructionsLocation = new Vector2(100, 100);
+        Vector2 TutorialLocation = new Vector2(750, 100);
 
         #endregion
 
@@ -488,6 +489,15 @@ namespace Dark_Operative
                     spriteBatch.DrawString(font, "SCORE: " + score, TimerLocation, Color.White);
                     spriteBatch.DrawString(font, "TIME: " + timer, ScoreLocation, Color.White);
                 }
+
+                if (currentLevel == 0)
+                {
+                    spriteBatch.DrawString(font, "Get to the treasure chest,\nbut don't get seen \nby the guard!", TutorialLocation, Color.White);
+                }
+                if (currentLevel == 1)
+                {
+                    spriteBatch.DrawString(font, "Press Space to go into dark \nmode and avoid the guards, \nbut watch out for ghosts!", TutorialLocation, Color.White);
+                }
             }
             else if(gameOver) {
                 spriteBatch.Draw(darkBackgroundImage, new Rectangle(0, 0, 1280, 720),
@@ -813,110 +823,6 @@ namespace Dark_Operative
         protected void MoveMonsters()
         {
             for (int i = 0; i < monsters.Length; i++)
-            //{
-            //    if (stuck[i] > 250)
-            //    {
-            //        stuck[i] = 0;
-            //    }
-            //    if (stuck[i] > 0 && stuck[i] <= 250)
-            //    {
-            //        stuck[i]++;
-
-            //        if (monsters[i].Move)
-            //        {
-            //            #region Facing Up
-            //            if (monsters[i].Facing == 0)
-            //            {
-            //                if (monsters[i].Y > topOfScreen)
-            //                {
-            //                    if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 0, monsters[i].MovementRate, Map.WALL))
-            //                    {
-            //                        monsters[i].Y -= monsters[i].MovementRate;
-            //                        monsters[i].Facing = 0;
-            //                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate, Map.WALL))
-            //                        {
-            //                            monsters[i].Facing = (monsters[i].Facing + 3) % 4;
-            //                        }
-
-            //                    }
-            //                    else
-            //                    {
-            //                        monsters[i].Stand(true);
-            //                        monsters[i].Facing = (monsters[i].Facing + 1) % 4;
-            //                    }
-            //                }
-            //            }
-            //            #endregion
-            //            #region Facing Right
-            //            else if (monsters[i].Facing == 1)
-            //            {
-            //                if (monsters[i].X < rightEdgeOfScreen)
-            //                {
-            //                    if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 1, monsters[i].MovementRate, Map.WALL))
-            //                    {
-            //                        monsters[i].X += monsters[i].MovementRate;
-            //                        monsters[i].Facing = 1;
-            //                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate + 21, Map.WALL))
-            //                        {
-            //                            monsters[i].Facing = (monsters[i].Facing + 3) % 4;
-            //                        }
-            //                    }
-            //                    else
-            //                    {
-            //                        monsters[i].Stand(true);
-            //                        monsters[i].Facing = (monsters[i].Facing + 1) % 4;
-
-            //                    }
-            //                }
-            //            }
-            //            #endregion
-            //            #region Facing Down
-            //            else if (monsters[i].Facing == 2)
-            //            {
-            //                if (monsters[i].Y < bottomOfScreen)
-            //                {
-            //                    if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 2, monsters[i].MovementRate, Map.WALL))
-            //                    {
-            //                        monsters[i].Y += monsters[i].MovementRate;
-            //                        monsters[i].Facing = 2;
-            //                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate, Map.WALL))
-            //                        {
-            //                            monsters[i].Facing = (monsters[i].Facing + 3) % 4;
-            //                        }
-            //                    }
-            //                    else
-            //                    {
-            //                        monsters[i].Stand(true);
-            //                        monsters[i].Facing = (monsters[i].Facing + 1) % 4;
-            //                    }
-            //                }
-            //            }
-            //            #endregion
-            //            #region Facing Left
-            //            else if (monsters[i].Facing == 3)
-            //            {
-            //                if (monsters[i].X > leftEdgeOfScreen)
-            //                {
-            //                    if (!gameMap.CollideWithElement(monsters[i].BoundingBox, 3, monsters[i].MovementRate, Map.WALL))
-            //                    {
-            //                        monsters[i].X -= monsters[i].MovementRate;
-            //                        monsters[i].Facing = 3;
-            //                        if (!gameMap.CollideWithElement(monsters[i].BoundingBox, ((monsters[i].Facing + 3) % 4), monsters[i].MovementRate + 21, Map.WALL))
-            //                        {
-            //                            monsters[i].Facing = (monsters[i].Facing + 3) % 4;
-            //                        }
-            //                    }
-            //                    else
-            //                    {
-            //                        monsters[i].Stand(true);
-            //                        monsters[i].Facing = (monsters[i].Facing + 1) % 4;
-            //                    }
-            //                }
-            //            }
-            //            #endregion
-            //        }
-            //    }
-            //  else
             {
                 if (monsters[i].Move)
                 {
@@ -926,7 +832,7 @@ namespace Dark_Operative
                     bool collide1 = gameMap.CollideWithElement(monsters[i].BoundingBox, 1, monsters[i].MovementRate, Map.WALL);
                     bool collide2 = gameMap.CollideWithElement(monsters[i].BoundingBox, 2, monsters[i].MovementRate, Map.WALL);
                     bool collide3 = gameMap.CollideWithElement(monsters[i].BoundingBox, 3, monsters[i].MovementRate, Map.WALL);
-                    //int overrun = (int)Math.Sqrt(dx * dx + dy * dy) / 20;
+
                     int overrun = 100;
                     if (dx == 0 || dy == 0)
                     {
@@ -1497,6 +1403,51 @@ namespace Dark_Operative
          */
         private ArrayList createSimpleMap()
         {
+
+            #region Define Level 1
+            int[,] layoutLevel1 = {
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,1,3,0,0,0,0,0,5,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,1,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,1,1,1,1,1,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,2,1,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,1,1,1,1,1,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+            #endregion
+
             #region Define Level 2
             int[,] layoutLevel2 = {
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -1676,6 +1627,7 @@ namespace Dark_Operative
             #endregion
 
             ArrayList levelList = new ArrayList();
+            levelList.Add(layoutLevel1);
             levelList.Add(layoutLevel2);
             levelList.Add(layoutLevel3);
             levelList.Add(layoutLevel4);
