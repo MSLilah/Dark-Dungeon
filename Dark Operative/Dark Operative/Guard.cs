@@ -37,12 +37,6 @@ namespace Dark_Operative
         //Determines whether or not this guard is stationary
         bool stationary = false;
 
-        //Determines how long a guard will walk for
-        //TODO: Guard should stop when it reaches the end of a corridor.
-        //This should be removed later.
-        float walkCount = 0.0f;
-        float walkTime = 7.0f;
-
         //The direction in which the guard is facing
         int facing = 0;
 
@@ -288,7 +282,6 @@ namespace Dark_Operative
             facing = startFacing;
             moveCount = 0.0f;
             waitCount = 0.0f;
-            walkCount = 0.0f;
             move = false;
             Stand(true);
         }

@@ -35,12 +35,6 @@ namespace Dark_Operative
         float waitTime = 1.0f;
         bool move = false;
 
-        //Determines how long a monster will walk for
-        //TODO: Monster should stop when it reaches the end of a corridor.
-        //This should be removed later.
-        float walkCount = 0.0f;
-        float walkTime = 7.0f;
-
         //The direction in which the monster is facing
         int facing = 0;
 
@@ -236,7 +230,6 @@ namespace Dark_Operative
             facing = startFacing;
             moveCount = 0.0f;
             waitCount = 0.0f;
-            walkCount = 0.0f;
             move = false;
             Stand(true);
         }
