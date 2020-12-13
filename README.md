@@ -6,13 +6,13 @@ Dark Dungeon is a 2D stealth puzzle game written in C# using Microsoft XNA. It w
 ![title screen](https://lilah.io/img/Screenshots/Dark%20Dungeon/Dark%20Dungeon%20Title.png)
 
 ![lights on](https://lilah.io/img/Screenshots/Dark%20Dungeon/Dark%20Dungeon%203.png)
-_Find your way to the treasure without being seen by the guards_
+<p align="center"><em>Find your way to the treasure without being seen by the guards</em></p>
 
 ![dark mode](https://lilah.io/img/Screenshots/Dark%20Dungeon/Dark%20Dungeon%202.png)
-_It's easier to sneak with the lights off but don't get caught by the ghosts!_
+<p align="center"><em>It's easier to sneak with the lights off, but don't get caught by the ghosts!</em></p>
 
 ## How to play
-Right now, Dark Dungon can only be played on Windows. To play it, please download `DarkDungeonInstaller.zip`, extract its contents, then run the `setup.exe` file. This will install everything needed to play Dark Dungeon on your computer.
+Currently, Dark Dungeon can only be played on Windows. To play it, please download `DarkDungeonInstaller.zip`, extract its contents, then run the `setup.exe` file. This will install everything needed to play Dark Dungeon on your computer.
 
 ## Credits
 
